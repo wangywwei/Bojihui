@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="man_1dp">1dp</dimen>
+    <dimen name="man_2dp">2dp</dimen>
+    <dimen name="man_3dp">3dp</dimen>
+    <dimen name="man_4dp">4dp</dimen>
+    <dimen name="man_5dp">5dp</dimen>
+    <dimen name="man_6dp">6dp</dimen>
+    <dimen name="man_7dp">7dp</dimen>
+    <dimen name="man_8dp">8dp</dimen>
+    <dimen name="man_9dp">9dp</dimen>
+    <dimen name="man_10dp">10dp</dimen>
+    <dimen name="man_11dp">11dp</dimen>
+    <dimen name="man_12dp">12dp</dimen>
+    <dimen name="man_13dp">13dp</dimen>
+    <dimen name="man_14dp">14dp</dimen>
+    <dimen name="man_15dp">15dp</dimen>
+    <dimen name="man_16dp">16dp</dimen>
+    <dimen name="man_17dp">17dp</dimen>
+    <dimen name="man_18dp">18dp</dimen>
+    <dimen name="man_19dp">19dp</dimen>
+    <dimen name="man_20dp">20dp</dimen>
+    <dimen name="man_21dp">21dp</dimen>
+    <dimen name="man_22dp">22dp</dimen>
+    <dimen name="man_23dp">23dp</dimen>
+    <dimen name="man_24dp">24dp</dimen>
+    <dimen name="man_25dp">25dp</dimen>
+    <dimen name="man_26dp">26dp</dimen>
+    <dimen name="man_27dp">27dp</dimen>
+    <dimen name="man_28dp">28dp</dimen>
+    <dimen name="man_29dp">29dp</dimen>
+    <dimen name="man_30dp">30dp</dimen>
+
+    <dimen name="man_44dp">44dp</dimen>
+    <dimen name="man_250dp">250dp</dimen>
+
+
+    <dimen name="text_1sp">1sp</dimen>
+    <dimen name="text_2sp">2sp</dimen>
+    <dimen name="text_3sp">3sp</dimen>
+    <dimen name="text_4sp">4sp</dimen>
+    <dimen name="text_5sp">5sp</dimen>
+    <dimen name="text_6sp">6sp</dimen>
+    <dimen name="text_7sp">7sp</dimen>
+    <dimen name="text_8sp">8sp</dimen>
+    <dimen name="text_9sp">9sp</dimen>
+    <dimen name="text_10sp">10sp</dimen>
+    <dimen name="text_11sp">11sp</dimen>
+    <dimen name="text_12sp">12sp</dimen>
+    <dimen name="text_13sp">13sp</dimen>
+    <dimen name="text_14sp">14sp</dimen>
+    <dimen name="text_15sp">15sp</dimen>
+    <dimen name="text_16sp">16sp</dimen>
+    <dimen name="text_17sp">17sp</dimen>
+    <dimen name="text_18sp">18sp</dimen>
+    <dimen name="text_19sp">19sp</dimen>
+    <dimen name="text_20sp">20sp</dimen>
+    <dimen name="text_21sp">21sp</dimen>
+    <dimen name="text_22sp">22sp</dimen>
+    <dimen name="text_23sp">23sp</dimen>
+    <dimen name="text_24sp">24sp</dimen>
+
+
+</resources>
