@@ -33,7 +33,7 @@
 
     <dimen name="man_44dp">44dp</dimen>
     <dimen name="man_250dp">250dp</dimen>
-
+    <dimen name="man_351dp">351dp</dimen>
 
     <dimen name="text_1sp">1sp</dimen>
     <dimen name="text_2sp">2sp</dimen>
@@ -61,4 +61,9 @@
     <dimen name="text_24sp">24sp</dimen>
 
 
+    <dimen name="jc_start_button_w_h_normal">45dp</dimen>
+    <dimen name="jc_start_button_w_h_fullscreen">62dp</dimen>
+    <dimen name="qav_multi_video_friend_item_width">60dp</dimen>
+    <dimen name="qav_grid_view_item_width_audio">75dp</dimen>
+    <dimen name="ugc_item_thumb_height">65dp</dimen>
 </resources>

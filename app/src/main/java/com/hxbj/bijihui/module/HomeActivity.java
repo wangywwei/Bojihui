@@ -26,9 +26,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private FrameLayout homeframe;
     private NavigationView nav;
     private DrawerLayout activity_na;
-
     @Override
-    protected void initView() {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_home);
+        initView();
+        initData()  ;
+    }
+
+
+
+    private void initView() {
         cehualan = findViewById(R.id.cehualan);
         homeframe = findViewById(R.id.homeframe);
         nav = findViewById(R.id.nav);
@@ -47,22 +55,15 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         FragmentManager.changeFragment(HomeFragment.class, R.id.homeframe, true, false);
     }
 
-    @Override
-    protected void initData() {
+    private void initData() {
         View view = getLayoutInflater().inflate(R.layout.home_popup, null);
         popupWindow = new PopupWindow(view);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
         popupWindow.setBackgroundDrawable(new ColorDrawable(Color.BLUE));
         popupWindow.setOutsideTouchable(true);
-//        popupWindow.showAsDropDown(cehualan);
+//        popupWindow.showAsDropDown(homeframe);
     }
-
-    @Override
-    public int getActivityLayoutId() {
-        return R.layout.activity_home;
-    }
-
 
     @Override
     public void onClick(View v) {
@@ -79,9 +80,5 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) and run LayoutCreator again
-    }
+
 }

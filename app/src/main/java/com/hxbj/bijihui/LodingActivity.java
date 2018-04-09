@@ -4,9 +4,10 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.module.HomeActivity;
 
-public class LodingActivity extends AppCompatActivity {
+public class LodingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
