@@ -14,6 +14,7 @@ public class LodingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loding);
 
+
         Intent intent=new Intent(this, HomeActivity.class);
         startActivity(intent);
     }
