@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".module.kechen.KechenActivity">
+
+    <RelativeLayout
+        android:background="@color/color_2C2C2C"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_45dp">
+        <TextView
+            android:layout_centerInParent="true"
+            android:text="课程列表"
+            android:textSize="@dimen/text_18sp"
+            android:textColor="@color/rgb_ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:paddingLeft="@dimen/man_12dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/backup_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+</LinearLayout>

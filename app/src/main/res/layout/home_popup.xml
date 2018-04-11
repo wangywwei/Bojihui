@@ -1,32 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    android:background="@color/rgb_a0000000"
+    android:background="@color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:background="#ffffff"
+        android:id="@+id/popo1"
+        android:background="@drawable/ditu"
         android:gravity="center_horizontal"
         android:layout_centerInParent="true"
         android:orientation="vertical"
-        android:layout_width="@dimen/man_250dp"
+        android:layout_width="@dimen/man_240dp"
         android:layout_height="wrap_content">
-
+        <ImageView
+            android:layout_marginTop="@dimen/man_16dp"
+            android:src="@drawable/tu"
+            android:layout_width="@dimen/man_160dp"
+            android:layout_height="@dimen/man_160dp" />
         <TextView
-            android:textSize="@dimen/text_24sp"
+            android:layout_marginTop="@dimen/man_16dp"
+            android:textSize="@dimen/text_19sp"
+            android:textColor="@color/rgb_ffffff"
             android:text="大声喊出你的运动目标"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
         <TextView
-            android:textSize="@dimen/text_20sp"
-            android:text="一起为目标努力"
+            android:layout_marginTop="@dimen/man_4dp"
+            android:textSize="@dimen/text_13sp"
+            android:textColor="@color/rgb_ffffff"
+            android:text="一起为目标加油"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
-
+        <ImageView
+            android:id="@+id/luzhi"
+            android:layout_marginBottom="@dimen/man_30dp"
+            android:layout_marginTop="@dimen/man_34dp"
+            android:src="@drawable/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
-
-
+    <View
+        android:layout_above="@id/popo1"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/view"
+        android:layout_width="@dimen/man_1dp"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_marginLeft="@dimen/man_90dp"
+        android:layout_toRightOf="@id/view"
+        android:layout_above="@id/popo1"
+        android:src="@drawable/guanbi_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

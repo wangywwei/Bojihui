@@ -3,28 +3,75 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:background="@color/colorAccent">
+    android:gravity="center_horizontal"
+    android:background="@color/colorTextWhite">
     <ImageView
-        android:id="@+id/person"
+        android:id="@+id/cehua_touxiang"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:layout_marginTop="42dp"
-        android:src="@mipmap/ic_launcher"/>
+        android:layout_marginTop="@dimen/man_48dp"
+        android:src="@drawable/touxiang1"/>
     <TextView
+        android:id="@+id/cehua_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:layout_marginTop="24dp"
-        android:textColor="#ffffff"
-        android:text="沐风"/>
+        android:textSize="@dimen/text_16sp"
+        android:layout_marginTop="@dimen/man_4dp"
+        android:textColor="@color/color_2C2C2C"
+        android:text="反正是我"/>
     <TextView
+        android:id="@+id/cehua_huiyuan"
+        android:drawablePadding="@dimen/man_6dp"
+        android:drawableLeft="@drawable/huiyuan"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:layout_marginTop="12dp"
-        android:textColor="#ffffff"
+        android:textSize="@dimen/text_13sp"
+        android:layout_marginTop="@dimen/man_2dp"
+        android:textColor="@color/color_F2B95A"
         android:layout_marginBottom="18dp"
-        android:text="人生像一场没有尽头的旅行."/>
+        android:text="会员"/>
+
+    <TextView
+        android:id="@+id/cehua_qianjun"
+        android:drawablePadding="@dimen/man_6dp"
+        android:drawableLeft="@drawable/qianjun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_13sp"
+        android:layout_marginTop="@dimen/man_2dp"
+        android:textColor="@color/color_2C2C2C"
+        android:layout_marginBottom="18dp"
+        android:text="千钧体育"/>
+
+    <TextView
+        android:id="@+id/cehua_lianxi"
+        android:drawablePadding="@dimen/man_6dp"
+        android:drawableLeft="@drawable/dianhua"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/text_13sp"
+        android:layout_marginTop="@dimen/man_2dp"
+        android:textColor="@color/color_2C2C2C"
+        android:layout_marginBottom="@dimen/man_18dp"
+        android:text="联系我们"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:layout_marginBottom="@dimen/man_40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/cehua_back"
+            android:drawablePadding="@dimen/man_6dp"
+            android:drawableLeft="@drawable/tuichudenglu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_13sp"
+            android:textColor="@color/color_2C2C2C"
+            android:text="退出登录"/>
+
+    </RelativeLayout>
+
 
 </LinearLayout>

@@ -4,13 +4,17 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="rgb_ffffff">#ffffff</color>
-    <color name="rgb_a0000000">#A0000000</color>
+    <color name="color_66ffffff">#66ffffff</color>
+    <color name="color_C9C9C9">#C9C9C9</color>
+    <color name="color_e84515">#e84515</color>
+    <color name="color_d8d8d8">#d8d8d8</color>
 
-    <color name="black">#585858</color>
-    <!-- 全透明 -->
-    <color name="transparent">#00000000</color>
-    <color name="yellow_new">#fbc700</color>
+    <color name="province_line_border">#D0D0D0</color>
+    <color name="color_F8F8F8">#F8F8F8</color>
+    <color name="color_EBC6A8">#EBC6A8</color>
+    <color name="color_F4F4F4">#F4F4F4</color>
+    <color name="color_2C2C2C">#2C2C2C</color>
+    <color name="color_F2B95A">#F2B95A</color>
     <color name="color_00BADB">#00BADB</color>
     <color name="color_654EA3B">#654EA3</color>
     <color name="color_b28ffffff">#b2ffffff</color>
@@ -53,4 +57,11 @@
 
     <!--green-->
     <color name="colorGreen">#0accac</color>
+
+    <color name="rgb_ffffff">#ffffff</color>
+    <color name="rgb_a0000000">#A0000000</color>
+    <color name="black">#585858</color>
+    <!-- 全透明 -->
+    <color name="transparent">#00000000</color>
+    <color name="yellow_new">#fbc700</color>
 </resources>

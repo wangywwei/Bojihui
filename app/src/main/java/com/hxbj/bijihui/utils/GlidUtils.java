@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.hxbj.bijihui.R;
@@ -25,8 +26,8 @@ public class GlidUtils {
         Glide
                 .with(context)
                 .load(url)
-                .placeholder(R.drawable.wlf_deimg)
-                .error(R.drawable.wlf_deimg)
+                .placeholder(R.drawable.jiazaishibai_1)
+                .error(R.drawable.jiazaishibai_1)
                 .crossFade(1000)
                 .into(view);
     }
@@ -36,7 +37,7 @@ public class GlidUtils {
         Glide
                 .with(context)
                 .load(url)
-                .error(R.drawable.denglu)
+                .error(R.drawable.touxiang1)
                 .bitmapTransform(new GlideCircleTransform(context))
                 .crossFade(1000)
                 .into(view);
@@ -59,6 +60,27 @@ public class GlidUtils {
     }
 
 
-
+    //将url转换成图片,支持GIF或者jpg等
+    public static void getPic(String url, ImageView view, Context context) {
+        if (!StringUtils.isEmpty(url)) {
+            if (url.contains(".gif") || url.contains(".GIF")) {
+                Glide.with(context)
+                        .load(url)
+                        .asGif()
+                        .placeholder(R.drawable.jiazaishibai_1)
+                        .error(R.drawable.jiazaishibai_1)
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE).into(view);
+            } else {
+                Glide.with(context)
+                        .load(url)
+                        .asBitmap()
+                        .placeholder(R.drawable.jiazaishibai_1)
+                        .error(R.drawable.jiazaishibai_1)
+                        .into(view);
+            }
+        } else {
+            view.setImageResource(R.drawable.jiazaishibai_1);
+        }
+    }
 
 }

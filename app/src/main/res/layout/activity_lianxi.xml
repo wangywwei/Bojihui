@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".module.geren.LianxiActivity">
+
+    <RelativeLayout
+        android:background="@color/color_2C2C2C"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_45dp">
+        <TextView
+            android:layout_centerInParent="true"
+            android:text="联系我们"
+            android:textSize="@dimen/text_18sp"
+            android:textColor="@color/rgb_ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:paddingLeft="@dimen/man_12dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/backup_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+
+    <EditText
+        android:inputType="textMultiLine"
+        android:gravity="top"
+        android:padding="@dimen/man_12dp"
+        android:id="@+id/lianxiwomen"
+        android:layout_margin="@dimen/man_12dp"
+        android:background="@drawable/baidi_3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_168dp" />
+
+    <TextView
+        android:id="@+id/lianxi_fasong"
+        android:textColor="@color/rgb_ffffff"
+        android:textSize="@dimen/text_16sp"
+        android:text="发送"
+        android:gravity="center"
+        android:background="@drawable/shape_denglu"
+        android:layout_margin="@dimen/man_12dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_44dp" />
+</LinearLayout>

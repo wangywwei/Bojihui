@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".module.kechen.kechenxiangqing.KeChengXQActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_45dp"
+        android:background="@color/color_2C2C2C">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="动作展示"
+            android:textColor="@color/rgb_ffffff"
+            android:textSize="@dimen/text_18sp" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/man_12dp"
+            android:src="@drawable/backup_icon" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_marginRight="@dimen/man_57dp"
+        android:layout_marginLeft="@dimen/man_57dp"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_43dp">
+        <LinearLayout
+            android:id="@+id/yaobu"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/yaobu_text"
+                android:textColor="@color/color_F2B95A"
+                android:textSize="@dimen/text_16sp"
+                android:text="腰部动作"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:id="@+id/yaobu_view"
+                android:layout_marginTop="@dimen/man_4dp"
+                android:background="@color/color_F2B95A"
+                android:layout_width="@dimen/man_30dp"
+                android:layout_height="@dimen/man_2dp"/>
+        </LinearLayout>
+        <View
+            android:background="@color/color_2C2C2C"
+            android:layout_width="@dimen/man_2dp"
+            android:layout_height="@dimen/man_16dp"/>
+        <LinearLayout
+            android:id="@+id/shoubi"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/shoubi_text"
+                android:textColor="@color/color_2C2C2C"
+                android:textSize="@dimen/text_16sp"
+                android:text="手臂动作"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:visibility="gone"
+                android:id="@+id/shoubi_view"
+                android:layout_marginTop="@dimen/man_4dp"
+                android:background="@color/color_F2B95A"
+                android:layout_width="@dimen/man_30dp"
+                android:layout_height="@dimen/man_2dp"/>
+        </LinearLayout>
+        <View
+            android:background="@color/color_2C2C2C"
+            android:layout_width="@dimen/man_2dp"
+            android:layout_height="@dimen/man_16dp"/>
+        <LinearLayout
+            android:id="@+id/bufa"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/bufa_text"
+                android:textColor="@color/color_2C2C2C"
+                android:textSize="@dimen/text_16sp"
+                android:text="步伐动作"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <View
+                android:visibility="gone"
+                android:id="@+id/bufa_view"
+                android:layout_marginTop="@dimen/man_4dp"
+                android:background="@color/color_F2B95A"
+                android:layout_width="@dimen/man_30dp"
+                android:layout_height="@dimen/man_2dp"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <com.jcodecraeer.xrecyclerview.XRecyclerView
+        android:id="@+id/kecheng_xrecyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

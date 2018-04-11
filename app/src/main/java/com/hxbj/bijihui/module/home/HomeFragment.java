@@ -3,19 +3,27 @@ package com.hxbj.bijihui.module.home;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.widget.PopupWindow;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseFragment;
 import com.hxbj.bijihui.model.bean.HomeDataBean;
-import com.jaeger.library.StatusBarUtil;
+import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 public class HomeFragment extends BaseFragment implements HomeContract.HomeView {
     //TODO mHomePresenter未初始化
     private HomeContract.HomePresenter mHomePresenter;
     private View view;
+    private XRecyclerView xrecyclerview;
+    private HomedAdapter adapter;
+    private HomeBanner homeBanner;
+    private HomeMy homeMy;
+    private HomePack homePack;
 
     @Nullable
     @Override
@@ -31,7 +39,6 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
                 parent.removeView(view);
             }
         }
-
         return view;
     }
 
@@ -50,13 +57,55 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
 
     protected void initData() {
         //通过P层处理相关业务逻辑
-        mHomePresenter=new HomePresenter(this);
+        mHomePresenter = new HomePresenter(this);
         mHomePresenter.start();
     }
 
 
     protected void initView(View view) {
+        xrecyclerview = (XRecyclerView) view.findViewById(R.id.xrecyclerview);
+        adapter = new HomedAdapter();
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        xrecyclerview.setLayoutManager(layoutManager);
+        xrecyclerview.setNestedScrollingEnabled(false);
+        xrecyclerview.setAdapter(adapter);
+        //首页轮播图
+        homeBanner = new HomeBanner(getActivity());
+        xrecyclerview.addHeaderView(homeBanner);
+
+        //首页我的模块
+        homeMy = new HomeMy(getActivity());
+        xrecyclerview.addHeaderView(homeMy);
+
+        //首页呐喊与打卡
+        homePack = new HomePack(getActivity());
+        xrecyclerview.addHeaderView(homePack);
+
+
+
+
+        xrecyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                xrecyclerview.refreshComplete();//刷新完成
+            }
+
+            @Override
+            public void onLoadMore() {
+                xrecyclerview.refreshComplete();//加载完成
+            }
+        });
 
     }
 
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (homePack!=null){
+            homePack.onDestroy();
+        }
+    }
 }

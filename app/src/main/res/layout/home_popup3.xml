@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:background="@color/rgb_a0000000"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/popo3"
+        android:background="@drawable/ditu"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="@dimen/man_240dp"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/qiandaotu"
+            android:layout_marginTop="@dimen/man_24dp"
+            android:src="@drawable/qiandaotu"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_marginTop="@dimen/man_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/man_64dp">
+            <ImageView
+                android:id="@+id/daka_touxiang"
+                android:src="@drawable/touxiang1"
+                android:layout_width="@dimen/man_64dp"
+                android:layout_height="@dimen/man_64dp" />
+            <LinearLayout
+                android:id="@+id/lin"
+                android:layout_marginLeft="@dimen/man_10dp"
+                android:layout_toRightOf="@id/daka_touxiang"
+                android:layout_marginTop="@dimen/man_11dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_gravity="center_vertical"
+                    android:id="@+id/daka_huiyuan"
+                    android:src="@drawable/huiyuan"
+                    android:layout_width="@dimen/man_13dp"
+                    android:layout_height="@dimen/man_13dp" />
+                <TextView
+                    android:id="@+id/daka_name"
+                    android:layout_marginLeft="@dimen/man_6dp"
+                    android:textSize="@dimen/text_16sp"
+                    android:textColor="@color/rgb_ffffff"
+                    android:text="反正是我"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+            <TextView
+                android:id="@+id/daka_liangji"
+                android:gravity="center"
+                android:paddingRight="@dimen/man_5dp"
+                android:paddingLeft="@dimen/man_5dp"
+                android:background="@drawable/shape_yuanjiao"
+                android:layout_marginTop="@dimen/man_8dp"
+                android:layout_below="@id/lin"
+                android:layout_toRightOf="@id/daka_touxiang"
+                android:layout_marginLeft="@dimen/man_17dp"
+                android:textSize="@dimen/text_10sp"
+                android:textColor="@color/rgb_ffffff"
+                android:text="轻量级 选手"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/man_16dp" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_marginTop="@dimen/man_12dp"
+            android:textColor="@color/rgb_ffffff"
+            android:text="快让世界知道 你特厉害！"
+            android:textSize="@dimen/text_16sp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_marginLeft="@dimen/man_71dp"
+            android:layout_marginRight="@dimen/man_71dp"
+            android:layout_marginBottom="@dimen/man_16dp"
+            android:layout_marginTop="@dimen/man_18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/fenxiangweixing"
+                android:src="@drawable/weixin"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/fenxiangpengyouquan"
+                android:layout_marginLeft="@dimen/man_16dp"
+                android:src="@drawable/pengyouquan"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/fenxiangweibo"
+                android:layout_marginLeft="16dp"
+                android:src="@drawable/weibo"
+                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_above="@id/popo3"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/view"
+        android:layout_width="@dimen/man_1dp"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_marginLeft="@dimen/man_90dp"
+        android:layout_toRightOf="@id/view"
+        android:layout_above="@id/popo3"
+        android:src="@drawable/guanbi_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

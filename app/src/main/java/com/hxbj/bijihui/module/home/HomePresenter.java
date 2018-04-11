@@ -1,9 +1,7 @@
 package com.hxbj.bijihui.module.home;
 
 
-import com.hxbj.bijihui.model.PandaChannelModelImp;
-import com.hxbj.bijihui.model.bean.HomeDataBean;
-import com.hxbj.bijihui.network.MyCallBack;
+import com.hxbj.bijihui.model.BojihuiModelImp;
 
 /**
  * <p>
@@ -11,11 +9,11 @@ import com.hxbj.bijihui.network.MyCallBack;
  */
 public class HomePresenter implements HomeContract.HomePresenter {
     private HomeContract.HomeView homeView;
-    private PandaChannelModelImp modelImp;
+    private BojihuiModelImp modelImp;
 
     public HomePresenter(HomeContract.HomeView homeView) {
         this.homeView = homeView;
-        modelImp = new PandaChannelModelImp();
+        modelImp = new BojihuiModelImp();
         //实例化
         homeView.setPresenter(this);
     }

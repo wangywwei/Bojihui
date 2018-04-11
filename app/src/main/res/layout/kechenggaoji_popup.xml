@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <LinearLayout
+        android:id="@+id/popo"
+        android:background="@drawable/ditu"
+        android:gravity="center_horizontal"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="@dimen/man_240dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:layout_marginTop="@dimen/man_41dp"
+            android:src="@drawable/huyuanka"
+            android:layout_width="@dimen/man_182dp"
+            android:layout_height="@dimen/man_160dp" />
+        <TextView
+            android:id="@+id/jihuo"
+            android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/man_24dp"
+            android:textSize="@dimen/text_13sp"
+            android:textColor="@color/rgb_ffffff"
+            android:text="您尚未成为黑熊搏击会成员。
+请与俱乐部练习后，填写下方邀请"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <EditText
+            android:id="@+id/yaoqingma"
+            android:textColorHint="@color/color_C9C9C9"
+            android:textSize="@dimen/text_10sp"
+            android:hint="请输入有效邀请码"
+            android:paddingLeft="@dimen/man_12dp"
+            android:background="@drawable/shape_huiyuanka"
+            android:layout_marginTop="@dimen/man_20dp"
+            android:layout_marginRight="@dimen/man_32dp"
+            android:layout_marginLeft="@dimen/man_32dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/man_32dp" />
+        <TextView
+            android:id="@+id/queren"
+            android:gravity="center"
+            android:text="确认"
+            android:background="@drawable/shape_denglu"
+            android:layout_marginTop="@dimen/man_16dp"
+            android:layout_marginBottom="@dimen/man_20dp"
+            android:layout_width="@dimen/man_64dp"
+            android:layout_height="@dimen/man_24dp" />
+
+    </LinearLayout>
+    <View
+        android:layout_above="@id/popo"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/view"
+        android:layout_width="@dimen/man_1dp"
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:layout_marginLeft="@dimen/man_90dp"
+        android:layout_toRightOf="@id/view"
+        android:layout_above="@id/popo"
+        android:src="@drawable/guanbi_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

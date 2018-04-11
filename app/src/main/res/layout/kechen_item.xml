@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/kecheng_img"
+        android:scaleType="centerCrop"
+        android:layout_marginRight="@dimen/man_12dp"
+        android:layout_marginLeft="@dimen/man_12dp"
+        android:layout_marginTop="@dimen/man_12dp"
+        android:src="@drawable/kechengditu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/kecheng_name"
+            android:textSize="@dimen/text_16sp"
+            android:text="体验课程"
+            android:textColor="@color/rgb_ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/suo"
+            android:src="@drawable/suo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+</RelativeLayout>

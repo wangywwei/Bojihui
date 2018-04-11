@@ -12,20 +12,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
     <RelativeLayout
-        android:background="@color/colorAccent"
+        android:background="@color/color_2C2C2C"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/man_44dp">
-        <TextView
+        android:layout_height="@dimen/man_45dp">
+        <ImageView
+            android:paddingRight="@dimen/man_16dp"
+            android:src="@drawable/caidan"
             android:id="@+id/cehualan"
-            android:textColor="@color/rgb_ffffff"
-            android:layout_marginLeft="@dimen/man_16dp"
-            android:textStyle="bold"
+            android:paddingLeft="@dimen/man_16dp"
             android:layout_centerVertical="true"
-            android:textSize="@dimen/text_20sp"
-            android:text="三"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent" />
+        <TextView
+            android:layout_centerInParent="true"
+            android:textColor="@color/rgb_ffffff"
+            android:textSize="@dimen/text_18sp"
+            android:text="黑熊搏击会"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
-
     </RelativeLayout>
 
         <FrameLayout
@@ -33,17 +37,17 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
     </LinearLayout>
-
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav"
-        android:layout_gravity="left"
-        android:layout_width="wrap_content"
+    <!-- 左侧滑动栏 -->
+    <RelativeLayout
+        android:id="@+id/main_left_drawer_layout"
+        android:layout_width="240dp"
         android:layout_height="match_parent"
-        android:fitsSystemWindows="true"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        app:headerLayout="@layout/cehua_head"
-        app:menu="@menu/cehua_menu"
-        />
+        android:layout_gravity="start"
+        android:background="@color/colorTextWhite"
+        android:paddingTop="50dp">
+        <include
+            layout="@layout/cehua_head"/>
+    </RelativeLayout>
+
 
 </android.support.v4.widget.DrawerLayout>
