@@ -17,6 +17,7 @@ import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.utils.GlidUtils;
 import com.hxbj.bijihui.utils.StringUtils;
+import com.hxbj.bijihui.utils.TimeUtils;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXLiveConstants;
 import com.tencent.rtmp.TXVodPlayer;
@@ -39,7 +40,7 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
     public VideoView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
-        instance=this;
+        instance = this;
         initView();
     }
 
@@ -52,17 +53,18 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
     private SeekBar seekbar;
     private TextView time2;
     private ImageView quanping;
+
     private void initView() {
         View view = LayoutInflater.from(context).inflate(R.layout.videoview, this);
-        video_view =view.findViewById(R.id.video_view);
-        bofangbeijing =view.findViewById(R.id.bofangbeijing);
-        video_name =view.findViewById(R.id.video_name);
-        bofang =view.findViewById(R.id.bofang);
-        bofang2 =view.findViewById(R.id.bofang2);
-        time =view.findViewById(R.id.time);
-        seekbar =view.findViewById(R.id.seekbar);
-        time2 =view.findViewById(R.id.time2);
-        quanping =view.findViewById(R.id.quanping);
+        video_view = view.findViewById(R.id.video_view);
+        bofangbeijing = view.findViewById(R.id.bofangbeijing);
+        video_name = view.findViewById(R.id.video_name);
+        bofang = view.findViewById(R.id.bofang);
+        bofang2 = view.findViewById(R.id.bofang2);
+        time = view.findViewById(R.id.time);
+        seekbar = view.findViewById(R.id.seekbar);
+        time2 = view.findViewById(R.id.time2);
+        quanping = view.findViewById(R.id.quanping);
 
         bofang.setOnClickListener(this);
         bofang2.setOnClickListener(this);
@@ -94,9 +96,9 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
         String url = "http://1252463788.vod2.myqcloud.com/xxxxx/v.f20.mp4";
         mVodPlayer.startPlay(url);
 
-        if (mVodPlayer.isPlaying()){
+        if (mVodPlayer.isPlaying()) {
             bofang.setImageResource(R.drawable.bofang);
-        }else {
+        } else {
             bofang.setImageResource(R.drawable.bofang);
         }
 
@@ -107,12 +109,19 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
                     // 播放进度, 单位是秒
                     int progress = bundle.getInt(TXLiveConstants.EVT_PLAY_PROGRESS);
                     seekbar.setProgress(progress);
+                    time.setText(TimeUtils.getTime(progress));
+
                     // 视频总长, 单位是秒
                     int duration = bundle.getInt(TXLiveConstants.EVT_PLAY_DURATION);
                     // 可以用于设置时长显示等等
                     seekbar.setMax(duration);
-                }else if (i == TXLiveConstants.PLAY_EVT_PLAY_END){
+                    time2.setText(TimeUtils.getTime(duration));
+
+                } else if (i == TXLiveConstants.PLAY_EVT_PLAY_END) {
                     bofang.setImageResource(R.drawable.bofang);
+                    bofang.setVisibility(VISIBLE);
+                    bofang2.setImageResource(R.drawable.bofang_2);
+
                 }
             }
 
@@ -125,35 +134,51 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
     }
 
 
-
     private String videourl;
-    public VideoView setStart(String videourl, String imgurl,String title){
-        this.videourl=videourl;
-        GlidUtils.setGrid(context,imgurl,bofangbeijing);
+
+    public VideoView setStart(String videourl, String imgurl, String title) {
+        this.videourl = videourl;
+        GlidUtils.setGrid(context, imgurl, bofangbeijing);
         video_name.setText(title);
+        if (!StringUtils.isBlank(videourl)) {
+            mVodPlayer.startPlay(videourl);
+            bofangbeijing.setVisibility(GONE);
+            video_view.setVisibility(VISIBLE);
+            bofang2.setImageResource(R.drawable.zanting_2);
+            bofang.setVisibility(GONE);
+        }
         return instance;
     }
 
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.bofang:
-                if (mVodPlayer.isPlaying()){
+                if (mVodPlayer.isPlaying()) {
                     mVodPlayer.pause();
-
-                }else {
-                    if (!StringUtils.isBlank(videourl)){
+                    mVodPlayer.stopPlay(true); // true代表清除最后一帧画面
+                } else {
+                    if (!StringUtils.isBlank(videourl)) {
                         mVodPlayer.startPlay(videourl);
                         bofangbeijing.setVisibility(GONE);
                         video_view.setVisibility(VISIBLE);
+                        bofang2.setImageResource(R.drawable.zanting_2);
+                        bofang.setVisibility(GONE);
                     }
                 }
                 break;
             case R.id.bofang2:
-
+                if (mVodPlayer.isPlaying()) {
+                    mVodPlayer.pause();
+                    bofang2.setImageResource(R.drawable.bofang_2);
+                } else {
+                    mVodPlayer.resume();
+                    bofang2.setImageResource(R.drawable.zanting_2);
+                }
                 break;
             case R.id.quanping:
+                mVodPlayer.setRenderMode(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
 
                 break;
         }

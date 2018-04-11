@@ -25,6 +25,8 @@ import com.hxbj.bijihui.base.FragmentManager;
 import com.hxbj.bijihui.module.geren.LianxiActivity;
 import com.hxbj.bijihui.module.home.HomeFragment;
 import com.hxbj.bijihui.module.landing.GerenActivity;
+import com.hxbj.bijihui.utils.AppUtils;
+import com.jaeger.library.StatusBarUtil;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
     public static Intent getIntent(Context context) {
@@ -52,8 +54,9 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-        initView();
+        AppUtils.setTitle(this);
 
+        initView();
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 initData();

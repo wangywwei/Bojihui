@@ -38,7 +38,7 @@
         android:layout_marginBottom="@dimen/man_10dp"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/man_16dp">
+        android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/bofang2"
             android:src="@drawable/bofang_2"

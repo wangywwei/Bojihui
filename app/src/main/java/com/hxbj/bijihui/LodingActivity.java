@@ -21,18 +21,19 @@ public class LodingActivity extends BaseActivity {
 
         //第一次进入
         if (StringUtils.isBlank((String) SPUtils.get(this,StaticString.DIYICI,""))){
-
             startActivity(LandingActivity.getIntent(this));
+            finish();
         }else {
             //没有登陆
             if (StringUtils.isBlank((String) SPUtils.get(this,StaticString.ISDENGLU,""))){
 
                 startActivity(LandingActivity.getIntent(this));
-
+                finish();
             }else {
                 //登陆过
                 Intent intent=new Intent(this, HomeActivity.class);
                 startActivity(intent);
+                finish();
             }
 
         }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.module.kechen.kechenxiangqing.KeChengXQActivity;
+import com.hxbj.bijihui.utils.AppUtils;
 
 import java.util.ArrayList;
 
@@ -48,6 +49,7 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_kechen);
+        AppUtils.setTitle(this);
         initView();
         initData();
 

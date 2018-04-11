@@ -27,7 +27,7 @@ public class WebViewCurrencyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.ticket_activity);
-        AppUtils.setTitle(WebViewCurrencyActivity.this);
+        AppUtils.setTitle(this);
         TextView tv_title = (TextView) findViewById(R.id.tv_title);
         url = getIntent().getStringExtra("url");
         title = getIntent().getStringExtra("title");

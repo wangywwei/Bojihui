@@ -6,19 +6,22 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
+import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
-import com.hxbj.bijihui.video.VideoView;
+import com.hxbj.bijihui.model.bean.Kecheng;
 
 import java.util.ArrayList;
 
 public class KeChengXQAdapter extends RecyclerView.Adapter<KeChengXQAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<String> list;
+    private ArrayList<Kecheng> list;
 
 
-    public KeChengXQAdapter(Context context, ArrayList<String> list) {
+    public KeChengXQAdapter(Context context, ArrayList<Kecheng> list) {
         this.context = context;
         this.list = list;
     }
@@ -34,14 +37,46 @@ public class KeChengXQAdapter extends RecyclerView.Adapter<KeChengXQAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        VideoView videoView=new VideoView(context);
-        holder.bofanyemian.addView(videoView);
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
 
-        videoView.setStart("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/videos/outputCut.mp4"
-                ,"","");
+
+        if (list.get(position).isSelect()) {
+            holder.bofanyemian.setVisibility(View.VISIBLE);
+            holder.bofanyemian2.setVisibility(View.GONE);
+        } else {
+            holder.bofanyemian2.setVisibility(View.VISIBLE);
+            holder.bofanyemian.setVisibility(View.GONE);
+        }
+
+        holder.bofang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                m_VideoListener.playVideo("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/videos/outputCut.mp4",
+                        "",
+                        "",
+                        position,
+                        holder.bofanyemian);
+            }
+        });
 
     }
+
+    private VideoListener m_VideoListener;
+
+    public void setVideoListener(VideoListener m_VideoListener) {
+        this.m_VideoListener = m_VideoListener;
+    }
+
+    public interface VideoListener {
+        //当前页面播放
+        void playVideo(String url, String imgurl, String title, int position, RelativeLayout bofanyemian);
+
+        //是否正在播放
+        boolean isPlaying();
+
+    }
+
 
     @Override
     public int getItemCount() {
@@ -50,9 +85,16 @@ public class KeChengXQAdapter extends RecyclerView.Adapter<KeChengXQAdapter.View
 
     class ViewHolder extends RecyclerView.ViewHolder {
         private RelativeLayout bofanyemian;
+        private ImageView beijing;
+        private ImageView bofang;
+        private RelativeLayout bofanyemian2;
+
         public ViewHolder(View itemView) {
             super(itemView);
-            bofanyemian=itemView.findViewById(R.id.bofanyemian);
+            bofanyemian = itemView.findViewById(R.id.bofanyemian);
+            beijing = itemView.findViewById(R.id.beijing);
+            bofang = itemView.findViewById(R.id.bofang);
+            bofanyemian2 = itemView.findViewById(R.id.bofanyemian2);
         }
     }
 }

@@ -7,19 +7,23 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.module.home.HomedAdapter;
+import com.hxbj.bijihui.utils.AppUtils;
+import com.hxbj.bijihui.video.VideoView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 
 /*
-* 课程详情页
-* */
-public class KeChengXQActivity extends BaseActivity implements KechengXQContract.KechengXQView, View.OnClickListener {
+ * 课程详情页
+ * */
+public class KeChengXQActivity extends BaseActivity implements KechengXQContract.KechengXQView, View.OnClickListener, KeChengXQAdapter.VideoListener {
 
     private KeChengXQAdapter adapter;
 
@@ -42,11 +46,13 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
 
     private KechengXQContract.KechengXQPresenter kechengXQPresenter;
 
-    private ArrayList<String> list=new ArrayList<>();
+    private ArrayList<Kecheng> list = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ke_cheng_xq);
+        AppUtils.setTitle(this);
         initView();
         initData();
     }
@@ -68,18 +74,17 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
         bufa_view = (View) findViewById(R.id.bufa_view);
         bufa = (LinearLayout) findViewById(R.id.bufa);
         kecheng_xrecyclerview = (XRecyclerView) findViewById(R.id.kecheng_xrecyclerview);
-        list.add("");
-        list.add("");
-        list.add("");
-        list.add("");
-        adapter = new KeChengXQAdapter(this,list);
+        for (int i = 0; i <10 ; i++) {
+            list.add(new Kecheng());
+        }
+        adapter = new KeChengXQAdapter(this, list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         kecheng_xrecyclerview.setLayoutManager(layoutManager);
         kecheng_xrecyclerview.setNestedScrollingEnabled(false);
         kecheng_xrecyclerview.setAdapter(adapter);
-
+        adapter.setVideoListener(this);
         yaobu.setOnClickListener(this);
         shoubi.setOnClickListener(this);
         bufa.setOnClickListener(this);
@@ -109,7 +114,7 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.yaobu:
                 yaobu_text.setTextColor(getResources().getColor(R.color.color_F2B95A));
                 yaobu_view.setVisibility(View.VISIBLE);
@@ -138,5 +143,30 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
                 finish();
                 break;
         }
+    }
+
+    @Override
+    public void playVideo(String url, String imgurl, String title, int position, RelativeLayout relativeLayout) {
+        if (position == -1) {
+            return;
+        }
+
+        VideoView videoView = new VideoView(this);
+        relativeLayout.addView(videoView);
+        videoView.onDestroy();
+        //初始化所有数据
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setSelect(false);
+        }
+        list.get(position).setSelect(true);
+        adapter.notifyDataSetChanged();
+
+        videoView.setStart(url,imgurl,title);
+
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return false;
     }
 }

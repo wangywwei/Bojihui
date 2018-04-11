@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".module.quanming.shanchuan.ShangchuanActivity">
+
+    <RelativeLayout
+        android:background="@color/color_2C2C2C"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_45dp">
+        <TextView
+            android:layout_centerInParent="true"
+            android:text="播放"
+            android:textSize="@dimen/text_18sp"
+            android:textColor="@color/rgb_ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:id="@+id/back"
+            android:paddingLeft="@dimen/man_12dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/backup_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/bofangvidel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_168dp"/>
+
+    <RelativeLayout
+        android:layout_marginLeft="@dimen/man_52dp"
+        android:layout_marginRight="@dimen/man_52dp"
+        android:layout_marginTop="@dimen/man_24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/chonglu"
+            android:src="@drawable/chonglu"
+            android:layout_width="@dimen/man_120dp"
+            android:layout_height="@dimen/man_44dp" />
+        <ImageView
+            android:id="@+id/shanchu"
+            android:layout_alignParentRight="true"
+            android:src="@drawable/shangchuan"
+            android:layout_width="@dimen/man_120dp"
+            android:layout_height="@dimen/man_44dp" />
+
+    </RelativeLayout>
+</LinearLayout>

@@ -73,7 +73,8 @@
         <activity android:name=".module.kechen.KechenActivity" />
         <activity android:name=".module.kechen.kechenxiangqing.KeChengXQActivity" />
         <activity android:name=".module.geren.LianxiActivity" />
-        <activity android:name=".module.quanming.QuanMingActivity"></activity>
+        <activity android:name=".module.quanming.QuanMingActivity" />
+        <activity android:name=".module.quanming.shanchuan.ShangchuanActivity"/>
     </application>
 
 </manifest>

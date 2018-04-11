@@ -10,8 +10,75 @@
         android:layout_height="@dimen/man_12dp"/>
     <!--用于播放视频-->
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/bofanyemian"
         android:layout_width="match_parent"
         android:layout_height="@dimen/man_176dp"/>
+
+    <RelativeLayout
+        android:id="@+id/bofanyemian2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_176dp">
+        <ImageView
+            android:id="@+id/beijing"
+            android:scaleType="centerCrop"
+            android:src="@drawable/kechengditu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/bofang"
+            android:layout_centerInParent="true"
+            android:src="@drawable/bofang_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <!--<LinearLayout-->
+            <!--android:gravity="center_vertical"-->
+            <!--android:layout_marginRight="@dimen/man_12dp"-->
+            <!--android:layout_marginLeft="@dimen/man_12dp"-->
+            <!--android:layout_marginBottom="@dimen/man_10dp"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="@dimen/man_16dp">-->
+            <!--<ImageView-->
+                <!--android:id="@+id/bofang2"-->
+                <!--android:src="@drawable/bofang_2"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--<TextView-->
+                <!--android:id="@+id/time"-->
+                <!--android:textSize="@dimen/text_10sp"-->
+                <!--android:layout_marginLeft="@dimen/man_8dp"-->
+                <!--android:textColor="@color/rgb_ffffff"-->
+                <!--android:text="00:18"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <!--<SeekBar-->
+                <!--android:layout_marginLeft="@dimen/man_4dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:id="@+id/seekbar"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="wrap_content" />-->
+            <!--<TextView-->
+                <!--android:id="@+id/time2"-->
+                <!--android:textSize="@dimen/text_10sp"-->
+                <!--android:layout_marginLeft="@dimen/man_4dp"-->
+                <!--android:textColor="@color/rgb_ffffff"-->
+                <!--android:text="00:18"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+
+            <!--<ImageView-->
+                <!--android:layout_marginLeft="@dimen/man_12dp"-->
+                <!--android:id="@+id/quanping"-->
+                <!--android:src="@drawable/quanping"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content" />-->
+
+        <!--</LinearLayout>-->
+    </RelativeLayout>
+
+
 
 </LinearLayout>

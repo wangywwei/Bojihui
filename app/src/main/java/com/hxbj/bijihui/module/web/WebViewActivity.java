@@ -14,6 +14,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.utils.AppUtils;
 
 import butterknife.ButterKnife;
 
@@ -37,6 +38,7 @@ public class WebViewActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_view);
+        AppUtils.setTitle(this);
         onlineWebview=findViewById(R.id.online_webview);
         tvtitle=findViewById(R.id.title);
         title_back=findViewById(R.id.title_back);

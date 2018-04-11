@@ -42,7 +42,7 @@
             android:layout_height="wrap_content">
             <TextView
                 android:id="@+id/yaobu_text"
-                android:textColor="@color/color_2C2C2C"
+                android:textColor="@color/color_F2B95A"
                 android:textSize="@dimen/text_16sp"
                 android:text="个人"
                 android:layout_width="wrap_content"

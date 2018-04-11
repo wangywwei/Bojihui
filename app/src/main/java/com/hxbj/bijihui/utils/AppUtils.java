@@ -32,7 +32,7 @@ public class AppUtils {
         throw new UnsupportedOperationException("cannot be instantiated");
     }
     public static void setTitle(Activity activity){
-        StatusBarUtil.setColor(activity,activity.getResources().getColor(R.color.rgb_BA2B2C),0);
+        StatusBarUtil.setColor(activity,activity.getResources().getColor(R.color.color_2C2C2C));
     }
     private static Intent intent;
     private static String[] paramshuzu;
@@ -108,28 +108,6 @@ public class AppUtils {
         return height;
     }
 
-    /**
-     * 获取设备deviceid
-     */
-    public static String getDeviceId(Context context) {
-        TelephonyManager tm =  null;
-        try {
-            tm = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-            String deviceid = tm.getDeviceId();
-            if(deviceid == null || deviceid.length()==0){
-                WifiManager manager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
-                if (manager != null) {
-                    deviceid = manager.getConnectionInfo().getMacAddress();
-                }
-            }
-            return deviceid;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            tm = null;
-        }
-        return null;
-    }
     /**
      * 获取应用程序名称
      */

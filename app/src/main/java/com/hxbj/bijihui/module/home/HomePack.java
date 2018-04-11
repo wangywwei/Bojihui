@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.module.kechen.KechenActivity;
+import com.hxbj.bijihui.module.quanming.QuanMingActivity;
 
 /*
  * 首页第三块
@@ -29,7 +30,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     private ImageView home_quanbukecheng;
     private PopupWindow nahanpopup;
     private PopupWindow dakapopo;
-
+    private ImageView quanminzhanshi;
 
 
     public HomePack(Activity context) {
@@ -51,7 +52,9 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         nahandemubiao = view.findViewById(R.id.nahandemubiao);
         daka1 = view.findViewById(R.id.daka1);
         home_quanbukecheng = view.findViewById(R.id.home_quanbukecheng);
+        quanminzhanshi=view.findViewById(R.id.quanminzhanshi);
 
+        quanminzhanshi.setOnClickListener(this);
         nahandemubiao.setOnClickListener(this);
         daka1.setOnClickListener(this);
         home_quanbukecheng.setOnClickListener(this);
@@ -72,6 +75,10 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             case R.id.home_quanbukecheng:
                 context.startActivity(KechenActivity.getIntent(context));
                 break;
+            case R.id.quanminzhanshi:
+                context.startActivity(QuanMingActivity.getIntent(context));
+                break;
+
         }
     }
     private ImageView qiandaotu;

@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.utils.AppUtils;
 
 /*
 * 联系我们页面
@@ -32,6 +33,7 @@ public class LianxiActivity extends BaseActivity implements LianxiContract.Lianx
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lianxi);
+        AppUtils.setTitle(this);
         initView();
         initData();
 
