@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/color_F8F8F8"
+    tools:context=".module.landing.GerenActivity">
+    <RelativeLayout
+        android:background="@color/color_2C2C2C"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_45dp">
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:padding="@dimen/man_12dp"
+            android:src="@drawable/backup_icon" />
+        <TextView
+            android:layout_centerInParent="true"
+            android:textSize="@dimen/text_18sp"
+            android:text="个人信息"
+            android:textColor="@color/rgb_ffffff"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:background="@drawable/shape_geren"
+        android:padding="@dimen/man_12dp"
+        android:layout_margin="@dimen/man_12dp"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/genren_touxiang"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/touxiang1"
+            android:layout_marginTop="@dimen/man_24dp"
+            android:layout_width="@dimen/man_64dp"
+            android:layout_height="@dimen/man_64dp" />
+
+        <TextView
+            android:textColor="@color/color_2C2C2C"
+            android:textSize="@dimen/text_16sp"
+            android:text="昵称"
+            android:layout_marginTop="@dimen/man_32dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/genren_name"
+            android:textColorHint="@color/color_C9C9C9"
+            android:paddingLeft="@dimen/man_12dp"
+            android:textSize="@dimen/text_13sp"
+            android:hint="请输入昵称"
+            android:background="@drawable/shape_gerenedtext"
+            android:layout_marginTop="@dimen/man_12dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/man_44dp" />
+
+        <TextView
+            android:textColor="@color/color_2C2C2C"
+            android:textSize="@dimen/text_16sp"
+            android:text="性别"
+            android:layout_marginTop="@dimen/man_26dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RadioGroup
+            android:id="@+id/genren_xinbie"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RadioButton
+                android:id="@+id/nan"
+                android:checked="true"
+                android:button="@drawable/xinbie_xuanzhong"
+                android:textColor="@color/xinbie_selector"
+                android:text="男"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/nv"
+                android:layout_marginLeft="@dimen/man_8dp"
+                android:button="@drawable/xinbie_xuanzhong"
+                android:textColor="@color/xinbie_selector"
+                android:text="女"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <RadioButton
+                android:id="@+id/baomi"
+                android:layout_marginLeft="@dimen/man_8dp"
+                android:button="@drawable/xinbie_xuanzhong"
+                android:textColor="@color/xinbie_selector"
+                android:text="保密"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/man_26dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/shouquan1"
+                android:textColor="@color/color_2C2C2C"
+                android:textSize="@dimen/text_16sp"
+                android:text="授权码"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/shouquan2"
+                android:textColor="@color/color_C9C9C9"
+                android:textSize="@dimen/text_13sp"
+                android:text="（可与您所在的俱乐部索要）"
+                android:layout_marginLeft="@dimen/man_8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+
+        <EditText
+            android:id="@+id/genren_shouquanma"
+            android:textColorHint="@color/color_C9C9C9"
+            android:paddingLeft="@dimen/man_12dp"
+            android:textSize="@dimen/text_13sp"
+            android:hint="请输入授权码"
+            android:background="@drawable/shape_gerenedtext"
+            android:layout_marginTop="@dimen/man_12dp"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/man_44dp" />
+
+
+        <LinearLayout
+            android:layout_marginTop="@dimen/man_32dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/hulue"
+                android:layout_weight="1"
+                android:src="@drawable/hulue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <ImageView
+                android:id="@+id/baocun"
+                android:layout_weight="1"
+                android:src="@drawable/baocun"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+
+</LinearLayout>
