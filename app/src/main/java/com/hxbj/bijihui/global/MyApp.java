@@ -21,18 +21,10 @@ public class MyApp extends Application {
         TXLiveBase.setConsoleEnabled(true);
 
 
-//        File file = getFilesDir();
-//        Log.w("DemoApplication", "load:" + file.getAbsolutePath());
-//        TXLiveBase.setLibraryPath(file.getAbsolutePath());
-        //测试代码
-//        TCHttpEngine.getInstance().initContext(getApplicationContext());
-//        mRefWatcher = LeakCanary.install(this);
+
     }
 
-//    public static RefWatcher getRefWatcher(Context context) {
-//        DemoApplication application = (DemoApplication) context.getApplicationContext();
-//        return application.mRefWatcher;
-//    }
+
 
     public static MyApp getApplication() {
         return instance;

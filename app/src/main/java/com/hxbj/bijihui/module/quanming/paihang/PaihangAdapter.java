@@ -11,18 +11,34 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.video.VideoView;
 
 import java.util.ArrayList;
 
 public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<String> list;
+    private ArrayList<Kecheng> list;
 
 
-    public PaihangAdapter(Context context, ArrayList<String> list) {
+    public PaihangAdapter(Context context, ArrayList<Kecheng> list) {
         this.context = context;
         this.list = list;
+    }
+
+    private VideoListener m_VideoListener;
+
+    public void setVideoListener(VideoListener m_VideoListener) {
+        this.m_VideoListener = m_VideoListener;
+    }
+
+    public interface VideoListener {
+        //当前页面播放
+        void playVideo(String url, String imgurl, String title, int position, RelativeLayout bofanyemian);
+
+        //是否正在播放
+        boolean isPlaying();
+
     }
 
     @NonNull
@@ -36,13 +52,25 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
+        if (list.get(position).isSelect()) {
+            holder.paimingvideo.setVisibility(View.VISIBLE);
+            holder.bofanyemian2.setVisibility(View.GONE);
+        } else {
+            holder.bofanyemian2.setVisibility(View.VISIBLE);
+            holder.paimingvideo.setVisibility(View.GONE);
+        }
 
-
-        VideoView videoView=new VideoView(context);
-        holder.paimingvideo.addView(videoView);
-        videoView.setStart("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/videos/outputCut.mp4"
-                ,"","");
+        holder.bofang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                m_VideoListener.playVideo("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/videos/outputCut.mp4",
+                        "",
+                        "",
+                        position,
+                        holder.paimingvideo);
+            }
+        });
 
     }
 
@@ -59,6 +87,10 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
         private TextView paiming_lianji;
         private TextView zannum;
         private ImageView zan;
+
+        private ImageView beijing;
+        private ImageView bofang;
+        private RelativeLayout bofanyemian2;
         public ViewHolder(View itemView) {
             super(itemView);
             paiming=itemView.findViewById(R.id.paiming);
@@ -68,6 +100,10 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
             paiming_lianji=itemView.findViewById(R.id.paiming_lianji);
             zannum=itemView.findViewById(R.id.zannum);
             zan=itemView.findViewById(R.id.zan);
+            beijing = itemView.findViewById(R.id.beijing);
+            bofang = itemView.findViewById(R.id.bofang);
+            bofanyemian2 = itemView.findViewById(R.id.bofanyemian2);
+
         }
     }
 }

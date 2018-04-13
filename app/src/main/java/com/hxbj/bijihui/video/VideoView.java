@@ -93,8 +93,7 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
         //关键player对象与界面view
         mVodPlayer.setPlayerView(video_view);
 
-        String url = "http://1252463788.vod2.myqcloud.com/xxxxx/v.f20.mp4";
-        mVodPlayer.startPlay(url);
+
 
         if (mVodPlayer.isPlaying()) {
             bofang.setImageResource(R.drawable.bofang);
@@ -141,6 +140,7 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
         GlidUtils.setGrid(context, imgurl, bofangbeijing);
         video_name.setText(title);
         if (!StringUtils.isBlank(videourl)) {
+            //开始播放
             mVodPlayer.startPlay(videourl);
             bofangbeijing.setVisibility(GONE);
             video_view.setVisibility(VISIBLE);
@@ -185,8 +185,12 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
     }
 
     public void onDestroy() {
-        mVodPlayer.stopPlay(true); // true代表清除最后一帧画面
-        video_view.onDestroy();
+        if (mVodPlayer!=null){
+            mVodPlayer.pause();
+            mVodPlayer.stopPlay(true); // true代表清除最后一帧画面
+            video_view.onDestroy();
+        }
+
     }
 
 

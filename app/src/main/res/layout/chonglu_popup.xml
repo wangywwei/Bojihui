@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    android:background="@color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+
+    <ImageView
+        android:id="@+id/guanbi"
+        android:layout_marginLeft="@dimen/man_200dp"
+        android:src="@drawable/guanbi_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <LinearLayout
+        android:id="@+id/popo1"
+        android:background="@drawable/ditu"
+        android:gravity="center_horizontal"
+        android:orientation="vertical"
+        android:layout_width="@dimen/man_240dp"
+        android:layout_height="wrap_content">
+       <ImageView
+           android:layout_marginTop="@dimen/man_41dp"
+           android:src="@drawable/tishi"
+           android:layout_width="@dimen/man_140dp"
+           android:layout_height="@dimen/man_140dp" />
+        <TextView
+            android:layout_marginTop="@dimen/man_32dp"
+            android:textSize="@dimen/text_19sp"
+            android:textColor="@color/rgb_ffffff"
+            android:text="提示"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:layout_marginTop="@dimen/man_4dp"
+            android:textSize="@dimen/text_13sp"
+            android:textColor="@color/rgb_ffffff"
+            android:text="确认覆盖此视频？"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <RelativeLayout
+            android:layout_marginRight="@dimen/man_40dp"
+            android:layout_marginLeft="@dimen/man_40dp"
+            android:layout_marginBottom="63dp"
+            android:layout_marginTop="@dimen/man_24dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/fou"
+                android:background="@drawable/shape_fu"
+                android:textSize="@dimen/text_10sp"
+                android:gravity="center"
+                android:textColor="@color/rgb_ffffff"
+                android:text="否"
+                android:layout_width="@dimen/man_64dp"
+                android:layout_height="@dimen/man_24dp" />
+            <TextView
+                android:id="@+id/yes"
+                android:layout_alignParentRight="true"
+                android:background="@drawable/shape_denglu"
+                android:textSize="@dimen/text_10sp"
+                android:gravity="center"
+                android:textColor="@color/rgb_ffffff"
+                android:text="是"
+                android:layout_width="@dimen/man_64dp"
+                android:layout_height="@dimen/man_24dp" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>

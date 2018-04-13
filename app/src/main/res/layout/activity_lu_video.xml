@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".module.quanming.LuVideoActivity">
+
+    <com.tencent.rtmp.ui.TXCloudVideoView
+        android:id="@+id/lv_video"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <RelativeLayout
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/man_33dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:visibility="gone"
+            android:layout_marginLeft="@dimen/man_40dp"
+            android:background="@drawable/fanhui_1"
+            android:id="@+id/lu_fou"
+            android:layout_width="@dimen/man_68dp"
+            android:layout_height="@dimen/man_68dp" />
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/paishe"
+            android:id="@+id/lu_start"
+            android:layout_width="@dimen/man_68dp"
+            android:layout_height="@dimen/man_68dp" />
+        <ImageView
+            android:visibility="gone"
+            android:layout_marginRight="@dimen/man_40dp"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/querenbaocun"
+            android:id="@+id/lu_yes"
+            android:layout_width="@dimen/man_68dp"
+            android:layout_height="@dimen/man_68dp" />
+
+    </RelativeLayout>
+
+
+
+
+</RelativeLayout>

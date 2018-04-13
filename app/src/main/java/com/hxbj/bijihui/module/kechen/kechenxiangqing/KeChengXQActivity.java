@@ -26,6 +26,7 @@ import java.util.ArrayList;
 public class KeChengXQActivity extends BaseActivity implements KechengXQContract.KechengXQView, View.OnClickListener, KeChengXQAdapter.VideoListener {
 
     private KeChengXQAdapter adapter;
+    private VideoView videoView;
 
     public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, KeChengXQActivity.class);
@@ -150,8 +151,7 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
         if (position == -1) {
             return;
         }
-
-        VideoView videoView = new VideoView(this);
+        videoView = new VideoView(this);
         relativeLayout.addView(videoView);
         videoView.onDestroy();
         //初始化所有数据
@@ -168,5 +168,13 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
     @Override
     public boolean isPlaying() {
         return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (videoView!=null){
+            videoView.onDestroy();
+        }
+        super.onDestroy();
     }
 }

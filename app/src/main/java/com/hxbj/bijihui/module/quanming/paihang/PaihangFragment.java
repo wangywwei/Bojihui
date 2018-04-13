@@ -6,23 +6,27 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseFragment;
+import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.module.kechen.KechenAdapter;
+import com.hxbj.bijihui.video.VideoView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 import java.util.ArrayList;
 
 
-public class PaihangFragment extends BaseFragment implements PaihangContract.PaihangView {
+public class PaihangFragment extends BaseFragment implements PaihangContract.PaihangView,PaihangAdapter.VideoListener {
 
     private PaihangContract.PaihangPresenter paihangPresenter;
 
     private View view;
     private XRecyclerView paihangrecyclerview;
-    private PaihangAdapter kechenAdapter;
-    private ArrayList<String> list = new ArrayList<>();
+    private PaihangAdapter paihangAdapter;
+    private ArrayList<Kecheng> list = new ArrayList<>();
+    private VideoView videoView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,18 +52,16 @@ public class PaihangFragment extends BaseFragment implements PaihangContract.Pai
 
     private void initView(View view) {
         paihangrecyclerview = (XRecyclerView) view.findViewById(R.id.paihangrecyclerview);
-        list.add("体验课程");
-        list.add("Lv.1  初级课程");
-        list.add("Lv.2  中级课程");
-        list.add("Lv.2  高级课程");
-        kechenAdapter = new PaihangAdapter(getActivity(), list);
+        for (int i = 0; i <10 ; i++) {
+            list.add(new Kecheng());
+        }
+        paihangAdapter = new PaihangAdapter(getActivity(), list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         paihangrecyclerview.setLayoutManager(layoutManager);
         paihangrecyclerview.setNestedScrollingEnabled(false);
-        paihangrecyclerview.setAdapter(kechenAdapter);
-
-
+        paihangrecyclerview.setAdapter(paihangAdapter);
+        paihangAdapter.setVideoListener(this);
     }
 
     @Override
@@ -70,5 +72,37 @@ public class PaihangFragment extends BaseFragment implements PaihangContract.Pai
     @Override
     public void setPresenter(PaihangContract.PaihangPresenter paihangPresenter) {
         this.paihangPresenter = paihangPresenter;
+    }
+
+    @Override
+    public void playVideo(String url, String imgurl, String title, int position, RelativeLayout bofanyemian) {
+        if (position == -1) {
+            return;
+        }
+        videoView = new VideoView(getActivity());
+        videoView.onDestroy();
+        bofanyemian.addView(videoView);
+        //初始化所有数据
+        for (int i = 0; i < list.size(); i++) {
+            list.get(i).setSelect(false);
+        }
+        list.get(position).setSelect(true);
+        paihangAdapter.notifyDataSetChanged();
+
+        videoView.setStart(url,imgurl,title);
+
+    }
+
+    @Override
+    public boolean isPlaying() {
+        return false;
+    }
+
+    @Override
+    public void onDestroy() {
+        if (videoView!=null){
+            videoView.onDestroy();
+        }
+        super.onDestroy();
     }
 }

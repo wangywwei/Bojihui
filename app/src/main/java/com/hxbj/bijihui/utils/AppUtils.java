@@ -23,7 +23,6 @@ import java.util.List;
  */
 public class AppUtils {
 
-
     private static String jinbi;
 
     private AppUtils()

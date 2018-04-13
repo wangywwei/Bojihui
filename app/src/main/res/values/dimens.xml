@@ -40,9 +40,12 @@
     <dimen name="man_45dp">45dp</dimen>
     <dimen name="man_48dp">48dp</dimen>
     <dimen name="man_52dp">52dp</dimen>
+    <dimen name="man_54dp">54dp</dimen>
     <dimen name="man_57dp">57dp</dimen>
     <dimen name="man_60dp">60dp</dimen>
+    <dimen name="man_63dp">63dp</dimen>
     <dimen name="man_64dp">64dp</dimen>
+    <dimen name="man_68dp">68dp</dimen>
     <dimen name="man_71dp">71dp</dimen>
     <dimen name="man_80dp">80dp</dimen>
     <dimen name="man_88dp">88dp</dimen>
@@ -53,6 +56,7 @@
     <dimen name="man_120dp">120dp</dimen>
     <dimen name="man_122dp">122dp</dimen>
     <dimen name="man_130dp">130dp</dimen>
+    <dimen name="man_140dp">140dp</dimen>
     <dimen name="man_145dp">145dp</dimen>
     <dimen name="man_158dp">158dp</dimen>
     <dimen name="man_160dp">160dp</dimen>
@@ -62,6 +66,7 @@
     <dimen name="man_182dp">182dp</dimen>
     <dimen name="man_187dp">187dp</dimen>
     <dimen name="man_192dp">192dp</dimen>
+    <dimen name="man_200dp">200dp</dimen>
     <dimen name="man_240dp">240dp</dimen>
     <dimen name="man_250dp">250dp</dimen>
     <dimen name="man_260dp">260dp</dimen>

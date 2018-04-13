@@ -8,9 +8,27 @@
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
+        android:visibility="gone"
         android:id="@+id/gerenvideo"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/man_168dp"/>
+        android:layout_height="@dimen/man_176dp"/>
+    <RelativeLayout
+        android:id="@+id/gerenvideo2"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/man_176dp">
+        <ImageView
+            android:id="@+id/beijing"
+            android:scaleType="centerCrop"
+            android:src="@drawable/kechengditu"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+        <ImageView
+            android:id="@+id/bofang"
+            android:layout_centerInParent="true"
+            android:src="@drawable/bofang_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
     <View
         android:background="@color/color_F8F8F8"
@@ -25,7 +43,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/meiyouwode"
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/man_12dp"
@@ -55,6 +73,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/youwode"
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/man_12dp"
@@ -62,9 +81,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
+            android:visibility="gone"
             android:id="@+id/gerenmyvideo"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/man_168dp"/>
+            android:layout_height="@dimen/man_176dp"/>
+        <RelativeLayout
+            android:id="@+id/gerenmyvideo2"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/man_176dp">
+            <ImageView
+                android:id="@+id/beijing2"
+                android:scaleType="centerCrop"
+                android:src="@drawable/kechengditu"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+            <ImageView
+                android:id="@+id/bofang2"
+                android:layout_centerInParent="true"
+                android:src="@drawable/bofang_1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:gravity="center_vertical"

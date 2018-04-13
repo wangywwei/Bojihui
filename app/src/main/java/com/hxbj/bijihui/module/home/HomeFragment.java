@@ -103,9 +103,12 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
+        if (homeBanner!=null){
+            homeBanner.onDestroy();
+        }
         if (homePack!=null){
             homePack.onDestroy();
         }
+        super.onDestroy();
     }
 }

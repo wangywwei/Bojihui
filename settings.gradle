@@ -1,1 +1,1 @@
-include ':app',':bubbleview', ':banner'
+include ':app'

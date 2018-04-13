@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.youth.banner.Banner
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="@dimen/man_130dp">
+    <android.support.v4.view.ViewPager
         android:id="@+id/banner"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/man_130dp" />
-</android.support.constraint.ConstraintLayout>
+        android:layout_height="match_parent" />
+    <LinearLayout
+        android:layout_marginBottom="@dimen/man_8dp"
+        android:layout_marginRight="@dimen/man_20dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/mlayout"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/man_2dp"
+        android:orientation="horizontal" />
+
+</RelativeLayout>

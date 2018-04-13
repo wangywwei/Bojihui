@@ -1,23 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
+
+    <ImageView
+        android:id="@+id/guanbi"
+        android:layout_marginLeft="@dimen/man_200dp"
+        android:src="@drawable/guanbi_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:id="@+id/popo1"
         android:background="@drawable/ditu"
         android:gravity="center_horizontal"
-        android:layout_centerInParent="true"
         android:orientation="vertical"
         android:layout_width="@dimen/man_240dp"
         android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/mubiaolinear"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            android:layout_width="@dimen/man_176dp"
+            android:layout_height="@dimen/man_176dp">
+            <TextView
+                android:id="@+id/mubiao"
+                android:layout_marginTop="@dimen/man_16dp"
+                android:textSize="@dimen/text_19sp"
+                android:textColor="@color/rgb_ffffff"
+                android:text="呐喊的目标"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/time"
+                android:layout_marginTop="@dimen/man_4dp"
+                android:textSize="@dimen/text_13sp"
+                android:textColor="@color/rgb_ffffff"
+                android:text="2018年04月06号目标"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <ImageView
+                android:id="@+id/bofang"
+                android:layout_marginTop="@dimen/man_34dp"
+                android:src="@drawable/bofang"
+                android:layout_width="@dimen/man_68dp"
+                android:layout_height="@dimen/man_68dp" />
+            <com.hxbj.bijihui.view.ArcProgress
+                app:borderWidth="@dimen/man_5dp"
+                android:visibility="gone"
+                android:layout_marginTop="@dimen/man_54dp"
+                app:radius="@dimen/man_34dp"
+                android:id="@+id/myProgress"
+                android:layout_width="@dimen/man_68dp"
+                android:layout_height="@dimen/man_68dp"
+                android:max="10"
+                app:degree="0"
+                app:progressStyle="arc" />
+        </LinearLayout>
+
         <ImageView
+            android:id="@+id/yinyue"
             android:layout_marginTop="@dimen/man_16dp"
             android:src="@drawable/tu"
             android:layout_width="@dimen/man_160dp"
             android:layout_height="@dimen/man_160dp" />
+
         <TextView
             android:layout_marginTop="@dimen/man_16dp"
             android:textSize="@dimen/text_19sp"
@@ -42,17 +94,5 @@
             android:layout_height="wrap_content" />
 
     </LinearLayout>
-    <View
-        android:layout_above="@id/popo1"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/view"
-        android:layout_width="@dimen/man_1dp"
-        android:layout_height="wrap_content"/>
-    <ImageView
-        android:layout_marginLeft="@dimen/man_90dp"
-        android:layout_toRightOf="@id/view"
-        android:layout_above="@id/popo1"
-        android:src="@drawable/guanbi_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-</RelativeLayout>
+
+</LinearLayout>

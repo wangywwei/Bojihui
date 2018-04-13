@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
     android:background="@color/transparent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
+    <ImageView
+        android:id="@+id/guanbi"
+        android:layout_marginLeft="@dimen/man_200dp"
+        android:src="@drawable/guanbi_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
     <LinearLayout
         android:id="@+id/popo2"
         android:background="@drawable/ditu"
@@ -14,6 +21,7 @@
         android:orientation="vertical"
         android:layout_width="@dimen/man_240dp"
         android:layout_height="wrap_content">
+
         <TextView
             android:layout_marginTop="@dimen/man_32dp"
             android:textSize="@dimen/text_19sp"
@@ -33,8 +41,19 @@
             android:id="@+id/bofang"
             android:layout_marginTop="@dimen/man_34dp"
             android:src="@drawable/bofang"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="@dimen/man_68dp"
+            android:layout_height="@dimen/man_68dp" />
+        <com.hxbj.bijihui.view.ArcProgress
+            app:borderWidth="@dimen/man_5dp"
+            android:visibility="visible"
+            android:layout_marginTop="@dimen/man_34dp"
+            app:radius="@dimen/man_34dp"
+            android:id="@+id/myProgress"
+            android:layout_width="@dimen/man_68dp"
+            android:layout_height="@dimen/man_68dp"
+            android:max="10"
+            app:degree="0"
+            app:progressStyle="arc" />
         <TextView
             android:id="@+id/shanchu"
             android:textSize="@dimen/text_13sp"
@@ -64,18 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
-    <View
-        android:layout_above="@id/popo2"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/view"
-        android:layout_width="@dimen/man_1dp"
-        android:layout_height="wrap_content"/>
-    <ImageView
-        android:layout_marginLeft="@dimen/man_90dp"
-        android:layout_toRightOf="@id/view"
-        android:layout_above="@id/popo2"
-        android:src="@drawable/guanbi_1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
-</RelativeLayout>
+
+
+</LinearLayout>

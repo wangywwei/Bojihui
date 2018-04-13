@@ -3,6 +3,7 @@ package com.hxbj.bijihui.module.kechen;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -112,7 +113,7 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
         gaojipopup = new PopupWindow(gaojiview);
         gaojipopup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         gaojipopup.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        gaojipopup.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        gaojipopup.setBackgroundDrawable(new BitmapDrawable());
         gaojipopup.setOutsideTouchable(true);
         gaojipopup.setFocusable(true);
         gaojipopup.showAtLocation(this.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
@@ -122,7 +123,13 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
         jihuo = gaojiview.findViewById(R.id.jihuo);
         queren = gaojiview.findViewById(R.id.queren);
         yaoqingma = gaojiview.findViewById(R.id.yaoqingma);
-
+        ImageView guanbi = gaojiview.findViewById(R.id.guanbi);
+        guanbi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                gaojipopup.dismiss();
+            }
+        });
 
     }
 
@@ -131,12 +138,19 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
         chujipopup = new PopupWindow(chujiview);
         chujipopup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         chujipopup.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        chujipopup.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        chujipopup.setBackgroundDrawable(new BitmapDrawable());
         chujipopup.setOutsideTouchable(true);
         chujipopup.setFocusable(true);
         chujipopup.showAtLocation(this.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
         //关闭事件
         chujipopup.setOnDismissListener(new popupDismissListener());
+        ImageView guanbi = chujiview.findViewById(R.id.guanbi);
+        guanbi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                chujipopup.dismiss();
+            }
+        });
         backgroundAlpha(0.5f);
 
 
@@ -157,9 +171,11 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
     protected void onDestroy() {
         if (chujipopup != null) {
             chujipopup.dismiss();
+            chujipopup=null;
         }
         if (gaojipopup != null) {
             gaojipopup.dismiss();
+            gaojipopup=null;
         }
         super.onDestroy();
     }

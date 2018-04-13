@@ -2,13 +2,14 @@ package com.hxbj.bijihui.module;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -26,9 +27,29 @@ import com.hxbj.bijihui.module.geren.LianxiActivity;
 import com.hxbj.bijihui.module.home.HomeFragment;
 import com.hxbj.bijihui.module.landing.GerenActivity;
 import com.hxbj.bijihui.utils.AppUtils;
-import com.jaeger.library.StatusBarUtil;
+import com.hxbj.bijihui.utils.AudioRecoderUtils;
+import com.hxbj.bijihui.utils.LogUtils;
+import com.hxbj.bijihui.utils.SPUtils;
+import com.hxbj.bijihui.utils.StringStatic;
+import com.hxbj.bijihui.utils.StringUtils;
+import com.hxbj.bijihui.utils.TimeUtils;
+import com.hxbj.bijihui.view.ArcProgress;
+import com.hxbj.bijihui.view.OnTextCenter;
+
+import java.io.IOException;
 
 public class HomeActivity extends BaseActivity implements View.OnClickListener {
+
+    private AudioRecoderUtils mAudioRecoderUtils;
+    private ImageView yinyue;
+    private ArcProgress myProgress;
+    private Thread thread;
+    private TextView mubiao;
+    private TextView time;
+    private ImageView bofang;
+    private LinearLayout mubiaolinear;
+
+
     public static Intent getIntent(Context context) {
         Intent intent = new Intent(context, HomeActivity.class);
         return intent;
@@ -49,7 +70,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private PopupWindow popupWindow;
     private PopupWindow chehuapo;
     private RelativeLayout main_left_drawer_layout;
-
+    private MediaPlayer mediaPlayer;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,9 +80,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         initView();
         new Handler().postDelayed(new Runnable() {
             public void run() {
-                initData();
+                if (StringUtils.isBlank((String) SPUtils.get(HomeActivity.this, StringStatic.DIYICI,""))){
+                    initData();
+                }
+//                initData();
             }
-        }, 1000);
+        }, 100);
 
     }
 
@@ -87,6 +111,45 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         cehua_back.setOnClickListener(this);
         FragmentManager.changeFragment(HomeFragment.class, R.id.homeframe, true, false);
 
+        mediaPlayer=new MediaPlayer();
+        mediaPlayer.reset();
+
+        mAudioRecoderUtils = new AudioRecoderUtils();
+
+        //录音回调
+        mAudioRecoderUtils.setOnAudioStatusUpdateListener(new AudioRecoderUtils.OnAudioStatusUpdateListener() {
+
+            //录音中....db为声音分贝，time为录音时长
+            @Override
+            public void onUpdate(double db, long time2) {
+                //根据分贝值来设置录音时话筒图标的上下波动，下面有讲解
+                myProgress.setProgress((int)(time2/1000));
+                if (myProgress.getProgress()>=10){
+                    myProgress.setVisibility(View.GONE);
+                    mubiao.setVisibility(View.VISIBLE);
+                    time.setVisibility(View.VISIBLE);
+                    time.setText(TimeUtils.getTimedanqian()+"目标");
+                    bofang.setVisibility(View.VISIBLE);
+                    //结束录音（保存录音文件）
+                    mAudioRecoderUtils.stopRecord();
+                }
+
+            }
+
+            //录音结束，filePath为保存路径
+            @Override
+            public void onStop(String filePath) {
+                LogUtils.e("TAG", filePath);
+                SPUtils.put(HomeActivity.this, StringStatic.FILEPATH,filePath);
+                try {
+                    mediaPlayer.setDataSource(filePath);
+                    mediaPlayer.prepare();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
     }
 
     private ImageView luzhi;
@@ -94,11 +157,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private View popoview;
 
     private void initData() {
+        SPUtils.put(HomeActivity.this, StringStatic.DIYICI,"111");
         View view = getLayoutInflater().inflate(R.layout.home_popup, null);
         popupWindow = new PopupWindow(view);
         popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
         popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+        popupWindow.setBackgroundDrawable(new BitmapDrawable());
         popupWindow.setOutsideTouchable(true);
         popupWindow.setFocusable(true);
         popupWindow.showAtLocation(this.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
@@ -108,8 +172,82 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         luzhi = view.findViewById(R.id.luzhi);
         popo = view.findViewById(R.id.popo);
+        yinyue = view.findViewById(R.id.yinyue);
+        mubiao = view.findViewById(R.id.mubiao);
+        time = view.findViewById(R.id.time);
+        bofang = view.findViewById(R.id.bofang);
+        mubiaolinear = view.findViewById(R.id.mubiaolinear);
 
+        myProgress= view.findViewById(R.id.myProgress);
+
+        myProgress.setOnCenterDraw(new OnTextCenter());
+
+        myProgress.setVisibility(View.GONE);
+        mubiao.setVisibility(View.GONE);
+        time.setVisibility(View.GONE);
+        bofang.setVisibility(View.GONE);
+        mubiaolinear.setVisibility(View.GONE);
+
+        ImageView guanbi = view.findViewById(R.id.guanbi);
+        guanbi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+        setProgressBarVisibility(true);
+        luzhi.setOnTouchListener(onTouchListener);
+
+        bofang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer.isPlaying()){
+
+                }else {
+                    mediaPlayer.start();
+                }
+            }
+        });
     }
+
+    View.OnTouchListener onTouchListener=new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            switch (event.getAction()){
+                //按下
+                case MotionEvent.ACTION_DOWN:
+                    mubiaolinear.setVisibility(View.VISIBLE);
+                    yinyue.setVisibility(View.GONE);
+                    myProgress.setVisibility(View.VISIBLE);
+
+                    mubiao.setVisibility(View.GONE);
+                    time.setVisibility(View.GONE);
+                    bofang.setVisibility(View.GONE);
+                    mAudioRecoderUtils.startRecord();
+
+
+                    break;
+                //抬起
+                case MotionEvent.ACTION_UP:
+                    if (myProgress.getProgress()>=10){
+
+                    }else {
+                        myProgress.setVisibility(View.GONE);
+                        mubiao.setVisibility(View.VISIBLE);
+                        time.setVisibility(View.VISIBLE);
+                        time.setText(TimeUtils.getTimedanqian()+"目标");
+                        bofang.setVisibility(View.VISIBLE);
+                        //结束录音（保存录音文件）
+                        mAudioRecoderUtils.stopRecord();
+                    }
+
+
+                    break;
+            }
+            return true;
+        }
+    };
+
 
     @Override
     public void onClick(View v) {
@@ -163,6 +301,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     }
 
 
+
     /**
      * 设置添加屏幕的背景透明度
      *
@@ -190,7 +329,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     protected void onDestroy() {
         if (popupWindow != null) {
             popupWindow.dismiss();
+            popupWindow=null;
         }
+        if (mAudioRecoderUtils!=null){
+            mAudioRecoderUtils.stopRecord();
+            mAudioRecoderUtils=null;
+        }
+
         super.onDestroy();
     }
 }

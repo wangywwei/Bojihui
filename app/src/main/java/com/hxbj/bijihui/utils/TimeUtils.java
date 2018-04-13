@@ -1,5 +1,8 @@
 package com.hxbj.bijihui.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class TimeUtils {
 
     //根据秒数转化为时分秒   00:00:00
@@ -49,5 +52,27 @@ public class TimeUtils {
             return hour + minute + ":0" + second;
         }
         return hour + minute + ":" + second;
+    }
+
+
+    public static String getTime(){
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        String  str=String.valueOf(sdf);
+        return str;
+
+    }
+
+    public static String getTimedanqian(){
+        Calendar calendar = Calendar.getInstance();
+        //获取系统的日期
+        //年
+        int year = calendar.get(Calendar.YEAR);
+        //月
+        int month = calendar.get(Calendar.MONTH);
+        //日
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        String str=year+"年"+month+"月"+day+"日";
+        return str;
+
     }
 }
