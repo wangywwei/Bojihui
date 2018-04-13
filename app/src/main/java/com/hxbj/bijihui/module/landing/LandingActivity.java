@@ -100,9 +100,11 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 
             case R.id.landing_youke:
                 startActivity(HomeActivity.getIntent(this));
+                finish();
                 break;
             case R.id.landing:
                 startActivity(GerenActivity.getIntent(this,"shouci"));
+                finish();
                 break;
         }
     }

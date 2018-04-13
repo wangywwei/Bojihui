@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -111,12 +112,15 @@ public class GerenActivity extends BaseActivity implements View.OnClickListener 
 
 
                 startActivity(HomeActivity.getIntent(this));
+                finish();
                 break;
             case R.id.baocun:
 
                 startActivity(HomeActivity.getIntent(this));
+                finish();
                 break;
             case R.id.back:
+                startActivity(HomeActivity.getIntent(this));
                 finish();
                 break;
             case R.id.genren_shouquanma:
@@ -127,6 +131,18 @@ public class GerenActivity extends BaseActivity implements View.OnClickListener 
                 break;
 
         }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if ((keyCode == KeyEvent.KEYCODE_BACK)) {
+            startActivity(HomeActivity.getIntent(this));
+            finish();
+            return false;
+        }else {
+            return super.onKeyDown(keyCode, event);
+        }
+
     }
 
     private String[] selectDate() {
@@ -151,4 +167,6 @@ public class GerenActivity extends BaseActivity implements View.OnClickListener 
         });
         return str;
     }
+
+
 }

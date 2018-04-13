@@ -27,7 +27,6 @@ public class LodingActivity extends BaseActivity {
         }else {
             //没有登陆
             if (StringUtils.isBlank((String) SPUtils.get(this, StringStatic.ISDENGLU,""))){
-
                 startActivity(LandingActivity.getIntent(this));
                 finish();
             }else {
