@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.widget.DrawerLayout;
@@ -28,6 +29,8 @@ import com.hxbj.bijihui.base.FragmentManager;
 import com.hxbj.bijihui.module.geren.LianxiActivity;
 import com.hxbj.bijihui.module.home.HomeFragment;
 import com.hxbj.bijihui.module.landing.GerenActivity;
+import com.hxbj.bijihui.module.landing.LandingActivity;
+import com.hxbj.bijihui.module.web.WebViewCurrencyActivity;
 import com.hxbj.bijihui.utils.AppUtils;
 import com.hxbj.bijihui.utils.AudioRecoderUtils;
 import com.hxbj.bijihui.utils.LogUtils;
@@ -73,12 +76,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private PopupWindow chehuapo;
     private RelativeLayout main_left_drawer_layout;
     private MediaPlayer mediaPlayer;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         AppUtils.setTitle(this);
-
         initView();
         new Handler().postDelayed(new Runnable() {
             public void run() {
@@ -264,7 +268,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.cehua_qianjun:
-
+                startActivity(WebViewCurrencyActivity.getIntent(HomeActivity.this,"","千钧体育"));
 
                 break;
             case R.id.cehua_lianxi:
@@ -272,8 +276,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.cehua_back:
-
-
+                SPUtils.clear(HomeActivity.this);
+                startActivity(LandingActivity.getIntent(HomeActivity.this));
                 break;
             case R.id.cehua_touxiang:
                 startActivity(GerenActivity.getIntent(HomeActivity.this,"no"));

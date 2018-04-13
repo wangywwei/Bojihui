@@ -1,5 +1,7 @@
 package com.hxbj.bijihui.module.web;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -10,6 +12,7 @@ import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.module.landing.LandingActivity;
 import com.hxbj.bijihui.utils.AppUtils;
 
 /**
@@ -17,6 +20,14 @@ import com.hxbj.bijihui.utils.AppUtils;
  * H5通用界面
  */
 public class WebViewCurrencyActivity extends BaseActivity {
+
+    public static Intent getIntent(Context context,String url,String title) {
+        Intent intent = new Intent(context, WebViewCurrencyActivity.class);
+        intent.putExtra("url",url);
+        intent.putExtra("title",title);
+        return intent;
+    }
+
 
     private String url;
     private WebView webView;

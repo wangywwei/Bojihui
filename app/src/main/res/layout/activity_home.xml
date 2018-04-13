@@ -11,10 +11,6 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <View
-            android:background="@color/color_2C2C2C"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/man_20dp"/>
     <RelativeLayout
         android:background="@color/color_2C2C2C"
         android:layout_width="match_parent"
