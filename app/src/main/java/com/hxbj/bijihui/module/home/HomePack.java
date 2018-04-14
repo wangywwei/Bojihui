@@ -19,6 +19,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.module.HomeActivity;
 import com.hxbj.bijihui.module.kechen.KechenActivity;
 import com.hxbj.bijihui.module.quanming.QuanMingActivity;
 import com.hxbj.bijihui.utils.AudioRecoderUtils;
@@ -26,10 +27,15 @@ import com.hxbj.bijihui.utils.LogUtils;
 import com.hxbj.bijihui.utils.SPUtils;
 import com.hxbj.bijihui.utils.StringStatic;
 import com.hxbj.bijihui.utils.TimeUtils;
+import com.hxbj.bijihui.utils.ToastUtils;
 import com.hxbj.bijihui.view.ArcProgress;
 import com.hxbj.bijihui.view.OnTextCenter;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
 
 import java.io.IOException;
+import java.util.List;
 
 /*
  * 首页第三块
@@ -62,20 +68,21 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
 
     private void initView() {
         View view = LayoutInflater.from(context).inflate(R.layout.home_pack, this);
+
         nahandemubiao = view.findViewById(R.id.nahandemubiao);
         daka1 = view.findViewById(R.id.daka1);
         home_quanbukecheng = view.findViewById(R.id.home_quanbukecheng);
-        quanminzhanshi=view.findViewById(R.id.quanminzhanshi);
+        quanminzhanshi = view.findViewById(R.id.quanminzhanshi);
 
         quanminzhanshi.setOnClickListener(this);
         nahandemubiao.setOnClickListener(this);
         daka1.setOnClickListener(this);
         home_quanbukecheng.setOnClickListener(this);
 
-        mediaPlayer=new MediaPlayer();
+        mediaPlayer = new MediaPlayer();
         mediaPlayer.reset();
         try {
-            mediaPlayer.setDataSource((String) SPUtils.get(context,StringStatic.FILEPATH,""));
+            mediaPlayer.setDataSource((String) SPUtils.get(context, StringStatic.FILEPATH, ""));
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -89,9 +96,9 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             @Override
             public void onUpdate(double db, long time2) {
                 //根据分贝值来设置录音时话筒图标的上下波动，下面有讲解
-                myProgress.setProgress((int)(time2/1000));
-                if (myProgress.getProgress()>=10){
-                    time.setText(TimeUtils.getTimedanqian()+"目标");
+                myProgress.setProgress((int) (time2 / 1000));
+                if (myProgress.getProgress() >= 10) {
+                    time.setText(TimeUtils.getTimedanqian() + "目标");
                     bofang.setVisibility(View.VISIBLE);
                     myProgress.setVisibility(View.GONE);
                     //结束录音（保存录音文件）
@@ -103,8 +110,8 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             //录音结束，filePath为保存路径
             @Override
             public void onStop(String filePath) {
-                LogUtils.e("TAG",filePath);
-                SPUtils.put(context, StringStatic.FILEPATH,filePath);
+                LogUtils.e("TAG", filePath);
+                SPUtils.put(context, StringStatic.FILEPATH, filePath);
                 try {
                     mediaPlayer.setDataSource(filePath);
                     mediaPlayer.prepare();
@@ -113,6 +120,8 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
                 }
             }
         });
+
+
     }
 
 
@@ -136,6 +145,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
 
         }
     }
+
     private ImageView qiandaotu;
     private ImageView daka_touxiang;
     private ImageView daka_huiyuan;
@@ -144,6 +154,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     private ImageView fenxiangweixing;
     private ImageView fenxiangpengyouquan;
     private ImageView fenxiangweibo;
+
     private void initDaka() {
         View dakaview = context.getLayoutInflater().inflate(R.layout.home_popup3, null);
         dakapopo = new PopupWindow(dakaview);
@@ -157,14 +168,14 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         dakapopo.setOnDismissListener(new popupDismissListener());
         backgroundAlpha(0.5f);
 
-        qiandaotu=dakaview.findViewById(R.id.qiandaotu);
-        daka_touxiang=dakaview.findViewById(R.id.daka_touxiang);
-        daka_huiyuan=dakaview.findViewById(R.id.daka_huiyuan);
-        daka_name=dakaview.findViewById(R.id.daka_name);
-        daka_liangji=dakaview.findViewById(R.id.daka_liangji);
-        fenxiangweixing=dakaview.findViewById(R.id.fenxiangweixing);
-        fenxiangpengyouquan=dakaview.findViewById(R.id.fenxiangpengyouquan);
-        fenxiangweibo=dakaview.findViewById(R.id.fenxiangweibo);
+        qiandaotu = dakaview.findViewById(R.id.qiandaotu);
+        daka_touxiang = dakaview.findViewById(R.id.daka_touxiang);
+        daka_huiyuan = dakaview.findViewById(R.id.daka_huiyuan);
+        daka_name = dakaview.findViewById(R.id.daka_name);
+        daka_liangji = dakaview.findViewById(R.id.daka_liangji);
+        fenxiangweixing = dakaview.findViewById(R.id.fenxiangweixing);
+        fenxiangpengyouquan = dakaview.findViewById(R.id.fenxiangpengyouquan);
+        fenxiangweibo = dakaview.findViewById(R.id.fenxiangweibo);
 
         ImageView guanbi = dakaview.findViewById(R.id.guanbi);
         guanbi.setOnClickListener(new View.OnClickListener() {
@@ -182,6 +193,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     private ImageView newbutton;
     private LinearLayout popo;
     private ArcProgress myProgress;
+
     private void initNahan() {
         View nahanview = context.getLayoutInflater().inflate(R.layout.home_popup2, null);
         nahanpopup = new PopupWindow(nahanview);
@@ -197,10 +209,10 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
 
         time = nahanview.findViewById(R.id.time);
         bofang = nahanview.findViewById(R.id.bofang);
-        shanchu = nahanview.findViewById(R.id.shanchu);
+
         newbutton = nahanview.findViewById(R.id.newbutton);
         popo = nahanview.findViewById(R.id.popo);
-        myProgress= nahanview.findViewById(R.id.myProgress);
+        myProgress = nahanview.findViewById(R.id.myProgress);
         myProgress.setOnCenterDraw(new OnTextCenter());
         myProgress.setVisibility(GONE);
         ImageView guanbi = nahanview.findViewById(R.id.guanbi);
@@ -214,9 +226,9 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         bofang.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mediaPlayer.isPlaying()){
+                if (mediaPlayer.isPlaying()) {
                     return;
-                }else {
+                } else {
                     mediaPlayer.start();
                 }
             }
@@ -225,35 +237,53 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         newbutton.setOnTouchListener(onTouchListener);
     }
 
-    View.OnTouchListener onTouchListener=new View.OnTouchListener() {
+
+    View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()){
-                //按下
-                case MotionEvent.ACTION_DOWN:
-                    bofang.setVisibility(View.GONE);
-                    myProgress.setVisibility(View.VISIBLE);
-                    mAudioRecoderUtils.startRecord();
+        public boolean onTouch(View v, final MotionEvent event) {
+            AndPermission.with(context)
+                    .permission(Permission.RECORD_AUDIO)
+                    .onGranted(new Action() {
+                        @Override
+                        public void onAction(List<String> permissions) {
+                            switch (event.getAction()) {
+                                //按下
+                                case MotionEvent.ACTION_DOWN:
+                                    bofang.setVisibility(View.GONE);
+                                    myProgress.setVisibility(View.VISIBLE);
+                                    mAudioRecoderUtils.startRecord();
 
-                    break;
-                //抬起
-                case MotionEvent.ACTION_UP:
-                    if (myProgress.getProgress()>=10){
+                                    break;
+                                //抬起
+                                case MotionEvent.ACTION_UP:
+                                    if (myProgress.getProgress() >= 10) {
 
-                    }else {
-                        time.setText(TimeUtils.getTimedanqian()+"目标");
-                        bofang.setVisibility(View.VISIBLE);
-                        myProgress.setVisibility(View.GONE);
-                        //结束录音（保存录音文件）
-                        mAudioRecoderUtils.stopRecord();
-                    }
+                                    } else {
+                                        time.setText(TimeUtils.getTimedanqian() + "目标");
+                                        bofang.setVisibility(View.VISIBLE);
+                                        myProgress.setVisibility(View.GONE);
+                                        //结束录音（保存录音文件）
+                                        mAudioRecoderUtils.stopRecord();
+                                    }
 
 
-                    break;
-            }
+                                    break;
+                            }
+
+                        }
+                    }).onDenied(new Action() {
+                @Override
+                public void onAction(List<String> permissions) {
+                    ToastUtils.showToast(context,"请打开麦克风权限");
+                }
+            })
+                    .start();
+
+
             return true;
         }
     };
+
 
     /**
      * 设置添加屏幕的背景透明度
@@ -279,13 +309,13 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     }
 
     public void onDestroy() {
-        if (nahanpopup!=null){
+        if (nahanpopup != null) {
             nahanpopup.dismiss();
-            nahanpopup=null;
+            nahanpopup = null;
         }
-        if (dakapopo!=null){
+        if (dakapopo != null) {
             dakapopo.dismiss();
-            dakapopo=null;
+            dakapopo = null;
         }
     }
 }

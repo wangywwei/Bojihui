@@ -24,9 +24,11 @@ import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.utils.AppUtils;
 import com.hxbj.bijihui.utils.LogUtils;
+import com.hxbj.bijihui.utils.SPUtils;
 import com.hxbj.bijihui.utils.StringUtils;
 import com.hxbj.bijihui.utils.ToastUtils;
 import com.hxbj.bijihui.video.CustomRecordActivity;
+import com.hxbj.bijihui.video.VideoQuanpingActivity;
 import com.hxbj.bijihui.video.VideoView;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -34,7 +36,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class ShangchuanActivity extends BaseActivity implements View.OnClickListener {
+public class ShangchuanActivity extends BaseActivity implements View.OnClickListener,VideoView.OnItemclickLinter {
 
     private VideoView videoView;
 
@@ -71,6 +73,7 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
         shanchu.setOnClickListener(this);
 
         videoView = new VideoView(this);
+        videoView.setOnItemclickLinter(this);
         videoView.onDestroy();
         bofangvidel.addView(videoView);
 
@@ -89,8 +92,8 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.shanchu:
-
-
+                SPUtils.put(ShangchuanActivity.this,"video",videoPath);
+                finish();
                 break;
 
         }
@@ -177,5 +180,21 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
             videoView.onDestroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onItemClicj(View view) {
+        startActivityForResult(VideoQuanpingActivity.getIntent(this,
+                videoPath,"","",videoView.getProgress()),100);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100 && resultCode==RESULT_OK){
+            Bundle bundle = data.getExtras();
+            int jindu =bundle.getInt("jindu");
+            videoView.setJindu(jindu);
+        }
     }
 }

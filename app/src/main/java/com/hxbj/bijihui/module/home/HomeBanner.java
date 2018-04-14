@@ -46,11 +46,11 @@ public class HomeBanner extends LinearLayout {
 
     private void initView() {
         View view = LayoutInflater.from(context).inflate(R.layout.home_banner, this);
-        images.add("");
-        images.add("");
-        images.add("");
-        images.add("");
-        images.add("");
+        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018012301.png");
+        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018012202.png");
+        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018012303.png");
+        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018020815072481729990.JPG");
+        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018030615084479647358.png");
         mLayout=view.findViewById(R.id.mlayout);
         banner = view.findViewById(R.id.banner);
         HomeBannerAdapter mAdapter = new HomeBannerAdapter(images,context);

@@ -23,11 +23,16 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.module.quanming.shanchuan.ShangchuanActivity;
+import com.yanzhenjie.permission.Action;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by pc on 2017/3/20.
@@ -119,7 +124,9 @@ public class CustomRecordActivity extends AppCompatActivity implements View.OnCl
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom);
+        initquanxian();
         initView();
+
     }
 
     private void initView() {
@@ -275,7 +282,11 @@ public class CustomRecordActivity extends AppCompatActivity implements View.OnCl
             mediaRecorder.setOnErrorListener(null);
             mediaRecorder.setPreviewDisplay(null);
             //停止录制
-            mediaRecorder.stop();
+            try {
+                mediaRecorder.stop();
+            }catch (Exception o){
+
+            }
             mediaRecorder.reset();
             //释放资源
             mediaRecorder.release();
@@ -287,35 +298,62 @@ public class CustomRecordActivity extends AppCompatActivity implements View.OnCl
         }
     }
 
+    private boolean luzhiquanxian=true;
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.record_control:
-                if (isPause) {
-                    //代表视频暂停录制，后点击中心（即继续录制视频）
-                    Intent intent = new Intent(CustomRecordActivity.this, ShangchuanActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("videoPath", saveVideoPath);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
-                } else {
-                    if (!isRecording) {
-                        //开始录制视频
-                        startRecord();
-                        mRecordControl.setImageResource(R.drawable.zanting_3);
-                        mRecordControl.setEnabled(false);//1s后才能停止
-                        mHandler.sendEmptyMessageDelayed(CONTROL_CODE, 0);
-
+                if (luzhiquanxian){
+                    if (isPause) {
+                        //代表视频暂停录制，后点击中心（即继续录制视频）
+                        Intent intent = new Intent(CustomRecordActivity.this, ShangchuanActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("videoPath", saveVideoPath);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+                        finish();
                     } else {
-                        initstop();
+                        if (!isRecording) {
+                            //开始录制视频
+                            startRecord();
+                            mRecordControl.setImageResource(R.drawable.zanting_3);
+                            mRecordControl.setEnabled(false);//1s后才能停止
+                            mHandler.sendEmptyMessageDelayed(CONTROL_CODE, 0);
 
+                        } else {
+                            initstop();
+
+                        }
                     }
+                }else {
+                    initquanxian();
                 }
+
                 break;
 
         }
+
+    }
+
+    private void initquanxian() {
+        AndPermission.with(this)
+                .permission(Permission.WRITE_EXTERNAL_STORAGE,
+                        Permission.READ_EXTERNAL_STORAGE,
+                        Permission.CAMERA,
+                        Permission.RECORD_AUDIO
+                )
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        luzhiquanxian=true;
+                    }
+                }).onDenied(new Action() {
+            @Override
+            public void onAction(List<String> permissions) {
+                luzhiquanxian=false;
+            }
+        }).start();
 
     }
 

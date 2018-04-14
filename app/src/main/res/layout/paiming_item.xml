@@ -73,24 +73,31 @@
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/man_10dp" />
         </LinearLayout>
-
-        <TextView
-            android:layout_marginRight="@dimen/man_12dp"
+        <LinearLayout
+            android:id="@+id/dianzan"
+            android:gravity="center_vertical"
             android:layout_centerVertical="true"
-            android:id="@+id/zannum"
             android:layout_alignParentRight="true"
-            android:textColor="@color/color_F2B95A"
-            android:text="53"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-        <ImageView
-            android:id="@+id/zan"
-            android:layout_marginRight="@dimen/man_4dp"
-            android:layout_centerVertical="true"
-            android:src="@drawable/zan_1"
-            android:layout_toLeftOf="@id/zannum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent">
+            <ImageView
+                android:paddingLeft="@dimen/man_10dp"
+                android:id="@+id/zan"
+                android:layout_marginRight="@dimen/man_4dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/zan_1"
+                android:layout_toLeftOf="@id/zannum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:paddingRight="@dimen/man_12dp"
+                android:id="@+id/zannum"
+                android:textColor="@color/color_9C9C9C"
+                android:text="53"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
 
     </RelativeLayout>
     <View

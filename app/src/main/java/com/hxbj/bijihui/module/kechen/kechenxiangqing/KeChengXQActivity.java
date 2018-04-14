@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -15,6 +16,7 @@ import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.module.home.HomedAdapter;
 import com.hxbj.bijihui.utils.AppUtils;
+import com.hxbj.bijihui.video.VideoQuanpingActivity;
 import com.hxbj.bijihui.video.VideoView;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
@@ -23,7 +25,9 @@ import java.util.ArrayList;
 /*
  * 课程详情页
  * */
-public class KeChengXQActivity extends BaseActivity implements KechengXQContract.KechengXQView, View.OnClickListener, KeChengXQAdapter.VideoListener {
+public class KeChengXQActivity extends BaseActivity implements KechengXQContract.KechengXQView,
+        View.OnClickListener,
+        KeChengXQAdapter.VideoListener, VideoView.OnItemclickLinter {
 
     private KeChengXQAdapter adapter;
     private VideoView videoView;
@@ -75,7 +79,7 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
         bufa_view = (View) findViewById(R.id.bufa_view);
         bufa = (LinearLayout) findViewById(R.id.bufa);
         kecheng_xrecyclerview = (XRecyclerView) findViewById(R.id.kecheng_xrecyclerview);
-        for (int i = 0; i <10 ; i++) {
+        for (int i = 0; i < 10; i++) {
             list.add(new Kecheng());
         }
         adapter = new KeChengXQAdapter(this, list);
@@ -146,12 +150,24 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
         }
     }
 
+    private String url;
+    private String imgurl;
+    private String title;
+    private int jindu;
     @Override
     public void playVideo(String url, String imgurl, String title, int position, RelativeLayout relativeLayout) {
+        this.url = url;
+        this.imgurl = imgurl;
+        this.title = title;
         if (position == -1) {
             return;
         }
+        if (videoView!=null){
+            videoView.onDestroy();
+            videoView=null;
+        }
         videoView = new VideoView(this);
+        videoView.setOnItemclickLinter(this);
         relativeLayout.addView(videoView);
         videoView.onDestroy();
         //初始化所有数据
@@ -160,9 +176,8 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
         }
         list.get(position).setSelect(true);
         adapter.notifyDataSetChanged();
-
-        videoView.setStart(url,imgurl,title);
-
+        videoView.setStart(url, imgurl, title);
+        this.jindu = videoView.getProgress();
     }
 
     @Override
@@ -172,9 +187,25 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
 
     @Override
     public void onDestroy() {
-        if (videoView!=null){
+        if (videoView != null) {
             videoView.onDestroy();
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void onItemClicj(View view) {
+        startActivityForResult(VideoQuanpingActivity.getIntent(this,
+                url,imgurl,title,jindu),100);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==100 && resultCode==RESULT_OK){
+            Bundle bundle = data.getExtras();
+            int jindu =bundle.getInt("jindu");
+            videoView.setJindu(jindu);
+        }
     }
 }

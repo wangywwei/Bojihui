@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -50,7 +51,8 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
         ViewHolder viewHolder = new ViewHolder(view);
         return viewHolder;
     }
-
+    private int zannum1=10;
+    private boolean ISzannum1;
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         if (list.get(position).isSelect()) {
@@ -60,6 +62,26 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
             holder.bofanyemian2.setVisibility(View.VISIBLE);
             holder.paimingvideo.setVisibility(View.GONE);
         }
+        holder.zannum.setText(""+zannum1);
+        holder.dianzan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (ISzannum1){
+                    ISzannum1=false;
+                    zannum1=zannum1-1;
+                    holder.zan.setImageResource(R.drawable.zan_1);
+                    holder.zannum.setTextColor(context.getResources().getColor(R.color.color_C9C9C9));
+                    holder.zannum.setText(zannum1+"");
+                }else {
+                    ISzannum1=true;
+                    zannum1=zannum1+1;
+                    holder.zan.setImageResource(R.drawable.zan);
+                    holder.zannum.setTextColor(context.getResources().getColor(R.color.color_F2B95A));
+                    holder.zannum.setText(zannum1+"");
+                }
+
+            }
+        });
 
         holder.bofang.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,7 +109,7 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
         private TextView paiming_lianji;
         private TextView zannum;
         private ImageView zan;
-
+        private LinearLayout dianzan;
         private ImageView beijing;
         private ImageView bofang;
         private RelativeLayout bofanyemian2;
@@ -103,7 +125,7 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
             beijing = itemView.findViewById(R.id.beijing);
             bofang = itemView.findViewById(R.id.bofang);
             bofanyemian2 = itemView.findViewById(R.id.bofanyemian2);
-
+            dianzan = itemView.findViewById(R.id.dianzan);
         }
     }
 }

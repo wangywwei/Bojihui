@@ -46,7 +46,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LodingActivity">
+        <activity android:name=".LodingActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -55,9 +56,12 @@
         </activity>
         <activity
             android:name=".module.HomeActivity"
+            android:screenOrientation="portrait"
             android:launchMode="singleTask" />
-        <activity android:name=".module.landing.LandingActivity" />
-        <activity android:name=".module.landing.GerenActivity" />
+        <activity android:name=".module.landing.LandingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.landing.GerenActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- 通用H5 界面 -->
         <activity
@@ -66,20 +70,28 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".video.CustomRecordActivity"
-            android:screenOrientation="portrait" />
+            android:name=".video.CustomRecordActivity"/>
         <activity
             android:name=".module.web.WebViewActivity"
             android:configChanges="keyboard|screenSize|orientation|layoutDirection"
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
-        <activity android:name=".module.kechen.KechenActivity" />
-        <activity android:name=".module.kechen.kechenxiangqing.KeChengXQActivity" />
-        <activity android:name=".module.geren.LianxiActivity" />
-        <activity android:name=".module.quanming.QuanMingActivity" />
-        <activity android:name=".module.quanming.shanchuan.ShangchuanActivity"/>
-        <activity android:name=".module.quanming.LuVideoActivity"
-            android:launchMode="singleTask"/>
+        <activity android:name=".module.kechen.KechenActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.kechen.kechenxiangqing.KeChengXQActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.geren.LianxiActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.quanming.QuanMingActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.quanming.shanchuan.ShangchuanActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".video.LuVideoActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask" />
+        <activity android:name=".video.VideoQuanpingActivity"
+            android:screenOrientation="landscape"/>
     </application>
 
 </manifest>

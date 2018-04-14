@@ -73,7 +73,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="gone"
+        android:visibility="visible"
         android:id="@+id/youwode"
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/man_12dp"
@@ -120,7 +120,7 @@
                 android:layout_marginLeft="@dimen/man_4dp"
                 android:textSize="@dimen/text_13sp"
                 android:textColor="@color/color_C9C9C9"
-                android:text="53"
+                android:text="0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <ImageView

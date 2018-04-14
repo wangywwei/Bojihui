@@ -24,20 +24,21 @@ import com.tencent.rtmp.TXVodPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
 
 public class VideoView extends LinearLayout implements View.OnClickListener {
-    private Context context;
+    private Activity context;
     private TXVodPlayer mVodPlayer;
 
     public static VideoView instance;
+    private int progress;
 
-    public VideoView(Context context) {
+    public VideoView(Activity context) {
         this(context, null);
     }
 
-    public VideoView(Context context, @Nullable AttributeSet attrs) {
+    public VideoView(Activity context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public VideoView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public VideoView(Activity context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         this.context = context;
         instance = this;
@@ -53,6 +54,10 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
     private SeekBar seekbar;
     private TextView time2;
     private ImageView quanping;
+
+    public int getProgress() {
+        return (int) mVodPlayer.getCurrentPlaybackTime();
+    }
 
     private void initView() {
         View view = LayoutInflater.from(context).inflate(R.layout.videoview, this);
@@ -101,12 +106,15 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
             bofang.setImageResource(R.drawable.bofang);
         }
 
+
+
+
         mVodPlayer.setVodListener(new ITXVodPlayListener() {
             @Override
             public void onPlayEvent(TXVodPlayer txVodPlayer, int i, Bundle bundle) {
                 if (i == TXLiveConstants.PLAY_EVT_PLAY_PROGRESS) {
                     // 播放进度, 单位是秒
-                    int progress = bundle.getInt(TXLiveConstants.EVT_PLAY_PROGRESS);
+                    progress = bundle.getInt(TXLiveConstants.EVT_PLAY_PROGRESS);
                     seekbar.setProgress(progress);
                     time.setText(TimeUtils.getTime(progress));
 
@@ -133,10 +141,24 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
     }
 
 
-    private String videourl;
 
+
+
+    public VideoView setJindu(int jindu) {
+//        mVodPlayer.pause();
+//        mVodPlayer.stopPlay(true);
+//        // 调整进度
+//        setStart(videourl,imgurl,title);
+        mVodPlayer.seek(jindu);
+        return instance;
+    }
+    private String videourl;
+    private String imgurl;
+    private String title;
     public VideoView setStart(String videourl, String imgurl, String title) {
         this.videourl = videourl;
+        this.imgurl = imgurl;
+        this.title = title;
         GlidUtils.setGrid(context, imgurl, bofangbeijing);
         video_name.setText(title);
         if (!StringUtils.isBlank(videourl)) {
@@ -150,6 +172,9 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
         return instance;
     }
 
+    public void zanting(){
+        mVodPlayer.pause();
+    }
 
     @Override
     public void onClick(View v) {
@@ -178,11 +203,15 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
                 }
                 break;
             case R.id.quanping:
-                mVodPlayer.setRenderMode(TXLiveConstants.RENDER_ROTATION_LANDSCAPE);
 
+                if (null!=onItemclickLinter){
+                    onItemclickLinter.onItemClicj(v);
+                }
                 break;
         }
     }
+
+
 
     public void onDestroy() {
         if (mVodPlayer!=null){
@@ -193,5 +222,14 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
 
     }
 
+    private OnItemclickLinter onItemclickLinter;
+
+    public void setOnItemclickLinter(OnItemclickLinter onItemclickLinter) {
+        this.onItemclickLinter = onItemclickLinter;
+    }
+
+    public interface OnItemclickLinter{
+        public void onItemClicj(View view);
+    }
 
 }

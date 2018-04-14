@@ -12,7 +12,7 @@
     <ImageView
         android:layout_centerHorizontal="true"
         android:layout_marginTop="@dimen/man_88dp"
-        android:src="@drawable/weixin"
+        android:src="@mipmap/ic_launcher"
         android:layout_width="@dimen/man_80dp"
         android:layout_height="@dimen/man_80dp" />
     <RelativeLayout

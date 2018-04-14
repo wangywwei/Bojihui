@@ -52,5 +52,5 @@ dependencies {
     //utils
     implementation 'commons-lang:commons-lang:2.6'
     implementation files('libs/isoviewer-1.0-RC-27.jar')
-
+    implementation 'com.yanzhenjie:permission:2.0.0-rc4'
 }

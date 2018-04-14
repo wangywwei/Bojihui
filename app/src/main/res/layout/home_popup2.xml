@@ -54,17 +54,9 @@
             android:max="10"
             app:degree="0"
             app:progressStyle="arc" />
-        <TextView
-            android:id="@+id/shanchu"
-            android:textSize="@dimen/text_13sp"
-            android:padding="@dimen/man_8dp"
-            android:textColor="@color/rgb_ffffff"
-            android:text="删除"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
 
         <View
-            android:layout_marginTop="@dimen/man_16dp"
+            android:layout_marginTop="@dimen/man_32dp"
             android:background="@color/color_F4F4F4"
             android:layout_width="@dimen/man_160dp"
             android:layout_height="@dimen/man_2dp"/>
