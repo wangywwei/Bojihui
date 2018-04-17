@@ -15,13 +15,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.module.HomeActivity;
+import com.hxbj.bijihui.utils.LogUtils;
+import com.hxbj.bijihui.utils.SPUtils;
 import com.jaeger.library.StatusBarUtil;
 
 /*
 * 登陆页面
 * */
-public class LandingActivity extends AppCompatActivity implements View.OnClickListener {
+public class LandingActivity extends AppCompatActivity implements View.OnClickListener ,LandingContract.LancingView{
+    private LandingContract.LandingPresenter landingPresenter;
+
 
     private TextView landing_youke;
     private TextView landing_shoujidenglu;
@@ -63,6 +68,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initData() {
+        landingPresenter=new LandingPresenter(this);
 
 
     }
@@ -97,15 +103,27 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 shoujideng.setVisibility(View.GONE);
                 break;
 
-
             case R.id.landing_youke:
                 startActivity(HomeActivity.getIntent(this));
                 finish();
                 break;
             case R.id.landing:
-                startActivity(GerenActivity.getIntent(this,"shouci"));
-                finish();
+                landingPresenter.start();
+
                 break;
         }
+    }
+
+    @Override
+    public void setPresenter(LandingContract.LandingPresenter landingPresenter) {
+            this.landingPresenter=landingPresenter;
+    }
+
+    @Override
+    public void setResultData(String token) {
+        LogUtils.e("TAG",token+"");
+        SPUtils.put(this,"Authorization",token);
+        startActivity(GerenActivity.getIntent(this,"shouci"));
+        finish();
     }
 }

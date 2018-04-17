@@ -37,7 +37,7 @@ public class LuVideoActivity extends AppCompatActivity implements View.OnClickLi
         return intent;
     }
 
-    private TXCloudVideoView lv_video;
+    private TXCloudVideoView mVideoView;
 
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
@@ -63,22 +63,8 @@ public class LuVideoActivity extends AppCompatActivity implements View.OnClickLi
 
 
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (requestCode == 1) {
-            for (int i = 0; i < permissions.length; i++) {
-                if (grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                    Toast.makeText(this, "" + "权限" + permissions[i] + "申请成功", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(this, "" + "权限" + permissions[i] + "申请失败", Toast.LENGTH_SHORT).show();
-                }
-            }
-        }
-    }
-
     private void initView() {
-        lv_video = findViewById(R.id.lv_video);
+        mVideoView = findViewById(R.id.lv_video);//设置录制回调//准备一个预览摄像头画面的
         lu_start = findViewById(R.id.lu_start);
         lu_fou = findViewById(R.id.lu_fou);
         lu_yes = findViewById(R.id.lu_yes);
@@ -88,23 +74,20 @@ public class LuVideoActivity extends AppCompatActivity implements View.OnClickLi
         /*
         * 刚开始进来默认影藏
         * */
-
-
         mTXCameraRecord = TXUGCRecord.getInstance(this.getApplicationContext());
-        mTXCameraRecord.setVideoRecordListener(this);//设置录制回调
-        //准备一个预览摄像头画面的
-        lv_video.enableHardwareDecode(true);
+        mTXCameraRecord.setVideoRecordListener(this);
+        mVideoView.enableHardwareDecode(true);
         TXRecordCommon.TXUGCSimpleConfig param = new TXRecordCommon.TXUGCSimpleConfig();
-        //param.videoQuality = TXRecordCommon.VIDEO_QUALITY_LOW;        // 360p
+//param.videoQuality = TXRecordCommon.VIDEO_QUALITY_LOW;        // 360p
         param.videoQuality = TXRecordCommon.VIDEO_QUALITY_MEDIUM;        // 540p
-        //param.videoQuality = TXRecordCommon.VIDEO_QUALITY_HIGH;        // 720p
+//param.videoQuality = TXRecordCommon.VIDEO_QUALITY_HIGH;        // 720p
         param.isFront = false;           //是否前置摄像头，使用
         param.minDuration = 1000;    //视频录制的最小时长ms
-        param.maxDuration = 10000;    //视频录制的最大时长ms
+        param.maxDuration = 60000;    //视频录制的最大时长ms
+        mTXCameraRecord.startCameraSimplePreview(param,mVideoView);
 
-        mTXCameraRecord.startCameraSimplePreview(param, lv_video);
-
-
+        // 切换前后摄像头 参数 mFront 代表是否前置摄像头 默认前置
+//        mTXCameraRecord.switchCamera(false);
 
     }
 
@@ -117,10 +100,9 @@ public class LuVideoActivity extends AppCompatActivity implements View.OnClickLi
                     lu_yes.setVisibility(View.GONE);
                     lu_start.setImageResource(R.drawable.zanting_3);
                     paishezhuantai = 2;
-
                     mTXCameraRecord.startRecord();
+                    LogUtils.e("TGA","开始");
                 } else {
-                    LogUtils.e("TGA","结束");
                     paishezhuantai = 1;
                     lu_start.setVisibility(View.GONE);
                     lu_fou.setVisibility(View.VISIBLE);
@@ -128,9 +110,8 @@ public class LuVideoActivity extends AppCompatActivity implements View.OnClickLi
                     lu_start.setImageResource(R.drawable.paishe);
                     mTXCameraRecord.stopRecord();
                     mTXCameraRecord.pauseRecord();
-
+                    LogUtils.e("TGA","结束");
                 }
-
                 break;
             case R.id.lu_fou:
                 lu_start.setImageResource(R.drawable.paishe);

@@ -13,20 +13,16 @@ public class MyApp extends Application {
 
     @Override
     public void onCreate() {
-
         super.onCreate();
-
         instance = this;
-
         TXLiveBase.setConsoleEnabled(true);
-
-
-
     }
-
 
 
     public static MyApp getApplication() {
         return instance;
     }
+
+
+
 }

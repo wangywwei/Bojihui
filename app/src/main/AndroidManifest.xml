@@ -70,7 +70,8 @@
             android:hardwareAccelerated="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".video.CustomRecordActivity"/>
+            android:name=".video.CustomRecordActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".module.web.WebViewActivity"
             android:configChanges="keyboard|screenSize|orientation|layoutDirection"

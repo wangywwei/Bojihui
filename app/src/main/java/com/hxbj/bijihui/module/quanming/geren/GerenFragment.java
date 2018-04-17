@@ -176,7 +176,7 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.shangchuanwode:
-                AndPermission.with(this)
+                AndPermission.with(getActivity())
                         .permission(Permission.WRITE_EXTERNAL_STORAGE,
                                 Permission.READ_EXTERNAL_STORAGE,
                                 Permission.CAMERA,
@@ -294,7 +294,24 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
             public void onClick(View v) {
                 //跳转到录制视频页面
                 chongluWindow.dismiss();
-                getActivity().startActivity(CustomRecordActivity.getIntent(getActivity()));
+                AndPermission.with(getActivity())
+                        .permission(Permission.WRITE_EXTERNAL_STORAGE,
+                                Permission.READ_EXTERNAL_STORAGE,
+                                Permission.CAMERA,
+                                Permission.RECORD_AUDIO
+                        )
+                        .onGranted(new Action() {
+                            @Override
+                            public void onAction(List<String> permissions) {
+                                getActivity().startActivity(CustomRecordActivity.getIntent(getActivity()));
+                            }
+                        }).onDenied(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        ToastUtils.showToast(getActivity(), "没有权限");
+                    }
+                }).start();
+
             }
         });
     }

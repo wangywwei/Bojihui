@@ -2,6 +2,9 @@ package com.hxbj.bijihui.network;
 
 import com.google.gson.Gson;
 import com.hxbj.bijihui.global.MyApp;
+import com.hxbj.bijihui.utils.LogUtils;
+import com.hxbj.bijihui.utils.SPUtils;
+
 import java.io.IOException;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -10,6 +13,7 @@ import java.util.Set;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.FormBody;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -94,11 +98,17 @@ public class HttpUtils implements IHttp {
     @Override
     public <T> void post(String url, Map<String, String> params, final MyCallBack<T> callBack) {
         FormBody.Builder builder = new FormBody.Builder();
-        Set<String> set = params.keySet();
-        for (String key : set) {
-            builder.add(key, params.get(key));
-        }
-        FormBody body = builder.build();
+//        Set<String> set = params.keySet();
+//        for (String key : set) {
+//            builder.add(key, params.get(key));
+//        }
+        params.put("Authorization", (String) SPUtils.get(MyApp.instance,"Authorization",""));
+        Gson gson = new Gson();
+        String jsonStr = gson.toJson(params);
+        builder.add("",jsonStr);
+//        LogUtils.e("TAG",jsonStr);
+//        FormBody body = builder.build();
+        RequestBody body=  RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr);
         Request request = new Request.Builder().url(url).post(body).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override

@@ -98,7 +98,7 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
         //关键player对象与界面view
         mVodPlayer.setPlayerView(video_view);
 
-
+        mVodPlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
 
         if (mVodPlayer.isPlaying()) {
             bofang.setImageResource(R.drawable.bofang);

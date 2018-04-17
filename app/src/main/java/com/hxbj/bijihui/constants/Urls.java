@@ -3,7 +3,10 @@ package com.hxbj.bijihui.constants;
 
 public class Urls {
     //服务器地址
-    public static final String BASEURL = "";
+    public static final String BASEURL = "http://47.94.90.131:9188/";
+
+    //登陸
+    public static final String LOGIN = BASEURL+"login";
 
 
 

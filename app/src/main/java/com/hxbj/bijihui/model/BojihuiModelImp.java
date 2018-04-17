@@ -1,6 +1,14 @@
 package com.hxbj.bijihui.model;
 
 
+import com.hxbj.bijihui.constants.Urls;
+import com.hxbj.bijihui.model.bean.LoginBean;
+import com.hxbj.bijihui.network.HttpFactory;
+import com.hxbj.bijihui.network.MyCallBack;
+
+import java.util.HashMap;
+import java.util.Map;
+
 public class BojihuiModelImp implements BojihuiModel {
 
 //    @Override
@@ -18,5 +26,8 @@ public class BojihuiModelImp implements BojihuiModel {
 //    }
 
 
+    @Override
+    public void getLogin(MyCallBack<LoginBean> callBack,String iphone) {
 
+    }
 }
