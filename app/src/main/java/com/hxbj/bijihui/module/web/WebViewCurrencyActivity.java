@@ -43,7 +43,7 @@ public class WebViewCurrencyActivity extends BaseActivity {
         url = getIntent().getStringExtra("url");
         title = getIntent().getStringExtra("title");
         if(TextUtils.isEmpty(title)){
-            tv_title.setText("武林风");
+            tv_title.setText(R.string.app_name);
         }else{
             tv_title.setText(title);
         }

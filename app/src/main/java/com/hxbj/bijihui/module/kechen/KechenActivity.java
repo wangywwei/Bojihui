@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.module.kechen.kechenxiangqing.KeChengXQActivity;
 import com.hxbj.bijihui.utils.AppUtils;
 
@@ -58,7 +59,7 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
 
     private void initData() {
         kechenPresenter = new KechenPresenter(this);
-        kechenPresenter.start();
+
     }
 
     private void initView() {
@@ -67,7 +68,7 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
         list.add("体验课程");
         list.add("Lv.1  初级课程");
         list.add("Lv.2  中级课程");
-        list.add("Lv.2  高级课程");
+        list.add("Lv.3  高级课程");
         kechenAdapter = new KechenAdapter(this, list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -89,13 +90,26 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
                         startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
                         break;
                     case 1:
-                        initchuji();
+//                        initchuji();
+                        if (MyApp.instance.getType().equals("会员")){
+                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
+                        }else {
+                            initgaoji();
+                        }
                         break;
                     case 2:
-                        initgaoji();
+                        if (MyApp.instance.getType().equals("会员")){
+                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
+                        }else {
+                            initgaoji();
+                        }
                         break;
                     case 3:
-                        initgaoji();
+                        if (MyApp.instance.getType().equals("会员")){
+                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
+                        }else {
+                            initgaoji();
+                        }
                         break;
 
                 }
@@ -131,6 +145,12 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
             }
         });
 
+        queren.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                kechenPresenter.start();
+            }
+        });
     }
 
     private void initchuji() {
@@ -152,7 +172,6 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
             }
         });
         backgroundAlpha(0.5f);
-
 
     }
 

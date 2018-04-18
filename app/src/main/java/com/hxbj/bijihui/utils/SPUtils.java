@@ -93,6 +93,7 @@ public class SPUtils {
      * @return 是否清除成功(如果不关注结果，可以使用apply)
      */
     public static boolean clear(Context context) {
+
         return false;
     }
 
@@ -103,7 +104,11 @@ public class SPUtils {
      * @throws Exception
      */
 
-    public static  void deleteAll() throws Exception {
+    public static  void deleteAll(Context context) throws Exception {
+        if (sp == null) {
+            sp = context.getSharedPreferences(SP_NAME, SP_MODE);
+        }
+        editor = sp.edit();
         editor.clear();
         editor.commit();
     }

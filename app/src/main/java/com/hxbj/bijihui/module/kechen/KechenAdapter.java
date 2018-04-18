@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.global.MyApp;
 
 import java.util.ArrayList;
 
@@ -41,13 +42,25 @@ public class KechenAdapter extends RecyclerView.Adapter<KechenAdapter.ViewHolder
                 holder.suo.setVisibility(View.GONE);
                 break;
             case 1:
-                holder.suo.setVisibility(View.VISIBLE);
+                if (MyApp.instance.getType().equals("会员")){
+                    holder.suo.setVisibility(View.GONE);
+                }else {
+                    holder.suo.setVisibility(View.VISIBLE);
+                }
                 break;
             case 2:
-                holder.suo.setVisibility(View.VISIBLE);
+                if (MyApp.instance.getType().equals("会员")){
+                    holder.suo.setVisibility(View.GONE);
+                }else {
+                    holder.suo.setVisibility(View.VISIBLE);
+                }
                 break;
             case 3:
-                holder.suo.setVisibility(View.VISIBLE);
+                if (MyApp.instance.getType().equals("会员")){
+                    holder.suo.setVisibility(View.GONE);
+                }else {
+                    holder.suo.setVisibility(View.VISIBLE);
+                }
                 break;
 
         }

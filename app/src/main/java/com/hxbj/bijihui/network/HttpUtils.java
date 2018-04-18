@@ -38,15 +38,18 @@ public class HttpUtils implements IHttp {
     // http://www.qq.com?name=xxx&pwd=xxx;
     @Override
     public <T> void get(String url, Map<String, String> params, final MyCallBack<T> callBack) {
-        StringBuffer sb = new StringBuffer(url);
-        sb.append("?");
-        Set<String> set = params.keySet();
-        for (String key : set) {
-            String value = params.get(key);
-            sb.append(key).append("=").append(value).append("&");
+        if (params!=null){
+            StringBuffer sb = new StringBuffer(url);
+            sb.append("?");
+            Set<String> set = params.keySet();
+            for (String key : set) {
+                String value = params.get(key);
+                sb.append(key).append("=").append(value).append("&");
+            }
+            url = sb.deleteCharAt(sb.length() - 1).toString();
         }
-        url = sb.deleteCharAt(sb.length() - 1).toString();
-        Request request = new Request.Builder().url(url).build();
+        Request request = new Request.Builder().url(url)
+                .addHeader("Authorization",MyApp.instance.getAuthorization()).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -61,14 +64,21 @@ public class HttpUtils implements IHttp {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String jsonData = response.body().string();
-                MyApp.mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onSuccess(getGeneric(jsonData, callBack));
 
-                    }
-                });
+                    final String jsonData = response.body().string();
+                    MyApp.mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                            callBack.onSuccess(getGeneric(jsonData, callBack));
+                            }catch (Exception i){
+
+                            }
+                        }
+                    });
+
+
+
             }
         });
 
@@ -102,14 +112,17 @@ public class HttpUtils implements IHttp {
 //        for (String key : set) {
 //            builder.add(key, params.get(key));
 //        }
-        params.put("Authorization", (String) SPUtils.get(MyApp.instance,"Authorization",""));
-        Gson gson = new Gson();
-        String jsonStr = gson.toJson(params);
-        builder.add("",jsonStr);
-//        LogUtils.e("TAG",jsonStr);
 //        FormBody body = builder.build();
-        RequestBody body=  RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr);
-        Request request = new Request.Builder().url(url).post(body).build();
+
+            Gson gson = new Gson();
+            String jsonStr = gson.toJson(params);
+            builder.add("",jsonStr);
+            RequestBody body=  RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr);
+
+
+        Request request = new Request.Builder().url(url)
+                .addHeader("Authorization",MyApp.instance.getAuthorization())
+                .post(body).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(Call call, final IOException e) {
@@ -123,13 +136,23 @@ public class HttpUtils implements IHttp {
 
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                final String jsonData = response.body().string();
-                MyApp.mContext.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        callBack.onSuccess(getGeneric(jsonData, callBack));
-                    }
-                });
+                try {
+                    final String jsonData = response.body().string();
+                    MyApp.mContext.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                callBack.onSuccess(getGeneric(jsonData, callBack));
+                            }catch (Exception i){
+
+                            }
+
+                        }
+                    });
+                }catch (Exception io){
+
+                }
+
 
             }
         });

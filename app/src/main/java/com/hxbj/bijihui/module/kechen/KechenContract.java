@@ -2,7 +2,6 @@ package com.hxbj.bijihui.module.kechen;
 
 import com.hxbj.bijihui.base.BasePresenter;
 import com.hxbj.bijihui.base.BaseView;
-import com.hxbj.bijihui.model.bean.HomeDataBean;
 
 public interface KechenContract {
     //View

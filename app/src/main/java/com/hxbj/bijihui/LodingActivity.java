@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.module.HomeActivity;
 import com.hxbj.bijihui.module.landing.LandingActivity;
 import com.hxbj.bijihui.utils.SPUtils;
@@ -20,6 +21,7 @@ public class LodingActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loding);
 
+
         //第一次进入
         if (StringUtils.isBlank((String) SPUtils.get(this, StringStatic.DIYICI,""))){
             startActivity(LandingActivity.getIntent(this));
@@ -31,8 +33,12 @@ public class LodingActivity extends BaseActivity {
                 finish();
             }else {
                 //登陆过
-                Intent intent=new Intent(this, HomeActivity.class);
-                startActivity(intent);
+                if (MyApp.instance.getType().equals("游客")){
+                    startActivity(LandingActivity.getIntent(this));
+                }else {
+                    startActivity(HomeActivity.getIntent(this));
+                }
+
                 finish();
             }
 
@@ -55,4 +61,5 @@ public class LodingActivity extends BaseActivity {
                             | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY);
         }
     }
+
 }

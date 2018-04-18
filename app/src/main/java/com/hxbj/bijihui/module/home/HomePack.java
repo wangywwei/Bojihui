@@ -19,6 +19,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.module.HomeActivity;
 import com.hxbj.bijihui.module.kechen.KechenActivity;
 import com.hxbj.bijihui.module.quanming.QuanMingActivity;
@@ -26,6 +27,7 @@ import com.hxbj.bijihui.utils.AudioRecoderUtils;
 import com.hxbj.bijihui.utils.LogUtils;
 import com.hxbj.bijihui.utils.SPUtils;
 import com.hxbj.bijihui.utils.StringStatic;
+import com.hxbj.bijihui.utils.StringUtils;
 import com.hxbj.bijihui.utils.TimeUtils;
 import com.hxbj.bijihui.utils.ToastUtils;
 import com.hxbj.bijihui.view.ArcProgress;
@@ -51,6 +53,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     private ImageView quanminzhanshi;
     private AudioRecoderUtils mAudioRecoderUtils;
     private MediaPlayer mediaPlayer;
+    private String armpath;
 
     public HomePack(Activity context) {
         this(context, null);
@@ -81,8 +84,9 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
 
         mediaPlayer = new MediaPlayer();
         mediaPlayer.reset();
+        armpath = MyApp.instance.getSoundUrl();
         try {
-            mediaPlayer.setDataSource((String) SPUtils.get(context, StringStatic.FILEPATH, ""));
+            mediaPlayer.setDataSource(armpath);
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -111,7 +115,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             @Override
             public void onStop(String filePath) {
                 LogUtils.e("TAG", filePath);
-                SPUtils.put(context, StringStatic.FILEPATH, filePath);
+                MyApp.instance.setSoundUrl(filePath);
                 try {
                     mediaPlayer.setDataSource(filePath);
                     mediaPlayer.prepare();
@@ -129,7 +133,10 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nahandemubiao:
-                initNahan();
+                if (!MyApp.instance.getType().equals("游客")){
+                    initNahan();
+                }
+
 
                 break;
             case R.id.daka1:
@@ -229,7 +236,12 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
                 if (mediaPlayer.isPlaying()) {
                     return;
                 } else {
-                    mediaPlayer.start();
+                    if (StringUtils.isBlank(armpath)){
+                        ToastUtils.showToast(context,"您还没有录制呐喊目标，请录制！");
+                    }else {
+                        mediaPlayer.start();
+                    }
+
                 }
             }
         });

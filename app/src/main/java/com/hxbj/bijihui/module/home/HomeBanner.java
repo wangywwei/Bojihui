@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.model.bean.HomeBannerBean;
 import com.hxbj.bijihui.utils.GlidUtils;
 
 import java.util.ArrayList;
@@ -23,42 +24,24 @@ import java.util.TimerTask;
 public class HomeBanner extends LinearLayout {
     private Activity context;
 
-    private ArrayList<String> images = new ArrayList<>();
+    private ArrayList<HomeBannerBean.DataBean> images = new ArrayList<>();
     private ViewPager banner;
     private LinearLayout mLayout;
 
     private Timer mTimer;
+    private HomeBannerAdapter mAdapter;
+    private HomeBannerBean homeBannerBean;
+    private View view;
 
-    public HomeBanner(Activity context) {
-        this(context,null);
+    public void setHomeBannerBean(HomeBannerBean homeBannerBean) {
+        this.homeBannerBean = homeBannerBean;
+        images.addAll(homeBannerBean.getData());
 
-    }
-
-    public HomeBanner(Activity context, @Nullable AttributeSet attrs) {
-        this(context, attrs,0);
-    }
-
-    public HomeBanner(Activity context, @Nullable AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
-        this.context = context;
-        initView();
-    }
-
-    private void initView() {
-        View view = LayoutInflater.from(context).inflate(R.layout.home_banner, this);
-        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018012301.png");
-        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018012202.png");
-        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018012303.png");
-        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018020815072481729990.JPG");
-        images.add("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/images/2018030615084479647358.png");
-        mLayout=view.findViewById(R.id.mlayout);
-        banner = view.findViewById(R.id.banner);
-        HomeBannerAdapter mAdapter = new HomeBannerAdapter(images,context);
+        mAdapter = new HomeBannerAdapter(images,context);
         banner.setAdapter(mAdapter);
         banner.setCurrentItem(100000);
         mTimer = new Timer(true);
         mTimer.schedule(mTask, 3000, 3000);
-
 
         for (int i = 0; i < images.size(); i++) {
             View zhishiqi = new View(context);
@@ -102,6 +85,29 @@ public class HomeBanner extends LinearLayout {
 
             }
         });
+
+        mAdapter.notifyDataSetChanged();
+    }
+
+    public HomeBanner(Activity context) {
+        this(context,null);
+    }
+
+    public HomeBanner(Activity context, @Nullable AttributeSet attrs) {
+        this(context, attrs,0);
+    }
+
+    public HomeBanner(Activity context, @Nullable AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr);
+        this.context = context;
+        initView();
+    }
+
+    private void initView() {
+        view = LayoutInflater.from(context).inflate(R.layout.home_banner, this);
+        mLayout= view.findViewById(R.id.mlayout);
+        banner = view.findViewById(R.id.banner);
+
 
     }
 

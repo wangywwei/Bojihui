@@ -1,7 +1,9 @@
 package com.hxbj.bijihui.model;
 
 
+import com.hxbj.bijihui.model.bean.HomeBannerBean;
 import com.hxbj.bijihui.model.bean.LoginBean;
+import com.hxbj.bijihui.model.bean.OssBean;
 import com.hxbj.bijihui.network.MyCallBack;
 
 /**
@@ -9,14 +11,13 @@ import com.hxbj.bijihui.network.MyCallBack;
  */
 
 public interface BojihuiModel {
-
-//    /**
-//     * 首页数据
-//     * @param callBack
-//     */
-//    void getHomeData(MyCallBack<HomeDataBean> callBack);
-
-
+    //用户信息
     void getLogin(MyCallBack<LoginBean> callBack, String iphone);
+    //首页banner
+    void getBanner(MyCallBack<HomeBannerBean> callBack);
+    //首页banner
+    void getUpdateUser(MyCallBack<LoginBean> callBack,String nickname,String sex,String picUrl,String birthday,String keyWord);
 
+    //首页banner
+    void getOSSToken(MyCallBack<OssBean> callBack);
 }

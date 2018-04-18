@@ -26,6 +26,8 @@
             android:layout_width="@dimen/man_182dp"
             android:layout_height="@dimen/man_160dp" />
         <TextView
+            android:layout_marginLeft="@dimen/man_10dp"
+            android:layout_marginRight="@dimen/man_10dp"
             android:id="@+id/jihuo"
             android:gravity="center_horizontal"
             android:layout_marginTop="@dimen/man_24dp"

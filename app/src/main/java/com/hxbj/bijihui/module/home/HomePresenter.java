@@ -2,6 +2,9 @@ package com.hxbj.bijihui.module.home;
 
 
 import com.hxbj.bijihui.model.BojihuiModelImp;
+import com.hxbj.bijihui.model.bean.HomeBannerBean;
+import com.hxbj.bijihui.model.bean.LoginBean;
+import com.hxbj.bijihui.network.MyCallBack;
 
 /**
  * <p>
@@ -22,18 +25,33 @@ public class HomePresenter implements HomeContract.HomePresenter {
     @Override
     public void start() {
         //处理相关业务逻辑
-//        modelImp.getHomeData(new MyCallBack<HomeDataBean>() {
-//            @Override
-//            public void onSuccess(HomeDataBean homeDataBean) {
-//                //P层是桥梁 将Model层获取的数据交给View层更新UI
-//                homeView.setResultData(homeDataBean);
-//            }
-//
-//            @Override
-//            public void onFaile(String msg) {
-//
-//            }
-//        });
+        modelImp.getBanner(new MyCallBack<HomeBannerBean>() {
+            @Override
+            public void onSuccess(HomeBannerBean homeDataBean) {
+                //P层是桥梁 将Model层获取的数据交给View层更新UI
+                homeView.setResultData(homeDataBean);
+            }
 
+            @Override
+            public void onFaile(String msg) {
+
+            }
+        });
+
+    }
+
+    @Override
+    public void userInfo(String iphone) {
+        modelImp.getLogin(new MyCallBack<LoginBean>() {
+            @Override
+            public void onSuccess(LoginBean loginBean) {
+                homeView.setUserinfo(loginBean);
+            }
+
+            @Override
+            public void onFaile(String msg) {
+
+            }
+        }, iphone);
     }
 }

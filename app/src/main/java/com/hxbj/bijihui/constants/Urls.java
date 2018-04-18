@@ -7,13 +7,17 @@ public class Urls {
 
     //登陸
     public static final String LOGIN = BASEURL+"login";
+    //个人信息
+    public static final String USERINFO = BASEURL+"api/userInfo";
+    //首页banner
+    public static final String BANNER = BASEURL+"api/contents";
+    //修改用户信息
+    public static final String UPDATEUSER = BASEURL+"api/updateUser";
 
 
 
-
+    //上传
+    public static final String GETOSSTOKEN = BASEURL+"api/getOSSToken";
     public static final String OSS = "oss-cn-beijing.aliyuncs.com";
-    public static final String OSSHTML = "heixiaong-club.oss-cn-beijing.aliyuncs.com/html/";
-    public static final String OSSIMAGES = "heixiaong-club.oss-cn-beijing.aliyuncs.com/images/";
-    public static final String OSSSOUND = "heixiaong-club.oss-cn-beijing.aliyuncs.com/sound/";
-    public static final String OSSVODIO = "heixiaong-club.oss-cn-beijing.aliyuncs.com/vodio/";
+
 }

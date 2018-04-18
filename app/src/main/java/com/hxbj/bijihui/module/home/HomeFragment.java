@@ -7,12 +7,12 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.widget.PopupWindow;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseFragment;
-import com.hxbj.bijihui.model.bean.HomeDataBean;
+import com.hxbj.bijihui.global.MyApp;
+import com.hxbj.bijihui.model.bean.HomeBannerBean;
+import com.hxbj.bijihui.model.bean.LoginBean;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
 public class HomeFragment extends BaseFragment implements HomeContract.HomeView {
@@ -49,8 +49,18 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
 
 
     @Override
-    public void setResultData(HomeDataBean bean) {
+    public void setResultData(HomeBannerBean homeBannerBean) {
         //更新UI
+        if (homeBannerBean.getCode()==2000){
+            homeBanner.setHomeBannerBean(homeBannerBean);
+        }
+    }
+
+    @Override
+    public void setUserinfo(LoginBean loginBean) {
+        if (loginBean.getCode()==2000){
+            homeMy.setHomeBannerBean(loginBean);
+        }
 
     }
 
@@ -59,6 +69,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
         //通过P层处理相关业务逻辑
         mHomePresenter = new HomePresenter(this);
         mHomePresenter.start();
+        mHomePresenter.userInfo(MyApp.instance.getIphone());
     }
 
 

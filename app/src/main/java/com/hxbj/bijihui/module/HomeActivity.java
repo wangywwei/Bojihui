@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.base.FragmentManager;
+import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.module.geren.LianxiActivity;
 import com.hxbj.bijihui.module.home.HomeFragment;
 import com.hxbj.bijihui.module.landing.GerenActivity;
@@ -57,7 +58,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private AudioRecoderUtils mAudioRecoderUtils;
     private ImageView yinyue;
     private ArcProgress myProgress;
-    private Thread thread;
     private TextView mubiao;
     private TextView time;
     private ImageView bofang;
@@ -82,7 +82,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
     private TextView cehua_back;
 
     private PopupWindow popupWindow;
-    private PopupWindow chehuapo;
     private RelativeLayout main_left_drawer_layout;
     private MediaPlayer mediaPlayer;
 
@@ -94,10 +93,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_home);
         AppUtils.setTitle(this);
         initView();
+
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 if (StringUtils.isBlank((String) SPUtils.get(HomeActivity.this, StringStatic.DIYICI, ""))) {
-                    initData();
+                    if (!MyApp.instance.getType().equals("游客")){
+                        initData();
+                    }
                 }
 //                initData();
             }
@@ -130,7 +132,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
         mediaPlayer = new MediaPlayer();
         mediaPlayer.reset();
-        armpath = (String) SPUtils.get(this, StringStatic.FILEPATH, "");
+        armpath = MyApp.instance.getSoundUrl();
         if (!StringUtils.isBlank(armpath)) {
             try {
                 mediaPlayer.setDataSource(armpath);
@@ -168,7 +170,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
             @Override
             public void onStop(String filePath) {
                 LogUtils.e("TAG", filePath);
-                SPUtils.put(HomeActivity.this, StringStatic.FILEPATH, filePath);
+                MyApp.instance.setSoundUrl(filePath);
                 try {
                     mediaPlayer.setDataSource(filePath);
                     mediaPlayer.prepare();
@@ -320,8 +322,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener {
 
                 break;
             case R.id.cehua_back:
-                SPUtils.clear(HomeActivity.this);
+                try {
+                    SPUtils.deleteAll(HomeActivity.this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 startActivity(LandingActivity.getIntent(HomeActivity.this));
+                finish();
                 break;
             case R.id.cehua_touxiang:
                 startActivity(GerenActivity.getIntent(HomeActivity.this, "no"));

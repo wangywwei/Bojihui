@@ -10,7 +10,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.global.MyApp;
+import com.hxbj.bijihui.model.bean.HomeBannerBean;
+import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.module.landing.GerenActivity;
+import com.hxbj.bijihui.utils.GlidUtils;
+import com.hxbj.bijihui.utils.SPUtils;
+import com.hxbj.bijihui.utils.StringStatic;
+import com.hxbj.bijihui.utils.StringUtils;
 
 /*
 * 首页第2快
@@ -26,6 +33,31 @@ public class HomeMy extends LinearLayout implements View.OnClickListener {
     private TextView daka;
     private TextView xunlian;
     private TextView weixue;
+    private LoginBean loginBean;
+
+    public void setHomeBannerBean(LoginBean loginBean) {
+        this.loginBean = loginBean;
+        GlidUtils.setGrid2(context,loginBean.getData().getPicUrl(),home_touxiang);
+        if (StringUtils.isBlank((String) SPUtils.get(context, StringStatic.ISDENGLU,""))){
+            home_name.setText("游客");
+        }else {
+            if (StringUtils.isBlank(loginBean.getData().getNickname())){
+                home_name.setText(MyApp.instance.getIphone());
+            }else {
+                home_name.setText(loginBean.getData().getNickname());
+            }
+        }
+        if (loginBean.getData().getType().equals("会员")){
+            home_huiyuan.setVisibility(VISIBLE);
+        }else {
+            home_huiyuan.setVisibility(GONE);
+        }
+
+        home_jinyan.setText(loginBean.getData().getExperience()+"");
+        daka.setText(loginBean.getData().getPunch()+"");
+        xunlian.setText(loginBean.getData().getOldCourse()+"");
+        daka.setText(loginBean.getData().getNewCourse()+"");
+    }
 
     public HomeMy(Context context) {
         this(context, null);

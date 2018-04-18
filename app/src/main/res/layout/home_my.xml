@@ -20,9 +20,11 @@
             android:orientation="vertical"
             android:layout_marginLeft="@dimen/man_24dp"
             android:layout_below="@id/home_touxiang"
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/man_64dp"
             android:layout_height="wrap_content">
             <TextView
+                android:ellipsize="end"
+                android:singleLine="true"
                 android:id="@+id/home_name"
                 android:textColor="@color/color_F2B95A"
                 android:textSize="@dimen/text_16sp"
@@ -60,7 +62,7 @@
                 android:textColor="@color/color_F2B95A"
                 android:textSize="@dimen/text_20sp"
                 android:text="56823"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
             <TextView
@@ -103,6 +105,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/text_12sp"
                     android:textColor="@color/color_F2B95A"
                     android:text="累计打卡"
@@ -126,6 +130,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/text_12sp"
                     android:textColor="@color/color_F2B95A"
                     android:text="完成训练"
@@ -149,6 +155,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:ellipsize="end"
+                    android:singleLine="true"
                     android:textSize="@dimen/text_12sp"
                     android:textColor="@color/color_F2B95A"
                     android:text="为学课程"

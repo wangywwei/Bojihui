@@ -28,23 +28,22 @@ public class LandingPresenter implements LandingContract.LandingPresenter {
 
     public LandingPresenter(LandingContract.LancingView lancingView) {
         this.lancingView = lancingView;
-        bojihuiModelImp=new BojihuiModelImp();
+        bojihuiModelImp = new BojihuiModelImp();
         lancingView.setPresenter(this);
     }
 
     @Override
-    public void start() {
-        OkHttpClient mOkHttpClient=new OkHttpClient();
+    public void start(String iphone, String yanzhengma) {
+        OkHttpClient mOkHttpClient = new OkHttpClient();
         FormBody.Builder builder = new FormBody.Builder();
-
         Map<String, String> params = new HashMap<String, String>();
-        params.put("iphone", "17600996535");
-        params.put("password", "123123");
+        params.put("iphone", iphone);
+        params.put("password", yanzhengma);
         Gson gson = new Gson();
         String jsonStr = gson.toJson(params);
-        builder.add("",jsonStr);
+        builder.add("", jsonStr);
 
-        RequestBody body=  RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr);
+        RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonStr);
         Request request = new Request.Builder().url(Urls.LOGIN).post(body).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -58,6 +57,28 @@ public class LandingPresenter implements LandingContract.LandingPresenter {
                 lancingView.setResultData(jsonData);
             }
         });
+
+    }
+
+    @Override
+    public void userInfo(String iphone) {
+        bojihuiModelImp.getLogin(new MyCallBack<LoginBean>() {
+            @Override
+            public void onSuccess(LoginBean loginBean) {
+
+                lancingView.setUserinfo(loginBean);
+            }
+
+            @Override
+            public void onFaile(String msg) {
+
+            }
+        }, iphone);
+
+    }
+
+    @Override
+    public void start() {
 
     }
 }
