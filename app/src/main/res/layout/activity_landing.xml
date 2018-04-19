@@ -116,7 +116,7 @@
                 android:layout_width="@dimen/man_187dp"
                 android:layout_height="@dimen/man_44dp" />
 
-            <TextView
+            <com.hxbj.bijihui.utils.CountDownTextView
                 android:id="@+id/landing_yanzhengbutton"
                 android:textSize="@dimen/text_16sp"
                 android:gravity="center"

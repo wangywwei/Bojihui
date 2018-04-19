@@ -37,6 +37,8 @@ public class MyApp extends Application {
     private String birthday;//生日
     private String soundUrl;
     private String type;
+    private String level;
+    private String id;
 
     /*
     * 保存用户信息
@@ -53,15 +55,49 @@ public class MyApp extends Application {
         this.birthday=user.getBirthday();
         this.soundUrl=user.getSoundUrl();
         this.type=user.getType();
+        this.level=user.getLevel();
+        this.id=user.getId();
 
-        setIphone(iphone);
-        setBirthday(birthday);
-        setKeyWord(keyWord);
-        setNickname(nickname);
-        setPicUrl(picUrl);
-        setSex(sex);
-        setSoundUrl(soundUrl);
-        setType(type);
+        SPUtils.put(activity, "id", id);
+        SPUtils.put(activity, "type", type);
+        SPUtils.put(activity, "iphone", iphone);
+        SPUtils.put(activity, "keyWord", keyWord);
+        SPUtils.put(activity, "nickname", nickname);
+        SPUtils.put(activity, "sex", sex);
+        SPUtils.put(activity, "picUrl", picUrl);
+        SPUtils.put(activity, "birthday", birthday);
+        SPUtils.put(activity, "soundUrl", soundUrl);
+        SPUtils.put(activity, "level", level);
+    }
+
+    public String getId() {
+        if (!TextUtils.isEmpty(id)) {
+            return id;
+        } else {
+            return (String) SPUtils.get(this, "id", "");
+        }
+    }
+
+    public void setId(String id) {
+        if (!TextUtils.isEmpty(id)) {
+            this.id = id;
+            SPUtils.put(this, "id", id);
+        }
+    }
+
+    public String getLevel() {
+        if (!TextUtils.isEmpty(level)) {
+            return level;
+        } else {
+            return (String) SPUtils.get(this, "level", "");
+        }
+    }
+
+    public void setLevel(String level) {
+        if (!TextUtils.isEmpty(level)) {
+            this.level = level;
+            SPUtils.put(this, "level", level);
+        }
     }
 
     public String getType() {

@@ -13,9 +13,10 @@ import com.hxbj.bijihui.base.BaseFragment;
 import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.model.bean.HomeBannerBean;
 import com.hxbj.bijihui.model.bean.LoginBean;
+import com.hxbj.bijihui.utils.LogUtils;
 import com.jcodecraeer.xrecyclerview.XRecyclerView;
 
-public class HomeFragment extends BaseFragment implements HomeContract.HomeView {
+public class HomeFragment extends BaseFragment implements HomeContract.HomeView ,HomePack.OnItemclickLinter{
     //TODO mHomePresenter未初始化
     private HomeContract.HomePresenter mHomePresenter;
     private View view;
@@ -25,13 +26,18 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
     private HomeMy homeMy;
     private HomePack homePack;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        initData();
+    }
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         if (view == null) {
             view = inflater.inflate(R.layout.home_fragment, null);
             initView(view);
-            initData();
         } else {
             // 缓存的rootView需要判断是否已经被加过parent，如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
             ViewGroup parent = (ViewGroup) view.getParent();
@@ -59,13 +65,16 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
     @Override
     public void setUserinfo(LoginBean loginBean) {
         if (loginBean.getCode()==2000){
-            homeMy.setHomeBannerBean(loginBean);
+            MyApp.instance.saveLogin(loginBean.getData(),getActivity());
+            homeMy.setHomeMyBean(loginBean);
+            homePack.setHomePackBean(loginBean);
+            upData.upData(loginBean);
         }
 
     }
 
 
-    protected void initData() {
+    public void initData() {
         //通过P层处理相关业务逻辑
         mHomePresenter = new HomePresenter(this);
         mHomePresenter.start();
@@ -74,9 +83,8 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
 
 
     protected void initView(View view) {
-        xrecyclerview = (XRecyclerView) view.findViewById(R.id.xrecyclerview);
+        xrecyclerview = view.findViewById(R.id.xrecyclerview);
         adapter = new HomedAdapter();
-
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         xrecyclerview.setLayoutManager(layoutManager);
@@ -92,6 +100,7 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
 
         //首页呐喊与打卡
         homePack = new HomePack(getActivity());
+        homePack.setOnItemclickLinter(this);
         xrecyclerview.addHeaderView(homePack);
 
 
@@ -100,6 +109,9 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
         xrecyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
+                LogUtils.e("Authorization",MyApp.instance.getAuthorization()+"");
+                mHomePresenter.start();
+                mHomePresenter.userInfo(MyApp.instance.getIphone());
                 xrecyclerview.refreshComplete();//刷新完成
             }
 
@@ -122,4 +134,21 @@ public class HomeFragment extends BaseFragment implements HomeContract.HomeView 
         }
         super.onDestroy();
     }
+
+    @Override
+    public void onItemClicj() {
+        initData();
+    }
+
+
+    public interface UpData{
+        public void upData(LoginBean loginBean);
+    }
+
+    private UpData upData;
+
+    public void setUpData(UpData upData) {
+        this.upData = upData;
+    }
+
 }

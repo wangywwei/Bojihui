@@ -18,12 +18,30 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.OSS;
+import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.ServiceException;
+import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
+import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
+import com.alibaba.sdk.android.oss.model.PutObjectRequest;
+import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.constants.Urls;
 import com.hxbj.bijihui.global.MyApp;
+import com.hxbj.bijihui.model.bean.LoginBean;
+import com.hxbj.bijihui.model.bean.OssBean;
 import com.hxbj.bijihui.module.HomeActivity;
 import com.hxbj.bijihui.module.kechen.KechenActivity;
 import com.hxbj.bijihui.module.quanming.QuanMingActivity;
+import com.hxbj.bijihui.network.HttpFactory;
+import com.hxbj.bijihui.network.MyCallBack;
 import com.hxbj.bijihui.utils.AudioRecoderUtils;
+import com.hxbj.bijihui.utils.GlidUtils;
 import com.hxbj.bijihui.utils.LogUtils;
 import com.hxbj.bijihui.utils.SPUtils;
 import com.hxbj.bijihui.utils.StringStatic;
@@ -36,8 +54,14 @@ import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 
+import org.apache.commons.lang.RandomStringUtils;
+
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /*
  * 首页第三块
@@ -54,6 +78,14 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     private AudioRecoderUtils mAudioRecoderUtils;
     private MediaPlayer mediaPlayer;
     private String armpath;
+
+    private LoginBean loginBean;
+
+    public void setHomePackBean(LoginBean loginBean) {
+        this.loginBean=loginBean;
+
+
+    }
 
     public HomePack(Activity context) {
         this(context, null);
@@ -84,9 +116,9 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
 
         mediaPlayer = new MediaPlayer();
         mediaPlayer.reset();
-        armpath = MyApp.instance.getSoundUrl();
+
         try {
-            mediaPlayer.setDataSource(armpath);
+            mediaPlayer.setDataSource(MyApp.instance.getSoundUrl());
             mediaPlayer.prepare();
         } catch (IOException e) {
             e.printStackTrace();
@@ -115,7 +147,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             @Override
             public void onStop(String filePath) {
                 LogUtils.e("TAG", filePath);
-                MyApp.instance.setSoundUrl(filePath);
+                armpath=filePath;
                 try {
                     mediaPlayer.setDataSource(filePath);
                     mediaPlayer.prepare();
@@ -136,12 +168,10 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
                 if (!MyApp.instance.getType().equals("游客")){
                     initNahan();
                 }
-
-
                 break;
             case R.id.daka1:
                 initDaka();
-
+                initdaka2();
                 break;
             case R.id.home_quanbukecheng:
                 context.startActivity(KechenActivity.getIntent(context));
@@ -151,6 +181,25 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
                 break;
 
         }
+    }
+
+    private void initdaka2() {
+        Map<String ,String> map=new HashMap<>();
+        map.put("iphone", MyApp.instance.getIphone());
+        map.put("punch", "1");
+        HttpFactory.create().post(Urls.UPDATEUSER, map, new MyCallBack<LoginBean>() {
+            @Override
+            public void onSuccess(LoginBean loginBean) {
+
+
+            }
+
+            @Override
+            public void onFaile(String msg) {
+
+            }
+        });
+
     }
 
     private ImageView qiandaotu;
@@ -184,6 +233,21 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         fenxiangpengyouquan = dakaview.findViewById(R.id.fenxiangpengyouquan);
         fenxiangweibo = dakaview.findViewById(R.id.fenxiangweibo);
 
+        GlidUtils.setGrid2(context,MyApp.instance.getPicUrl(),daka_touxiang);
+        if (StringUtils.isBlank(MyApp.instance.getNickname())){
+            daka_name.setText(MyApp.instance.getIphone());
+        }else {
+            daka_name.setText(MyApp.instance.getNickname());
+        }
+
+
+        if (MyApp.instance.getType().equals("会员")){
+            daka_huiyuan.setVisibility(VISIBLE);
+        }else {
+            daka_huiyuan.setVisibility(GONE);
+        }
+
+        daka_liangji.setText(MyApp.instance.getLevel());
         ImageView guanbi = dakaview.findViewById(R.id.guanbi);
         guanbi.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -230,13 +294,14 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             }
         });
 
+        time.setText(loginBean.getData().getSoundTime()+"目标");
         bofang.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mediaPlayer.isPlaying()) {
                     return;
                 } else {
-                    if (StringUtils.isBlank(armpath)){
+                    if (StringUtils.isBlank(MyApp.instance.getSoundUrl())){
                         ToastUtils.showToast(context,"您还没有录制呐喊目标，请录制！");
                     }else {
                         mediaPlayer.start();
@@ -249,6 +314,9 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         newbutton.setOnTouchListener(onTouchListener);
     }
 
+    private String accessKeySecret;
+    private String accessKeyId;
+    private String securityToken;
 
     View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
@@ -278,6 +346,13 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
                                         mAudioRecoderUtils.stopRecord();
                                     }
 
+                                    if (StringUtils.isBlank(accessKeyId)){
+                                        gettokent();
+                                    }else {
+                                        if (!StringUtils.isBlank(armpath)){
+                                            setShangChuan(armpath);
+                                        }
+                                    }
 
                                     break;
                             }
@@ -308,14 +383,106 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         context.getWindow().setAttributes(lp);
     }
 
+    public void gettokent() {
+        HttpFactory.create().get(Urls.GETOSSTOKEN, null, new MyCallBack<OssBean>() {
+            @Override
+            public void onSuccess(OssBean ossBean) {
+                if (ossBean.getCode()==2000){
+                    accessKeySecret=ossBean.getData().getAccessKeySecret();
+                    accessKeyId=ossBean.getData().getAccessKeyId();
+                    securityToken=ossBean.getData().getSecurityToken();
+                    if (!StringUtils.isBlank(armpath)){
+                        setShangChuan(armpath);
+                    }
+                }
+            }
+
+            @Override
+            public void onFaile(String msg) {
+
+            }
+        });
+    }
+
+    public void setShangChuan(String shangChuan) {
+        if (StringUtils.isBlank(accessKeyId)){
+            return;
+        }
+        String endpoint = "oss-cn-beijing.aliyuncs.com";
+        // 明文设置secret的方式建议只在测试时使用，更多鉴权模式请参考访问控制章节
+        // 也可查看sample 中 sts 使用方式了解更多(https://github.com/aliyun/aliyun-oss-android-sdk/tree/master/app/src/main/java/com/alibaba/sdk/android/oss/app)
+        OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(
+                accessKeyId,
+                accessKeySecret,
+                securityToken);
+        //该配置类如果不设置，会有默认配置，具体可看该类
+        ClientConfiguration conf = new ClientConfiguration();
+        conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+        conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+        conf.setMaxConcurrentRequest(5); // 最大并发请求数，默认5个
+        conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+        OSS oss = new OSSClient(context.getApplicationContext(), endpoint, credentialProvider);
+
+//        String originalFilename=".amr";
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+//        //重命名文件名称
+//        String fileName = sdf.format(new Date());
+//        //随机5位数
+//        String random  = RandomStringUtils.randomNumeric(5);
+//        if (originalFilename.lastIndexOf(".") != -1){
+//            fileName = fileName+random+originalFilename.substring(originalFilename.lastIndexOf("."));
+//        }
+
+        PutObjectRequest put = new PutObjectRequest("heixiong-club", "sound/"+MyApp.instance.getId()+".amr", shangChuan);
+        // 异步上传时可以设置进度回调
+        put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+            @Override
+            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+//                Log.e("TAG--PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+            }
+        });
+//        final String finalFileName = fileName;
+        OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+            @Override
+            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+                Map<String ,String> map=new HashMap<>();
+                map.put("iphone", MyApp.instance.getIphone());
+                map.put("soundUrl", MyApp.instance.getId()+".amr");
+                HttpFactory.create().post(Urls.UPDATEUSER, map, new MyCallBack<LoginBean>() {
+                    @Override
+                    public void onSuccess(LoginBean loginBean) {
+                        MyApp.instance.saveLogin(loginBean.getData(),context);
+
+                    }
+
+                    @Override
+                    public void onFaile(String msg) {
+
+                    }
+                });
+
+            }
+            @Override
+            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+                // 请求异常
+                ToastUtils.showToast(context,"服务器异常");
+
+            }
+        });
+
+
+    }
+
     /**
      * 添加新笔记时弹出的popWin关闭的事件，主要是为了将背景透明度改回来
      */
     class popupDismissListener implements PopupWindow.OnDismissListener {
-
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
+            if (null!=onItemclickLinter){
+                onItemclickLinter.onItemClicj();
+            }
         }
 
     }
@@ -330,4 +497,15 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             dakapopo = null;
         }
     }
+
+    public interface OnItemclickLinter{
+        public void onItemClicj();
+    }
+
+    private OnItemclickLinter onItemclickLinter;
+
+    public void setOnItemclickLinter(OnItemclickLinter onItemclickLinter) {
+        this.onItemclickLinter = onItemclickLinter;
+    }
+
 }

@@ -19,6 +19,7 @@ import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.module.HomeActivity;
 import com.hxbj.bijihui.utils.AppUtils;
+import com.hxbj.bijihui.utils.CountDownTextView;
 import com.hxbj.bijihui.utils.LogUtils;
 import com.hxbj.bijihui.utils.SPUtils;
 import com.hxbj.bijihui.utils.StringStatic;
@@ -40,7 +41,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     private ImageView landing_guanbi;
     private EditText landing_shouji;
     private EditText landing_yanzheng;
-    private TextView landing_yanzhengbutton;
+    private CountDownTextView landing_yanzhengbutton;
     private TextView landing;
     private LinearLayout shoujideng;
 
@@ -86,9 +87,10 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_guanbi = (ImageView) findViewById(R.id.landing_guanbi);
         landing_shouji = (EditText) findViewById(R.id.landing_shouji);
         landing_yanzheng = (EditText) findViewById(R.id.landing_yanzheng);
-        landing_yanzhengbutton = (TextView) findViewById(R.id.landing_yanzhengbutton);
+        landing_yanzhengbutton = (CountDownTextView) findViewById(R.id.landing_yanzhengbutton);
         landing = (TextView) findViewById(R.id.landing);
         shoujideng = (LinearLayout) findViewById(R.id.shoujideng);
+
 
         landing_shoujidenglu.setOnClickListener(this);
         landing_guanbi.setOnClickListener(this);
@@ -126,6 +128,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
             case R.id.landing_yanzhengbutton:
                 if (AppUtils.isMobileNO(iphone)){
+                    landing_yanzhengbutton.start();
 
                 }else {
                     ToastUtils.showToast(this,"请输入正确的手机号");
@@ -150,11 +153,11 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     @Override
     public void setUserinfo(LoginBean loginBean) {
         if (loginBean.getCode()==2000){
-            try {
-                SPUtils.deleteAll(this);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+//            try {
+//                SPUtils.deleteAll(this);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
             MyApp.instance.saveLogin(loginBean.getData(),this);
             SPUtils.put(this,StringStatic.ISDENGLU,"login");
             if (StringUtils.isBlank((String) SPUtils.get(this, StringStatic.DIYICI,""))){

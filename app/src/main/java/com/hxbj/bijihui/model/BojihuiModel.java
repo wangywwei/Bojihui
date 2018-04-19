@@ -1,6 +1,7 @@
 package com.hxbj.bijihui.model;
 
 
+import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.HomeBannerBean;
 import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.model.bean.OssBean;
@@ -20,4 +21,13 @@ public interface BojihuiModel {
 
     //首页banner
     void getOSSToken(MyCallBack<OssBean> callBack);
+
+    //官方视频
+    void getVideo(MyCallBack<GuanVideoBean> callBack, String grade, String actionType);
+
+    //排行视频
+    void getPaihanVideo(MyCallBack<GuanVideoBean> callBack, String pageCurrent, String pageSize,String sortType);
+
+    //个人视频
+    void getGerenVideo(MyCallBack<GuanVideoBean> callBack);
 }

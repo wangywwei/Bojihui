@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.video.VideoView;
 
@@ -19,10 +20,10 @@ import java.util.ArrayList;
 
 public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Kecheng> list;
+    private ArrayList<GuanVideoBean.DataBean> list;
 
 
-    public PaihangAdapter(Context context, ArrayList<Kecheng> list) {
+    public PaihangAdapter(Context context, ArrayList<GuanVideoBean.DataBean> list) {
         this.context = context;
         this.list = list;
     }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseFragment;
+import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.utils.SPUtils;
 import com.hxbj.bijihui.utils.StringUtils;
 import com.hxbj.bijihui.utils.ToastUtils;
@@ -133,7 +134,14 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
     }
 
     @Override
-    public void setResultData(String resultData) {
+    public void setResultData(GuanVideoBean guanVideoBean) {
+        for (int i = 0; i <guanVideoBean.getData().size() ; i++) {
+            if (guanVideoBean.getData().get(i).getUserId().equals("0")){
+                url=guanVideoBean.getData().get(i).getVideoUrl();
+//                imgurl=guanVideoBean.getData().get(i).getVideoUrl();
+                title=guanVideoBean.getData().get(i).getTitle();
+            }
+        }
 
     }
 
@@ -142,33 +150,11 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
         this.gerenPresenter = gerenPresenter;
     }
 
-    private String url = "http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/videos/outputCut.mp4";
-    private String imgurl = "";
-    private String title = "";
+    private String url ;
+    private String imgurl ;
+    private String title ;
     private int jindu;
     private boolean luzhiquanxian;
-
-    private void initquanxian() {
-        AndPermission.with(this)
-                .permission(Permission.WRITE_EXTERNAL_STORAGE,
-                        Permission.READ_EXTERNAL_STORAGE,
-                        Permission.CAMERA,
-                        Permission.RECORD_AUDIO
-                )
-                .onGranted(new Action() {
-                    @Override
-                    public void onAction(List<String> permissions) {
-                        luzhiquanxian = true;
-                    }
-                }).onDenied(new Action() {
-            @Override
-            public void onAction(List<String> permissions) {
-                luzhiquanxian = false;
-            }
-        }).start();
-
-    }
-
     private int zannum1 = 0;
     private boolean ISzannum1;
 

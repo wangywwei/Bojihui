@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.module.home.HomedAdapter;
 import com.hxbj.bijihui.utils.AppUtils;
@@ -32,11 +33,12 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
     private KeChengXQAdapter adapter;
     private VideoView videoView;
 
-    public static Intent getIntent(Context context) {
+    public static Intent getIntent(Context context,String grade) {
         Intent intent = new Intent(context, KeChengXQActivity.class);
+        intent.putExtra("grade",grade);
         return intent;
     }
-
+    private String grade;
     private ImageView back;
     private TextView yaobu_text;
     private View yaobu_view;
@@ -44,27 +46,34 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
     private TextView shoubi_text;
     private View shoubi_view;
     private LinearLayout shoubi;
+    private LinearLayout tiyankecheng;
     private TextView bufa_text;
     private View bufa_view;
     private LinearLayout bufa;
     private XRecyclerView kecheng_xrecyclerview;
-
+    private String actionType="初级阶段";
     private KechengXQContract.KechengXQPresenter kechengXQPresenter;
 
-    private ArrayList<Kecheng> list = new ArrayList<>();
+    private ArrayList<GuanVideoBean.DataBean> list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ke_cheng_xq);
         AppUtils.setTitle(this);
+        grade=getIntent().getStringExtra("grade");
         initView();
         initData();
     }
 
     private void initData() {
         kechengXQPresenter = new KechengXQPresenter(this);
-        kechengXQPresenter.start();
+        if (grade.equals("体验")){
+            kechengXQPresenter.start(grade,"");
+        }else {
+            kechengXQPresenter.start(grade,actionType);
+        }
+
     }
 
     private void initView() {
@@ -78,10 +87,16 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
         bufa_text = (TextView) findViewById(R.id.bufa_text);
         bufa_view = (View) findViewById(R.id.bufa_view);
         bufa = (LinearLayout) findViewById(R.id.bufa);
-        kecheng_xrecyclerview = (XRecyclerView) findViewById(R.id.kecheng_xrecyclerview);
-        for (int i = 0; i < 10; i++) {
-            list.add(new Kecheng());
+        tiyankecheng= (LinearLayout) findViewById(R.id.tiyankecheng);
+        if (grade.equals("体验")){
+            tiyankecheng.setVisibility(View.GONE);
+        }else {
+            tiyankecheng.setVisibility(View.VISIBLE);
         }
+
+        kecheng_xrecyclerview = (XRecyclerView) findViewById(R.id.kecheng_xrecyclerview);
+
+
         adapter = new KeChengXQAdapter(this, list);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -97,6 +112,12 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
         kecheng_xrecyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
             @Override
             public void onRefresh() {
+                if (grade.equals("体验")){
+                    kechengXQPresenter.start(grade,"");
+                }else {
+                    kechengXQPresenter.start(grade,actionType);
+                }
+
                 kecheng_xrecyclerview.refreshComplete();//刷新完成
             }
 
@@ -108,7 +129,10 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
     }
 
     @Override
-    public void setResultData(String resultData) {
+    public void setResultData(GuanVideoBean guanVideoBean) {
+        list.clear();
+        list.addAll(guanVideoBean.getData());
+        adapter.notifyDataSetChanged();
 
     }
 
@@ -127,6 +151,8 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
                 shoubi_view.setVisibility(View.GONE);
                 bufa_text.setTextColor(getResources().getColor(R.color.color_2C2C2C));
                 bufa_view.setVisibility(View.GONE);
+                actionType="初级阶段";
+                kechengXQPresenter.start(grade,actionType);
                 break;
             case R.id.shoubi:
                 yaobu_text.setTextColor(getResources().getColor(R.color.color_2C2C2C));
@@ -135,6 +161,8 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
                 shoubi_view.setVisibility(View.VISIBLE);
                 bufa_text.setTextColor(getResources().getColor(R.color.color_2C2C2C));
                 bufa_view.setVisibility(View.GONE);
+                actionType="中级阶段";
+                kechengXQPresenter.start(grade,actionType);
                 break;
             case R.id.bufa:
                 yaobu_text.setTextColor(getResources().getColor(R.color.color_2C2C2C));
@@ -143,6 +171,8 @@ public class KeChengXQActivity extends BaseActivity implements KechengXQContract
                 shoubi_view.setVisibility(View.GONE);
                 bufa_text.setTextColor(getResources().getColor(R.color.color_F2B95A));
                 bufa_view.setVisibility(View.VISIBLE);
+                actionType="高级阶段";
+                kechengXQPresenter.start(grade,actionType);
                 break;
             case R.id.back:
                 finish();

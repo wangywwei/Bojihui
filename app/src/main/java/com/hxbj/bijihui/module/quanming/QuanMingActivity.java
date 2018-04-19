@@ -99,6 +99,7 @@ public class QuanMingActivity extends BaseActivity implements View.OnClickListen
                 shoubi_view.setVisibility(View.VISIBLE);
                 bufa_text.setTextColor(getResources().getColor(R.color.color_2C2C2C));
                 bufa_view.setVisibility(View.GONE);
+                paihangFragment.setSortType("thump");
                 break;
                 //最新
             case R.id.bufa:
@@ -114,6 +115,7 @@ public class QuanMingActivity extends BaseActivity implements View.OnClickListen
                 shoubi_view.setVisibility(View.GONE);
                 bufa_text.setTextColor(getResources().getColor(R.color.color_F2B95A));
                 bufa_view.setVisibility(View.VISIBLE);
+                zuixinFragment.setSortType("createTime");
                 break;
             case R.id.back:
                 finish();

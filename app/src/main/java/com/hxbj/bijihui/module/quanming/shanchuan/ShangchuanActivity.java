@@ -22,6 +22,10 @@ import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.constants.Urls;
+import com.hxbj.bijihui.model.bean.OssBean;
+import com.hxbj.bijihui.network.HttpFactory;
+import com.hxbj.bijihui.network.MyCallBack;
 import com.hxbj.bijihui.utils.AppUtils;
 import com.hxbj.bijihui.utils.LogUtils;
 import com.hxbj.bijihui.utils.SPUtils;
@@ -55,7 +59,7 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shangchuan);
-        videoPath=getIntent().getStringExtra("videoPath")+"";
+        videoPath=getIntent().getStringExtra("videoPath");
         LogUtils.e("TGA",videoPath);
         AppUtils.setTitle(this);
         initView();
@@ -93,6 +97,7 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
                 break;
             case R.id.shanchu:
                 SPUtils.put(ShangchuanActivity.this,"video",videoPath);
+                gettokent();
                 finish();
                 break;
 
@@ -103,6 +108,26 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
     private String accessKeySecret;
     private String accessKeyId;
     private String securityToken;
+
+    public void gettokent() {
+        HttpFactory.create().get(Urls.GETOSSTOKEN, null, new MyCallBack<OssBean>() {
+            @Override
+            public void onSuccess(OssBean ossBean) {
+                if (ossBean.getCode()==2000){
+                    accessKeySecret=ossBean.getData().getAccessKeySecret();
+                    accessKeyId=ossBean.getData().getAccessKeyId();
+                    securityToken=ossBean.getData().getSecurityToken();
+                    setShangChuan();
+                }
+            }
+            @Override
+            public void onFaile(String msg) {
+
+            }
+        });
+
+
+    }
 
     private void setShangChuan(){
         if (StringUtils.isBlank(accessKeyId)){
@@ -124,7 +149,7 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
         conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
         OSS oss = new OSSClient(getApplicationContext(), endpoint, credentialProvider);
 
-        String originalFilename=".jpg";
+        String originalFilename=".mp4";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         //重命名文件名称
         String fileName = sdf.format(new Date());
@@ -134,7 +159,7 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
             fileName = fileName+random+originalFilename.substring(originalFilename.lastIndexOf("."));
         }
 
-        PutObjectRequest put = new PutObjectRequest("heixiong-wlf", "images/"+fileName, videoPath);
+        PutObjectRequest put = new PutObjectRequest("heixiong-wlf", "video/"+fileName, videoPath);
         // 异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
@@ -146,9 +171,8 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-//                Log.e("TAG--PutObject", "UploadSuccess");
-//                Log.e("TAG--ETag", result.getETag());
-//                Log.e("TAG--RequestId", result.getRequestId());
+
+
 
             }
             @Override

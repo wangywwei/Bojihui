@@ -35,7 +35,7 @@ public class HomeMy extends LinearLayout implements View.OnClickListener {
     private TextView weixue;
     private LoginBean loginBean;
 
-    public void setHomeBannerBean(LoginBean loginBean) {
+    public void setHomeMyBean(LoginBean loginBean) {
         this.loginBean = loginBean;
         GlidUtils.setGrid2(context,loginBean.getData().getPicUrl(),home_touxiang);
         if (StringUtils.isBlank((String) SPUtils.get(context, StringStatic.ISDENGLU,""))){
@@ -56,7 +56,7 @@ public class HomeMy extends LinearLayout implements View.OnClickListener {
         home_jinyan.setText(loginBean.getData().getExperience()+"");
         daka.setText(loginBean.getData().getPunch()+"");
         xunlian.setText(loginBean.getData().getOldCourse()+"");
-        daka.setText(loginBean.getData().getNewCourse()+"");
+        weixue.setText(loginBean.getData().getNewCourse()+"");
     }
 
     public HomeMy(Context context) {

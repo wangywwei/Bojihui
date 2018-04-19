@@ -30,6 +30,7 @@
     </RelativeLayout>
 
     <LinearLayout
+        android:id="@+id/tiyankecheng"
         android:gravity="center_vertical"
         android:layout_marginRight="@dimen/man_57dp"
         android:layout_marginLeft="@dimen/man_57dp"
@@ -46,7 +47,7 @@
                 android:id="@+id/yaobu_text"
                 android:textColor="@color/color_F2B95A"
                 android:textSize="@dimen/text_16sp"
-                android:text="腰部动作"
+                android:text="初级阶段"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <View
@@ -71,7 +72,7 @@
                 android:id="@+id/shoubi_text"
                 android:textColor="@color/color_2C2C2C"
                 android:textSize="@dimen/text_16sp"
-                android:text="手臂动作"
+                android:text="中级阶段"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <View
@@ -97,7 +98,7 @@
                 android:id="@+id/bufa_text"
                 android:textColor="@color/color_2C2C2C"
                 android:textSize="@dimen/text_16sp"
-                android:text="步伐动作"
+                android:text="高级阶段"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
             <View

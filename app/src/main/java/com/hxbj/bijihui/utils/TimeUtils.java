@@ -71,7 +71,7 @@ public class TimeUtils {
         int month = calendar.get(Calendar.MONTH);
         //日
         int day = calendar.get(Calendar.DAY_OF_MONTH);
-        String str=year+"年"+month+"月"+day+"日";
+        String str=year+"-"+month+"-"+day;
         return str;
 
     }

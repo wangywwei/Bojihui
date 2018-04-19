@@ -10,6 +10,7 @@
         android:layout_height="@dimen/man_12dp"/>
     <!--用于播放视频-->
     <RelativeLayout
+        android:background="@color/rgb_000000"
         android:visibility="gone"
         android:id="@+id/bofanyemian"
         android:layout_width="match_parent"

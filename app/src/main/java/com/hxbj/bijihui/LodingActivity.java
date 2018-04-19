@@ -22,6 +22,7 @@ public class LodingActivity extends BaseActivity {
         setContentView(R.layout.activity_loding);
 
 
+
         //第一次进入
         if (StringUtils.isBlank((String) SPUtils.get(this, StringStatic.DIYICI,""))){
             startActivity(LandingActivity.getIntent(this));

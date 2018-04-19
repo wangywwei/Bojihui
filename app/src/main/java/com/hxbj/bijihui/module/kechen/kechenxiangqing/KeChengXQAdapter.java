@@ -12,16 +12,17 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.Kecheng;
 
 import java.util.ArrayList;
 
 public class KeChengXQAdapter extends RecyclerView.Adapter<KeChengXQAdapter.ViewHolder> {
     private Context context;
-    private ArrayList<Kecheng> list;
+    private ArrayList<GuanVideoBean.DataBean> list;
 
 
-    public KeChengXQAdapter(Context context, ArrayList<Kecheng> list) {
+    public KeChengXQAdapter(Context context, ArrayList<GuanVideoBean.DataBean> list) {
         this.context = context;
         this.list = list;
     }
@@ -52,9 +53,9 @@ public class KeChengXQAdapter extends RecyclerView.Adapter<KeChengXQAdapter.View
             @Override
             public void onClick(View v) {
 
-                m_VideoListener.playVideo("http://heixiong-wlf.oss-cn-beijing.aliyuncs.com/videos/outputCut.mp4",
+                m_VideoListener.playVideo(list.get(position).getVideoUrl(),
                         "",
-                        "",
+                        list.get(position).getTitle(),
                         position,
                         holder.bofanyemian);
             }

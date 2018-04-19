@@ -74,6 +74,15 @@ public class LoginBean {
          * pageSize : 0
          * pageCount : 0
          */
+        private String soundTime;
+
+        public String getSoundTime() {
+            return soundTime;
+        }
+
+        public void setSoundTime(String soundTime) {
+            this.soundTime = soundTime;
+        }
 
         private String id;
         private String type;

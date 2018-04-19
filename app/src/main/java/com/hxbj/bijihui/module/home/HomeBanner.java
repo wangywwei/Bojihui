@@ -35,6 +35,7 @@ public class HomeBanner extends LinearLayout {
 
     public void setHomeBannerBean(HomeBannerBean homeBannerBean) {
         this.homeBannerBean = homeBannerBean;
+        images.clear();
         images.addAll(homeBannerBean.getData());
 
         mAdapter = new HomeBannerAdapter(images,context);

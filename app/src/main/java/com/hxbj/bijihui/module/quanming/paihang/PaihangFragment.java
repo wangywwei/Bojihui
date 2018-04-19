@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseFragment;
+import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.module.kechen.KechenAdapter;
 import com.hxbj.bijihui.video.VideoQuanpingActivity;
@@ -27,7 +28,7 @@ public class PaihangFragment extends BaseFragment implements PaihangContract.Pai
     private View view;
     private XRecyclerView paihangrecyclerview;
     private PaihangAdapter paihangAdapter;
-    private ArrayList<Kecheng> list = new ArrayList<>();
+    private ArrayList<GuanVideoBean.DataBean> list = new ArrayList<>();
     private VideoView videoView;
 
     @Override
@@ -46,17 +47,26 @@ public class PaihangFragment extends BaseFragment implements PaihangContract.Pai
 
         return view;
     }
+    private int pageCurrent=1;
+    private String sortType;
+
+    public void setSortType(String sortType) {
+        this.sortType = sortType;
+        pageCurrent=1;
+        list.clear();
+        if (paihangPresenter==null){
+            paihangPresenter = new PaihangPresenter(this);
+        }
+        paihangPresenter.start(pageCurrent+"","6",sortType);
+    }
 
     private void initData() {
         paihangPresenter = new PaihangPresenter(this);
-        paihangPresenter.start();
+
     }
 
     private void initView(View view) {
         paihangrecyclerview = (XRecyclerView) view.findViewById(R.id.paihangrecyclerview);
-        for (int i = 0; i <10 ; i++) {
-            list.add(new Kecheng());
-        }
         paihangAdapter = new PaihangAdapter(getActivity(), list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -64,11 +74,29 @@ public class PaihangFragment extends BaseFragment implements PaihangContract.Pai
         paihangrecyclerview.setNestedScrollingEnabled(false);
         paihangrecyclerview.setAdapter(paihangAdapter);
         paihangAdapter.setVideoListener(this);
+
+        paihangrecyclerview.setLoadingListener(new XRecyclerView.LoadingListener() {
+            @Override
+            public void onRefresh() {
+                list.clear();
+                pageCurrent=1;
+                paihangPresenter.start(pageCurrent+"","6",sortType);
+                paihangrecyclerview.refreshComplete();//刷新完成
+            }
+
+            @Override
+            public void onLoadMore() {
+                pageCurrent++;
+                paihangPresenter.start(pageCurrent+"","6",sortType);
+                paihangrecyclerview.refreshComplete();//加载完成
+            }
+        });
     }
 
     @Override
-    public void setResultData(String resultData) {
-
+    public void setResultData(GuanVideoBean guanVideoBean) {
+        list.addAll(guanVideoBean.getData());
+        paihangAdapter.notifyDataSetChanged();
     }
 
     @Override

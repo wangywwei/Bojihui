@@ -48,6 +48,7 @@ public class HttpUtils implements IHttp {
             }
             url = sb.deleteCharAt(sb.length() - 1).toString();
         }
+
         Request request = new Request.Builder().url(url)
                 .addHeader("Authorization",MyApp.instance.getAuthorization()).build();
         mOkHttpClient.newCall(request).enqueue(new Callback() {
@@ -66,6 +67,7 @@ public class HttpUtils implements IHttp {
             public void onResponse(Call call, Response response) throws IOException {
 
                     final String jsonData = response.body().string();
+
                     MyApp.mContext.runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

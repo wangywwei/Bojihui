@@ -14,8 +14,6 @@ public class SPUtils {
          * 保存在手机里面的文件名
          */
         public static final String SP_NAME = "config";
-        public static final String SP_MAKE_SAICHENG = "yuyue";
-
         public static final int SP_MODE = Context.MODE_PRIVATE;
         private static SharedPreferences sp;
         private static Editor editor;
@@ -52,10 +50,10 @@ public class SPUtils {
         }
 
 
-    public static Object get(Context context, String key, Object defaultObject)
-    {
-        SharedPreferences sp = context.getSharedPreferences(SP_NAME,
-                SP_MODE);
+    public static Object get(Context context, String key, Object defaultObject) {
+        if (sp == null) {
+            sp = context.getSharedPreferences(SP_NAME, SP_MODE);
+        }
 
         if (defaultObject instanceof String)
         {

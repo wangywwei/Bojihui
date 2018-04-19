@@ -3,6 +3,7 @@ package com.hxbj.bijihui.model;
 
 import com.hxbj.bijihui.constants.Urls;
 import com.hxbj.bijihui.global.MyApp;
+import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.HomeBannerBean;
 import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.model.bean.OssBean;
@@ -41,6 +42,33 @@ public class BojihuiModelImp implements BojihuiModel {
     @Override
     public void getOSSToken(MyCallBack<OssBean> callBack) {
         HttpFactory.create().get(Urls.GETOSSTOKEN, null, callBack);
+    }
+
+    @Override
+    public void getVideo(MyCallBack<GuanVideoBean> callBack, String grade, String actionType) {
+        Map<String ,String> map=new HashMap<>();
+        map.put("grade", grade);
+        if (!StringUtils.isBlank(actionType)){
+            map.put("actionType",actionType);
+        }
+        HttpFactory.create().get(Urls.VIDEO, map, callBack);
+    }
+
+    @Override
+    public void getPaihanVideo(MyCallBack<GuanVideoBean> callBack, String pageCurrent, String pageSize, String sortType) {
+        Map<String ,String> map=new HashMap<>();
+        map.put("id", MyApp.instance.getId());
+        map.put("pageCurrent", pageCurrent);
+        map.put("pageSize",pageSize);
+        map.put("sortType",sortType);
+        HttpFactory.create().get(Urls.VIDEO, map, callBack);
+    }
+
+    @Override
+    public void getGerenVideo(MyCallBack<GuanVideoBean> callBack) {
+        Map<String ,String> map=new HashMap<>();
+        map.put("iphone", MyApp.instance.getIphone());
+        HttpFactory.create().get(Urls.VIDEO, map, callBack);
     }
 
 

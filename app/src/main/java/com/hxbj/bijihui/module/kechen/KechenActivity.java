@@ -65,10 +65,10 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
     private void initView() {
         back = (ImageView) findViewById(R.id.back);
         listview = (RecyclerView) findViewById(R.id.listview);
-        list.add("体验课程");
-        list.add("Lv.1  初级课程");
-        list.add("Lv.2  中级课程");
-        list.add("Lv.3  高级课程");
+        list.add("体验");
+        list.add("初级");
+        list.add("中级");
+        list.add("高级");
         kechenAdapter = new KechenAdapter(this, list);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
@@ -87,26 +87,26 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
             public void onItemClicj(int position) {
                 switch (position) {
                     case 0:
-                        startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
+                        startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"体验"));
                         break;
                     case 1:
 //                        initchuji();
                         if (MyApp.instance.getType().equals("会员")){
-                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
+                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"初级"));
                         }else {
                             initgaoji();
                         }
                         break;
                     case 2:
                         if (MyApp.instance.getType().equals("会员")){
-                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
+                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"中级"));
                         }else {
                             initgaoji();
                         }
                         break;
                     case 3:
                         if (MyApp.instance.getType().equals("会员")){
-                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this));
+                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"高级"));
                         }else {
                             initgaoji();
                         }
