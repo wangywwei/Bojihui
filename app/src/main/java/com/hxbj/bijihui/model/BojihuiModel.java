@@ -30,4 +30,14 @@ public interface BojihuiModel {
 
     //个人视频
     void getGerenVideo(MyCallBack<GuanVideoBean> callBack);
+
+    //上传视频
+    void updateVideo(MyCallBack<GuanVideoBean> callBack,String videoUrl,String videoType);
+
+    //上传视频
+    void updateThumb(MyCallBack<GuanVideoBean> callBack,String videoUrl,String id);
+
+
+    //上传视频
+    void userAuthInfo(MyCallBack<LoginBean> callBack,String keyWord);
 }

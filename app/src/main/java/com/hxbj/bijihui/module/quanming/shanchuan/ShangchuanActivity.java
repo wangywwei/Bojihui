@@ -23,6 +23,7 @@ import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.constants.Urls;
+import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.model.bean.OssBean;
 import com.hxbj.bijihui.network.HttpFactory;
 import com.hxbj.bijihui.network.MyCallBack;
@@ -39,6 +40,8 @@ import org.apache.commons.lang.RandomStringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ShangchuanActivity extends BaseActivity implements View.OnClickListener,VideoView.OnItemclickLinter {
 
@@ -96,9 +99,7 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
                 finish();
                 break;
             case R.id.shanchu:
-                SPUtils.put(ShangchuanActivity.this,"video",videoPath);
                 gettokent();
-                finish();
                 break;
 
         }
@@ -159,7 +160,7 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
             fileName = fileName+random+originalFilename.substring(originalFilename.lastIndexOf("."));
         }
 
-        PutObjectRequest put = new PutObjectRequest("heixiong-wlf", "video/"+fileName, videoPath);
+        PutObjectRequest put = new PutObjectRequest("heixiong-club", "video/"+fileName, videoPath);
         // 异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
@@ -171,7 +172,22 @@ public class ShangchuanActivity extends BaseActivity implements View.OnClickList
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+                Map<String ,String> map=new HashMap<>();
+                map.put("iphone", MyApp.instance.getIphone());
+                map.put("userId", MyApp.instance.getId());
+                map.put("videoUrl", finalFileName);
+//                map.put("videoType", videoType);
+                HttpFactory.create().post(Urls.UPDATEVIDEO, map, new MyCallBack<Object>() {
+                    @Override
+                    public void onSuccess(Object o) {
+                        finish();
+                    }
 
+                    @Override
+                    public void onFaile(String msg) {
+
+                    }
+                });
 
 
             }

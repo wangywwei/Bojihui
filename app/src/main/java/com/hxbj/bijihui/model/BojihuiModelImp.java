@@ -57,7 +57,7 @@ public class BojihuiModelImp implements BojihuiModel {
     @Override
     public void getPaihanVideo(MyCallBack<GuanVideoBean> callBack, String pageCurrent, String pageSize, String sortType) {
         Map<String ,String> map=new HashMap<>();
-        map.put("id", MyApp.instance.getId());
+        map.put("userId", MyApp.instance.getId());
         map.put("pageCurrent", pageCurrent);
         map.put("pageSize",pageSize);
         map.put("sortType",sortType);
@@ -67,8 +67,36 @@ public class BojihuiModelImp implements BojihuiModel {
     @Override
     public void getGerenVideo(MyCallBack<GuanVideoBean> callBack) {
         Map<String ,String> map=new HashMap<>();
-        map.put("iphone", MyApp.instance.getIphone());
+        map.put("userId", MyApp.instance.getId());
         HttpFactory.create().get(Urls.VIDEO, map, callBack);
+    }
+
+    @Override
+    public void updateVideo(MyCallBack<GuanVideoBean> callBack, String videoUrl, String videoType) {
+        Map<String ,String> map=new HashMap<>();
+        map.put("iphone", MyApp.instance.getIphone());
+        map.put("userId", MyApp.instance.getId());
+        map.put("videoUrl", videoUrl);
+        map.put("videoType", videoType);
+        HttpFactory.create().post(Urls.UPDATEVIDEO, map, callBack);
+    }
+
+    @Override
+    public void updateThumb(MyCallBack<GuanVideoBean> callBack, String videoUrl, String id) {
+        Map<String ,String> map=new HashMap<>();
+        map.put("userId", MyApp.instance.getId());
+        map.put("videoUrl", videoUrl);
+        map.put("id", id);
+        HttpFactory.create().post(Urls.UPDATETHUMB, map, callBack);
+    }
+
+    @Override
+    public void userAuthInfo(MyCallBack<LoginBean> callBack, String keyWord) {
+        Map<String ,String> map=new HashMap<>();
+        map.put("id", MyApp.instance.getId());
+        map.put("iphone", MyApp.instance.getIphone());
+        map.put("keyWord", keyWord);
+        HttpFactory.create().post(Urls.USERAUTHINFO, map, callBack);
     }
 
 

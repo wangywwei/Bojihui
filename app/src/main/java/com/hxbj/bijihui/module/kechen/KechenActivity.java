@@ -22,8 +22,11 @@ import android.widget.Toast;
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.global.MyApp;
+import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.module.kechen.kechenxiangqing.KeChengXQActivity;
+import com.hxbj.bijihui.module.landing.LandingActivity;
 import com.hxbj.bijihui.utils.AppUtils;
+import com.hxbj.bijihui.utils.ToastUtils;
 
 import java.util.ArrayList;
 
@@ -91,24 +94,40 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
                         break;
                     case 1:
 //                        initchuji();
-                        if (MyApp.instance.getType().equals("会员")){
-                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"初级"));
+                        if (!MyApp.instance.getType().equals("游客")){
+                            if (MyApp.instance.getType().equals("会员")){
+                                startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"初级"));
+                            }else {
+                                initgaoji();
+                            }
                         }else {
-                            initgaoji();
+                            ToastUtils.showToast(KechenActivity.this,"请登陆");
+                            startActivity(LandingActivity.getIntent(KechenActivity.this));
                         }
+
                         break;
                     case 2:
-                        if (MyApp.instance.getType().equals("会员")){
-                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"中级"));
+                        if (!MyApp.instance.getType().equals("游客")){
+                            if (MyApp.instance.getType().equals("会员")){
+                                startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"初级"));
+                            }else {
+                                initgaoji();
+                            }
                         }else {
-                            initgaoji();
+                            ToastUtils.showToast(KechenActivity.this,"请登陆");
+                            startActivity(LandingActivity.getIntent(KechenActivity.this));
                         }
                         break;
                     case 3:
-                        if (MyApp.instance.getType().equals("会员")){
-                            startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"高级"));
+                        if (!MyApp.instance.getType().equals("游客")){
+                            if (MyApp.instance.getType().equals("会员")){
+                                startActivity(KeChengXQActivity.getIntent(KechenActivity.this,"初级"));
+                            }else {
+                                initgaoji();
+                            }
                         }else {
-                            initgaoji();
+                            ToastUtils.showToast(KechenActivity.this,"请登陆");
+                            startActivity(LandingActivity.getIntent(KechenActivity.this));
                         }
                         break;
 
@@ -148,7 +167,7 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
         queren.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                kechenPresenter.start();
+                kechenPresenter.start(yaoqingma.getText().toString().trim());
             }
         });
     }
@@ -176,8 +195,10 @@ public class KechenActivity extends BaseActivity implements KechenContract.Keche
     }
 
     @Override
-    public void setResultData(String dataBean) {
-
+    public void setResultData(LoginBean loginBean) {
+        MyApp.instance.saveLogin(loginBean.getData(),this);
+        gaojipopup.dismiss();
+        kechenAdapter.notifyDataSetChanged();
     }
 
     @Override

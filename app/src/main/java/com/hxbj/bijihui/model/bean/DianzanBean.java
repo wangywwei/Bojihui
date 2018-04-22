@@ -1,20 +1,18 @@
 package com.hxbj.bijihui.model.bean;
 
-import java.util.List;
-
-public class GuanVideoBean {
+public class DianzanBean {
 
     /**
      * status : 200
      * code : 2000
      * msg : ok
-     * data : [{"id":"5ad84c1a1717931e14d3f8ef","iphone":"0","userId":null,"level":null,"nickname":null,"picUrl":null,"title":"44","coverUrl":"http://heixiong-club.oss-cn-beijing.aliyuncs.com/images/2018042014373234043135.jpg","videoUrl":"http://heixiong-club.oss-cn-beijing.aliyuncs.com/video/2018041915581456746401.mp4","grade":"体验","actionType":"初级阶段","complaint":0,"reason":"","thumb":0,"thumpSet":null,"valid":1,"createTime":"2018-04-19 15:58:18","updateTime":"2018-04-20 14:37:32","sortNumber":1000,"type":0,"personal":1,"sortType":null,"thumbType":0,"start":0,"end":0,"pageCurrent":0,"pageSize":0,"pageCount":0},{"id":"5adbf43f17179305b832d2bd","iphone":"17600996535","userId":"5ad7127a1717931a3c0316f6","level":"会员","nickname":"回眸","picUrl":"http://heixiong-club.oss-cn-beijing.aliyuncs.com/images/2018041912003149134190.jpg","title":null,"coverUrl":"http://heixiong-club.oss-cn-beijing.aliyuncs.com/images/null","videoUrl":"http://heixiong-club.oss-cn-beijing.aliyuncs.com/video/2018042210323158453940.mp4","grade":null,"actionType":null,"complaint":0,"reason":null,"thumb":0,"thumpSet":null,"valid":1,"createTime":"2018-04-22 10:32:31","updateTime":null,"sortNumber":0,"type":1,"personal":0,"sortType":null,"thumbType":0,"start":0,"end":0,"pageCurrent":0,"pageSize":0,"pageCount":0}]
+     * data : {"id":"5acdd1a01717931cece3a04f","iphone":"15910549092","userId":null,"level":null,"nickname":null,"picUrl":null,"title":"在在","coverUrl":"2018042014390579363681.png","videoUrl":"2018041820035638346407.mp4","grade":"体验","actionType":"初级阶段","complaint":1,"reason":"要fdd fdgdf","thumb":3233,"thumpSet":null,"valid":1,"createTime":"2018-04-11 17:12:12","updateTime":"2018-04-22 13:26:00","sortNumber":0,"type":1,"personal":0,"sortType":null,"thumbType":1,"start":0,"end":0,"pageCurrent":0,"pageSize":0,"pageCount":0}
      */
 
     private int status;
     private int code;
     private String msg;
-    private List<DataBean> data;
+    private DataBean data;
 
     public int getStatus() {
         return status;
@@ -40,39 +38,39 @@ public class GuanVideoBean {
         this.msg = msg;
     }
 
-    public List<DataBean> getData() {
+    public DataBean getData() {
         return data;
     }
 
-    public void setData(List<DataBean> data) {
+    public void setData(DataBean data) {
         this.data = data;
     }
 
     public static class DataBean {
         /**
-         * id : 5ad84c1a1717931e14d3f8ef
-         * iphone : 0
+         * id : 5acdd1a01717931cece3a04f
+         * iphone : 15910549092
          * userId : null
          * level : null
          * nickname : null
          * picUrl : null
-         * title : 44
-         * coverUrl : http://heixiong-club.oss-cn-beijing.aliyuncs.com/images/2018042014373234043135.jpg
-         * videoUrl : http://heixiong-club.oss-cn-beijing.aliyuncs.com/video/2018041915581456746401.mp4
+         * title : 在在
+         * coverUrl : 2018042014390579363681.png
+         * videoUrl : 2018041820035638346407.mp4
          * grade : 体验
          * actionType : 初级阶段
-         * complaint : 0
-         * reason :
-         * thumb : 0
+         * complaint : 1
+         * reason : 要fdd fdgdf
+         * thumb : 3233
          * thumpSet : null
          * valid : 1
-         * createTime : 2018-04-19 15:58:18
-         * updateTime : 2018-04-20 14:37:32
-         * sortNumber : 1000
-         * type : 0
-         * personal : 1
+         * createTime : 2018-04-11 17:12:12
+         * updateTime : 2018-04-22 13:26:00
+         * sortNumber : 0
+         * type : 1
+         * personal : 0
          * sortType : null
-         * thumbType : 0
+         * thumbType : 1
          * start : 0
          * end : 0
          * pageCurrent : 0
@@ -82,10 +80,10 @@ public class GuanVideoBean {
 
         private String id;
         private String iphone;
-        private String userId;
-        private String level;
-        private String nickname;
-        private String picUrl;
+        private Object userId;
+        private Object level;
+        private Object nickname;
+        private Object picUrl;
         private String title;
         private String coverUrl;
         private String videoUrl;
@@ -109,16 +107,6 @@ public class GuanVideoBean {
         private int pageSize;
         private int pageCount;
 
-        private boolean isSelect;
-
-        public boolean isSelect() {
-            return isSelect;
-        }
-
-        public void setSelect(boolean select) {
-            isSelect = select;
-        }
-
         public String getId() {
             return id;
         }
@@ -135,35 +123,35 @@ public class GuanVideoBean {
             this.iphone = iphone;
         }
 
-        public String getUserId() {
+        public Object getUserId() {
             return userId;
         }
 
-        public void setUserId(String userId) {
+        public void setUserId(Object userId) {
             this.userId = userId;
         }
 
-        public String getLevel() {
+        public Object getLevel() {
             return level;
         }
 
-        public void setLevel(String level) {
+        public void setLevel(Object level) {
             this.level = level;
         }
 
-        public String getNickname() {
+        public Object getNickname() {
             return nickname;
         }
 
-        public void setNickname(String nickname) {
+        public void setNickname(Object nickname) {
             this.nickname = nickname;
         }
 
-        public String getPicUrl() {
+        public Object getPicUrl() {
             return picUrl;
         }
 
-        public void setPicUrl(String picUrl) {
+        public void setPicUrl(Object picUrl) {
             this.picUrl = picUrl;
         }
 

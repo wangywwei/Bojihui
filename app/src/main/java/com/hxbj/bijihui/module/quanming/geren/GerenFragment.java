@@ -18,7 +18,12 @@ import android.widget.TextView;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseFragment;
+import com.hxbj.bijihui.constants.Urls;
+import com.hxbj.bijihui.global.MyApp;
+import com.hxbj.bijihui.model.bean.DianzanBean;
 import com.hxbj.bijihui.model.bean.GuanVideoBean;
+import com.hxbj.bijihui.network.HttpFactory;
+import com.hxbj.bijihui.network.MyCallBack;
 import com.hxbj.bijihui.utils.SPUtils;
 import com.hxbj.bijihui.utils.StringUtils;
 import com.hxbj.bijihui.utils.ToastUtils;
@@ -30,7 +35,9 @@ import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 
 public class GerenFragment extends BaseFragment implements GerenContract.GerenView, View.OnClickListener, VideoView.OnItemclickLinter {
@@ -56,6 +63,8 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
     private ImageView beijing2;
     private ImageView bofang2;
     private VideoView videoView;
+    private String id;
+
 
     @Nullable
     @Override
@@ -63,7 +72,7 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
         if (view == null) {
             view = inflater.inflate(R.layout.fragment_geren, null);
             initView(view);
-            initData();
+
         } else {
             // 缓存的rootView需要判断是否已经被加过parent，如果有parent需要从parent删除，要不然会发生这个rootview已经有parent的错误。
             ViewGroup parent = (ViewGroup) view.getParent();
@@ -80,19 +89,11 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
         gerenPresenter.start();
     }
 
-    private String videopath;
 
     @Override
     public void onResume() {
         super.onResume();
-        videopath = (String) SPUtils.get(getActivity(), "video", "");
-        if (StringUtils.isBlank(videopath)) {
-            meiyouwode.setVisibility(View.VISIBLE);
-            youwode.setVisibility(View.GONE);
-        } else {
-            youwode.setVisibility(View.VISIBLE);
-            meiyouwode.setVisibility(View.GONE);
-        }
+        initData();
     }
 
     private void initView(View view) {
@@ -135,11 +136,38 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
 
     @Override
     public void setResultData(GuanVideoBean guanVideoBean) {
-        for (int i = 0; i <guanVideoBean.getData().size() ; i++) {
-            if (guanVideoBean.getData().get(i).getUserId().equals("0")){
-                url=guanVideoBean.getData().get(i).getVideoUrl();
-//                imgurl=guanVideoBean.getData().get(i).getVideoUrl();
-                title=guanVideoBean.getData().get(i).getTitle();
+        if (guanVideoBean.getData().size() == 1) {
+            meiyouwode.setVisibility(View.VISIBLE);
+            youwode.setVisibility(View.GONE);
+            url = guanVideoBean.getData().get(0).getVideoUrl();
+            imgurl = guanVideoBean.getData().get(0).getCoverUrl();
+            title = guanVideoBean.getData().get(0).getTitle();
+
+        } else {
+            youwode.setVisibility(View.VISIBLE);
+            meiyouwode.setVisibility(View.GONE);
+            for (int i = 0; i < guanVideoBean.getData().size(); i++) {
+                if (guanVideoBean.getData().get(i).getType() == 0) {
+                    url = guanVideoBean.getData().get(i).getVideoUrl();
+                    imgurl = guanVideoBean.getData().get(i).getCoverUrl();
+                    title = guanVideoBean.getData().get(i).getTitle();
+
+                } else if (guanVideoBean.getData().get(i).getType() == 1) {
+                    url2 = guanVideoBean.getData().get(i).getVideoUrl();
+                    imgurl2 = guanVideoBean.getData().get(i).getCoverUrl();
+                    title2 = guanVideoBean.getData().get(i).getTitle();
+                    id = guanVideoBean.getData().get(i).getId();
+                    if (guanVideoBean.getData().get(i).getThumbType()==0){
+                        zan.setImageResource(R.drawable.zan_1);
+                        zannum.setTextColor(getActivity().getResources().getColor(R.color.color_C9C9C9));
+                        zannum.setText(guanVideoBean.getData().get(i).getThumb() + "");
+                    } else {
+                        zan.setImageResource(R.drawable.zan);
+                        zannum.setTextColor(getActivity().getResources().getColor(R.color.color_F2B95A));
+                        zannum.setText(guanVideoBean.getData().get(i).getThumb() + "");
+                    }
+
+                }
             }
         }
 
@@ -150,9 +178,14 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
         this.gerenPresenter = gerenPresenter;
     }
 
-    private String url ;
-    private String imgurl ;
-    private String title ;
+    private String url;
+    private String imgurl;
+    private String title;
+
+    private String url2;
+    private String imgurl2;
+    private String title2;
+
     private int jindu;
     private boolean luzhiquanxian;
     private int zannum1 = 0;
@@ -193,16 +226,10 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
                 zannum.setText("" + zannum1);
                 if (ISzannum1) {
                     ISzannum1 = false;
-                    zannum1 = zannum1 - 1;
-                    zan.setImageResource(R.drawable.zan_1);
-                    zannum.setTextColor(getActivity().getResources().getColor(R.color.color_C9C9C9));
-                    zannum.setText(zannum1 + "");
+                    dinazan(id, "0", zan, zannum);
                 } else {
                     ISzannum1 = true;
-                    zannum1 = zannum1 + 1;
-                    zan.setImageResource(R.drawable.zan);
-                    zannum.setTextColor(getActivity().getResources().getColor(R.color.color_F2B95A));
-                    zannum.setText(zannum1 + "");
+                    dinazan(id, "1", zan, zannum);
                 }
 
                 break;
@@ -241,17 +268,40 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
                 videoView = new VideoView(getActivity());
                 videoView.setOnItemclickLinter(this);
                 gerenmyvideo.addView(videoView);
-                if (StringUtils.isBlank(videopath)) {
-                    videoView.setStart(url, imgurl, title);
-                } else {
-                    videoView.setStart(videopath, imgurl, title);
-                }
-
+                videoView.setStart(url2, imgurl2, title2);
 
                 this.jindu = videoView.getProgress();
                 break;
         }
     }
+
+    private void dinazan(String id, String thumbType, final ImageView zan, final TextView zannum) {
+        Map<String, String> map = new HashMap<>();
+        map.put("userId", MyApp.instance.getId());
+        map.put("id", id);
+        map.put("thumbType", thumbType);
+        HttpFactory.create().post(Urls.UPDATETHUMB, map, new MyCallBack<DianzanBean>() {
+            @Override
+            public void onSuccess(DianzanBean dianzanBean) {
+                if (dianzanBean.getData().getThumbType() == 0) {
+                    zan.setImageResource(R.drawable.zan_1);
+                    zannum.setTextColor(getActivity().getResources().getColor(R.color.color_C9C9C9));
+                    zannum.setText(dianzanBean.getData().getThumb() + "");
+                } else {
+                    zan.setImageResource(R.drawable.zan);
+                    zannum.setTextColor(getActivity().getResources().getColor(R.color.color_F2B95A));
+                    zannum.setText(dianzanBean.getData().getThumb() + "");
+                }
+            }
+
+            @Override
+            public void onFaile(String msg) {
+
+            }
+        });
+
+    }
+
 
     private void initchonglu() {
         View chonglu = getLayoutInflater().inflate(R.layout.chonglu_popup, null);
@@ -308,9 +358,9 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
             chongluWindow.dismiss();
             chongluWindow = null;
         }
-        if (videoView!=null){
+        if (videoView != null) {
             videoView.onDestroy();
-            videoView=null;
+            videoView = null;
         }
         super.onDestroy();
     }

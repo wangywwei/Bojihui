@@ -15,6 +15,13 @@ public class Urls {
     public static final String UPDATEUSER = BASEURL+"api/updateUser";
     //官方视频
     public static final String VIDEO = BASEURL+"api/video";
+    //上传个人视频
+    public static final String UPDATEVIDEO = BASEURL+"api/updateVideo";
+    //点赞
+    public static final String UPDATETHUMB = BASEURL+"api/updateThumb";
+    //会员授权
+    public static final String USERAUTHINFO = BASEURL+"api/userAuthInfo";
+
 
     //上传
     public static final String GETOSSTOKEN = BASEURL+"api/getOSSToken";

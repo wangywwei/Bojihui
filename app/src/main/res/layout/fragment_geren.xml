@@ -8,6 +8,7 @@
 
     <!-- TODO: Update blank fragment layout -->
     <RelativeLayout
+        android:background="@color/rgb_000000"
         android:visibility="gone"
         android:id="@+id/gerenvideo"
         android:layout_width="match_parent"
@@ -73,7 +74,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:visibility="visible"
+        android:visibility="gone"
         android:id="@+id/youwode"
         android:gravity="center_horizontal"
         android:layout_marginTop="@dimen/man_12dp"
@@ -81,6 +82,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <RelativeLayout
+            android:background="@color/rgb_000000"
             android:visibility="gone"
             android:id="@+id/gerenmyvideo"
             android:layout_width="match_parent"
@@ -107,7 +109,6 @@
             android:gravity="center_vertical"
             android:layout_width="match_parent"
             android:layout_height="@dimen/man_44dp">
-
             <ImageView
                 android:id="@+id/zan"
                 android:layout_marginLeft="@dimen/man_12dp"

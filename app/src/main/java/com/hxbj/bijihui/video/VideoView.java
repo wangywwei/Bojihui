@@ -99,7 +99,7 @@ public class VideoView extends LinearLayout implements View.OnClickListener {
         mVodPlayer.setPlayerView(video_view);
 
         mVodPlayer.setRenderMode(TXLiveConstants.RENDER_MODE_ADJUST_RESOLUTION);
-
+//        mVodPlayer.setRenderRotation(90);
         if (mVodPlayer.isPlaying()) {
             bofang.setImageResource(R.drawable.bofang);
         } else {

@@ -14,10 +14,11 @@
         android:layout_height="wrap_content" />
 
     <RelativeLayout
+        android:background="@color/rgb_000000"
         android:visibility="gone"
         android:id="@+id/paimingvideo"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/man_168dp"/>
+        android:layout_height="@dimen/man_176dp"/>
     <RelativeLayout
         android:id="@+id/bofanyemian2"
         android:layout_width="match_parent"
