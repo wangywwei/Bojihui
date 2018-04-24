@@ -5,6 +5,7 @@ import com.hxbj.bijihui.constants.Urls;
 import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.HomeBannerBean;
+import com.hxbj.bijihui.model.bean.LiuyanBean;
 import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.model.bean.OssBean;
 import com.hxbj.bijihui.network.HttpFactory;
@@ -97,6 +98,20 @@ public class BojihuiModelImp implements BojihuiModel {
         map.put("iphone", MyApp.instance.getIphone());
         map.put("keyWord", keyWord);
         HttpFactory.create().post(Urls.USERAUTHINFO, map, callBack);
+    }
+
+    @Override
+    public void verifyCode(MyCallBack<String> callBack, String iphone) {
+
+    }
+
+    @Override
+    public void contact(MyCallBack<LiuyanBean> callBack, String detail) {
+        Map<String ,String> map=new HashMap<>();
+        map.put("userId", MyApp.instance.getId());
+        map.put("iphone", MyApp.instance.getIphone());
+        map.put("detail", detail);
+        HttpFactory.create().post(Urls.CONTACT, map, callBack);
     }
 
 

@@ -107,4 +107,11 @@
         <item name="android:textColor">@color/colorTextWhite</item>
         <item name="android:background">@color/color_2C2C2C</item>
     </style>
+
+    <style name="AppTheme.NoActionBarWithBackGround">
+        <item name="windowActionBar">false</item>//取消Actionbar
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>//设置全屏
+        <item name="android:windowBackground">@drawable/qidongye</item>//设置背景
+    </style>
 </resources>

@@ -1,6 +1,8 @@
 package com.hxbj.bijihui.module.quanming.paihang;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.constants.Urls;
@@ -20,6 +23,7 @@ import com.hxbj.bijihui.model.bean.Kecheng;
 import com.hxbj.bijihui.network.HttpFactory;
 import com.hxbj.bijihui.network.MyCallBack;
 import com.hxbj.bijihui.utils.GlidUtils;
+import com.hxbj.bijihui.utils.ToastUtils;
 import com.hxbj.bijihui.video.VideoView;
 
 import java.util.ArrayList;
@@ -120,6 +124,52 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
             }
         });
 
+        holder.tousu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String items[] = {"色情低俗 政治敏感", "违法犯罪 垃圾广告", "其它"};
+                AlertDialog.Builder builder = new AlertDialog.Builder(context,2);
+                builder.setTitle("举报原因");
+                // builder.setMessage("是否确认退出?"); //设置内容
+                builder.setIcon(R.mipmap.ic_launcher);
+                // 设置列表显示，注意设置了列表显示就不要设置builder.setMessage()了，否则列表不起作用。
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, int which) {
+
+                        Map<String, String> map = new HashMap<>();
+                        map.put("userId", MyApp.instance.getId());
+                        map.put("reason", items[which]);
+                        map.put("id", list.get(position).getId());
+                        HttpFactory.create().post(Urls.UPDATECOMPLAINT, map, new MyCallBack<DianzanBean>() {
+                            @Override
+                            public void onSuccess(DianzanBean dianzanBean) {
+                                if (dianzanBean.getCode()==2000){
+                                    ToastUtils.showToast(context,"举报成功");
+                                    dialog.dismiss();
+                                }
+
+                            }
+
+                            @Override
+                            public void onFaile(String msg) {
+
+                            }
+                        });
+
+                    }
+                });
+                builder.setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.create().show();
+
+            }
+        });
+
     }
 
     private void dinazan(String id, String thumbType, final ImageView zan, final TextView zannum) {
@@ -166,7 +216,7 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
         private ImageView beijing;
         private ImageView bofang;
         private RelativeLayout bofanyemian2;
-
+        private ImageView tousu;
         public ViewHolder(View itemView) {
             super(itemView);
             paiming = itemView.findViewById(R.id.paiming);
@@ -180,6 +230,7 @@ public class PaihangAdapter extends RecyclerView.Adapter<PaihangAdapter.ViewHold
             bofang = itemView.findViewById(R.id.bofang);
             bofanyemian2 = itemView.findViewById(R.id.bofanyemian2);
             dianzan = itemView.findViewById(R.id.dianzan);
+            tousu=itemView.findViewById(R.id.tousu);
         }
     }
 }

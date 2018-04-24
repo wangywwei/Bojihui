@@ -3,8 +3,8 @@ package com.hxbj.bijihui.constants;
 
 public class Urls {
     //服务器地址
-    public static final String BASEURL = "http://192.168.2.19:9188/";
-//    public static final String BASEURL = "http://47.94.90.131:9188/";
+//    public static final String BASEURL = "http://192.168.2.19:9188/";
+    public static final String BASEURL = "http://47.94.90.131:9188/";
     //登陸
     public static final String LOGIN = BASEURL+"login";
     //个人信息
@@ -21,6 +21,13 @@ public class Urls {
     public static final String UPDATETHUMB = BASEURL+"api/updateThumb";
     //会员授权
     public static final String USERAUTHINFO = BASEURL+"api/userAuthInfo";
+    //获取验证码
+    public static final String VERIFYCODE = BASEURL+"verifyCode";
+
+    //举报
+    public static final String UPDATECOMPLAINT = BASEURL+"api/complaint";
+    //留言
+    public static final String CONTACT = BASEURL+"api/contact";
 
 
     //上传

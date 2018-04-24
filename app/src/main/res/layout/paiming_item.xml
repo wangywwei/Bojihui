@@ -3,15 +3,28 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/paiming"
+            android:textColor="@color/color_2C2C2C"
+            android:textSize="@dimen/text_13sp"
+            android:layout_margin="@dimen/man_12dp"
+            android:text="当前排名No.1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/tousu"
+            android:textColor="@color/rgb_C52720"
+            android:layout_alignParentRight="true"
+            android:layout_margin="@dimen/man_12dp"
+            android:src="@drawable/jubao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
-    <TextView
-        android:id="@+id/paiming"
-        android:textColor="@color/color_2C2C2C"
-        android:textSize="@dimen/text_13sp"
-        android:layout_margin="@dimen/man_12dp"
-        android:text="当前排名No.1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    </RelativeLayout>
+
 
     <RelativeLayout
         android:background="@color/rgb_000000"

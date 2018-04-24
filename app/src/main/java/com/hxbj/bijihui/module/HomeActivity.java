@@ -1,14 +1,17 @@
 package com.hxbj.bijihui.module;
 
 import android.Manifest;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
@@ -51,6 +54,7 @@ import com.hxbj.bijihui.module.geren.LianxiActivity;
 import com.hxbj.bijihui.module.home.HomeFragment;
 import com.hxbj.bijihui.module.landing.GerenActivity;
 import com.hxbj.bijihui.module.landing.LandingActivity;
+import com.hxbj.bijihui.module.web.MyService;
 import com.hxbj.bijihui.module.web.WebViewCurrencyActivity;
 import com.hxbj.bijihui.network.HttpFactory;
 import com.hxbj.bijihui.network.MyCallBack;
@@ -78,7 +82,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class HomeActivity extends BaseActivity implements View.OnClickListener,HomeFragment.UpData {
+public class HomeActivity extends BaseActivity implements View.OnClickListener, HomeFragment.UpData {
 
     private AudioRecoderUtils mAudioRecoderUtils;
     private ImageView yinyue;
@@ -112,6 +116,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
     private MediaPlayer mediaPlayer;
 
     private String armpath;
+    private ServiceConnection serviceConnection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,8 +128,8 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
         new Handler().postDelayed(new Runnable() {
             public void run() {
                 if (StringUtils.isBlank((String) SPUtils.get(HomeActivity.this, StringStatic.DIYICI, ""))) {
-                    if (!MyApp.instance.getType().equals("游客")){
-                        if (StringUtils.isBlank(MyApp.instance.getSoundUrl())){
+                    if (!MyApp.instance.getType().equals("游客")) {
+                        if (StringUtils.isBlank(MyApp.instance.getSoundUrl())) {
                             initData();
                         }
                     }
@@ -133,6 +138,21 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
             }
         }, 300);
         SPUtils.put(HomeActivity.this, StringStatic.DIYICI, "111");
+
+        serviceConnection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName name, IBinder service) {
+
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName name) {
+
+            }
+        };
+        Intent intent = new Intent(this, MyService.class);
+        startService(intent);
+        bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE);
 
     }
 
@@ -151,7 +171,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
         cehua_back = findViewById(R.id.cehua_back);
 
 
-
         cehualan.setOnClickListener(this);
         cehua_qianjun.setOnClickListener(this);
         cehua_lianxi.setOnClickListener(this);
@@ -162,21 +181,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.add(R.id.homeframe, homeFragment);
         transaction.commit();
-
-
-        mediaPlayer = new MediaPlayer();
-        mediaPlayer.reset();
-
-        if (!StringUtils.isBlank(MyApp.instance.getSoundUrl())) {
-            try {
-                mediaPlayer.setDataSource(MyApp.instance.getSoundUrl());
-                mediaPlayer.prepare();
-                mediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
 
         mAudioRecoderUtils = new AudioRecoderUtils();
 
@@ -203,7 +207,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
             //录音结束，filePath为保存路径
             @Override
             public void onStop(String filePath) {
-                armpath=filePath;
+                armpath = filePath;
                 LogUtils.e("TAG", filePath);
                 try {
                     mediaPlayer.setDataSource(filePath);
@@ -285,7 +289,17 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
                 if (mediaPlayer.isPlaying()) {
 
                 } else {
-                    mediaPlayer.start();
+                    mediaPlayer = new MediaPlayer();
+                    mediaPlayer.reset();
+                    if (!StringUtils.isBlank(MyApp.instance.getSoundUrl())) {
+                        try {
+                            mediaPlayer.setDataSource(MyApp.instance.getSoundUrl());
+                            mediaPlayer.prepare();
+                            mediaPlayer.start();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
             }
         });
@@ -294,7 +308,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
     private String accessKeySecret;
     private String accessKeyId;
     private String securityToken;
-    
+
     View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, final MotionEvent event) {
@@ -324,14 +338,14 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
                             //结束录音（保存录音文件）
                             mAudioRecoderUtils.stopRecord();
                         }
-                        if (StringUtils.isBlank(accessKeyId)){
+                        if (StringUtils.isBlank(accessKeyId)) {
                             gettokent();
                         }
-                        
+
                         break;
                 }
 
-            }else {
+            } else {
                 ToastUtils.showToast(HomeActivity.this, "请打开麦克风权限");
             }
 
@@ -413,12 +427,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
         HttpFactory.create().get(Urls.GETOSSTOKEN, null, new MyCallBack<OssBean>() {
             @Override
             public void onSuccess(OssBean ossBean) {
-                if (ossBean.getCode()==2000){
-                    accessKeySecret=ossBean.getData().getAccessKeySecret();
-                    accessKeyId=ossBean.getData().getAccessKeyId();
-                    securityToken=ossBean.getData().getSecurityToken();
+                if (ossBean.getCode() == 2000) {
+                    accessKeySecret = ossBean.getData().getAccessKeySecret();
+                    accessKeyId = ossBean.getData().getAccessKeyId();
+                    securityToken = ossBean.getData().getSecurityToken();
                 }
-                if (!StringUtils.isBlank(armpath)){
+                if (!StringUtils.isBlank(armpath)) {
                     setShangChuan(armpath);
                 }
 
@@ -429,12 +443,12 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
 
             }
         });
-        
-        
+
+
     }
 
-    private void setShangChuan(String imagePath){
-        if (StringUtils.isBlank(accessKeyId)){
+    private void setShangChuan(String imagePath) {
+        if (StringUtils.isBlank(accessKeyId)) {
             return;
         }
         String endpoint = "oss-cn-beijing.aliyuncs.com";
@@ -462,7 +476,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
 //            fileName = fileName+random+originalFilename.substring(originalFilename.lastIndexOf("."));
 //        }
 
-        PutObjectRequest put = new PutObjectRequest("heixiong-club", "sound/"+MyApp.instance.getId()+".amr", imagePath);
+        PutObjectRequest put = new PutObjectRequest("heixiong-club", "sound/" + MyApp.instance.getId() + ".amr", imagePath);
         // 异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
@@ -474,13 +488,13 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Map<String ,String> map=new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put("iphone", MyApp.instance.getIphone());
-                map.put("soundUrl", MyApp.instance.getId()+".amr");
+                map.put("soundUrl", MyApp.instance.getId() + ".amr");
                 HttpFactory.create().post(Urls.UPDATEUSER, map, new MyCallBack<LoginBean>() {
                     @Override
                     public void onSuccess(LoginBean loginBean) {
-                        MyApp.instance.saveLogin(loginBean.getData(),HomeActivity.this);
+                        MyApp.instance.saveLogin(loginBean.getData(), HomeActivity.this);
 
                     }
 
@@ -491,25 +505,28 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
                 });
 
             }
+
             @Override
             public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
                 // 请求异常
-                ToastUtils.showToast(HomeActivity.this,"服务器异常");
+                ToastUtils.showToast(HomeActivity.this, "服务器异常");
 
             }
         });
 
 
     }
+
     private LoginBean loginBean;
+
     @Override
     public void upData(LoginBean loginBean) {
-        this.loginBean=loginBean;
-        GlidUtils.setGrid2(this,loginBean.getData().getPicUrl(),cehua_touxiang);
+        this.loginBean = loginBean;
+        GlidUtils.setGrid2(this, loginBean.getData().getPicUrl(), cehua_touxiang);
         cehua_name.setText(loginBean.getData().getNickname());
-        if (loginBean.getData().getType().equals("会员")){
+        if (loginBean.getData().getType().equals("会员")) {
             cehua_huiyuan.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             cehua_huiyuan.setVisibility(View.INVISIBLE);
         }
 
@@ -538,7 +555,7 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
             mAudioRecoderUtils.stopRecord();
             mAudioRecoderUtils = null;
         }
-
+        unbindService(serviceConnection);
         super.onDestroy();
     }
 
@@ -560,8 +577,6 @@ public class HomeActivity extends BaseActivity implements View.OnClickListener,H
         }
         return super.onKeyUp(keyCode, event);
     }
-
-
 
 
 }

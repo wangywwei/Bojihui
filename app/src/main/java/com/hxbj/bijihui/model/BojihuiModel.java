@@ -3,6 +3,7 @@ package com.hxbj.bijihui.model;
 
 import com.hxbj.bijihui.model.bean.GuanVideoBean;
 import com.hxbj.bijihui.model.bean.HomeBannerBean;
+import com.hxbj.bijihui.model.bean.LiuyanBean;
 import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.model.bean.OssBean;
 import com.hxbj.bijihui.network.MyCallBack;
@@ -40,4 +41,10 @@ public interface BojihuiModel {
 
     //上传视频
     void userAuthInfo(MyCallBack<LoginBean> callBack,String keyWord);
+
+    //获取验证吗
+    void verifyCode(MyCallBack<String> callBack,String iphone);
+
+    //留言
+    void contact(MyCallBack<LiuyanBean> callBack, String detail);
 }

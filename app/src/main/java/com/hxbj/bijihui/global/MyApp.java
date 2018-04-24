@@ -7,6 +7,8 @@ import android.text.TextUtils;
 import com.hxbj.bijihui.base.BaseActivity;
 import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.utils.SPUtils;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.rtmp.TXLiveBase;
 
 
@@ -15,10 +17,15 @@ public class MyApp extends Application {
 
     public static MyApp instance;
 
+    private static final String APP_ID="wx649bd7e687fc972f";
+    public static IWXAPI iwxapi;
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
+        iwxapi= WXAPIFactory.createWXAPI(this,APP_ID);
+        iwxapi.registerApp(APP_ID);
+
         TXLiveBase.setConsoleEnabled(true);
     }
 

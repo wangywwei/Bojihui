@@ -37,6 +37,7 @@ import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.model.bean.OssBean;
 import com.hxbj.bijihui.module.HomeActivity;
 import com.hxbj.bijihui.module.kechen.KechenActivity;
+import com.hxbj.bijihui.module.landing.LandingActivity;
 import com.hxbj.bijihui.module.quanming.QuanMingActivity;
 import com.hxbj.bijihui.network.HttpFactory;
 import com.hxbj.bijihui.network.MyCallBack;
@@ -80,9 +81,10 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     private String armpath;
 
     private LoginBean loginBean;
+    private PopupWindow loginpopup;
 
     public void setHomePackBean(LoginBean loginBean) {
-        this.loginBean=loginBean;
+        this.loginBean = loginBean;
 
 
     }
@@ -147,7 +149,8 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             @Override
             public void onStop(String filePath) {
                 LogUtils.e("TAG", filePath);
-                armpath=filePath;
+                armpath = filePath;
+                MyApp.instance.setSoundUrl(armpath);
                 try {
                     mediaPlayer.setDataSource(filePath);
                     mediaPlayer.prepare();
@@ -165,26 +168,37 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.nahandemubiao:
-                if (!MyApp.instance.getType().equals("游客")){
+                if (!MyApp.instance.getType().equals("游客")) {
                     initNahan();
+                } else {
+                    initlogin();
                 }
                 break;
             case R.id.daka1:
-                initDaka();
-                initdaka2();
+                if (!MyApp.instance.getType().equals("游客")) {
+                    initDaka();
+                    initdaka2();
+                } else {
+                    initlogin();
+                }
+
                 break;
             case R.id.home_quanbukecheng:
                 context.startActivity(KechenActivity.getIntent(context));
                 break;
             case R.id.quanminzhanshi:
-                context.startActivity(QuanMingActivity.getIntent(context));
+                if (!MyApp.instance.getType().equals("游客")) {
+                    context.startActivity(QuanMingActivity.getIntent(context));
+                } else {
+                    initlogin();
+                }
                 break;
 
         }
     }
 
     private void initdaka2() {
-        Map<String ,String> map=new HashMap<>();
+        Map<String, String> map = new HashMap<>();
         map.put("iphone", MyApp.instance.getIphone());
         map.put("punch", "1");
         HttpFactory.create().post(Urls.UPDATEUSER, map, new MyCallBack<LoginBean>() {
@@ -233,17 +247,17 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         fenxiangpengyouquan = dakaview.findViewById(R.id.fenxiangpengyouquan);
         fenxiangweibo = dakaview.findViewById(R.id.fenxiangweibo);
 
-        GlidUtils.setGrid2(context,MyApp.instance.getPicUrl(),daka_touxiang);
-        if (StringUtils.isBlank(MyApp.instance.getNickname())){
+        GlidUtils.setGrid2(context, MyApp.instance.getPicUrl(), daka_touxiang);
+        if (StringUtils.isBlank(MyApp.instance.getNickname())) {
             daka_name.setText(MyApp.instance.getIphone());
-        }else {
+        } else {
             daka_name.setText(MyApp.instance.getNickname());
         }
 
 
-        if (MyApp.instance.getType().equals("会员")){
+        if (MyApp.instance.getType().equals("会员")) {
             daka_huiyuan.setVisibility(VISIBLE);
-        }else {
+        } else {
             daka_huiyuan.setVisibility(GONE);
         }
 
@@ -264,7 +278,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     private ImageView newbutton;
     private LinearLayout popo;
     private ArcProgress myProgress;
-
+    private boolean Isquanxian;
     private void initNahan() {
         View nahanview = context.getLayoutInflater().inflate(R.layout.home_popup2, null);
         nahanpopup = new PopupWindow(nahanview);
@@ -277,6 +291,24 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         //关闭事件
         nahanpopup.setOnDismissListener(new popupDismissListener());
         backgroundAlpha(0.5f);
+
+        AndPermission.with(context)
+                .permission(Permission.RECORD_AUDIO,
+                        Permission.WRITE_EXTERNAL_STORAGE,
+                        Permission.READ_EXTERNAL_STORAGE)
+                .onGranted(new Action() {
+                    @Override
+                    public void onAction(List<String> permissions) {
+                        Isquanxian = true;
+
+                    }
+                }).onDenied(new Action() {
+            @Override
+            public void onAction(List<String> permissions) {
+                Isquanxian = false;
+                ToastUtils.showToast(context, "请打开麦克风权限");
+            }
+        }).start();
 
         time = nahanview.findViewById(R.id.time);
         bofang = nahanview.findViewById(R.id.bofang);
@@ -294,16 +326,21 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
             }
         });
 
-        time.setText(loginBean.getData().getSoundTime()+"目标");
+        if (StringUtils.isBlank(loginBean.getData().getSoundTime())) {
+            time.setText("");
+        } else {
+            time.setText(loginBean.getData().getSoundTime() + "目标");
+        }
+
         bofang.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (mediaPlayer.isPlaying()) {
                     return;
                 } else {
-                    if (StringUtils.isBlank(MyApp.instance.getSoundUrl())){
-                        ToastUtils.showToast(context,"您还没有录制呐喊目标，请录制！");
-                    }else {
+                    if (StringUtils.isBlank(MyApp.instance.getSoundUrl())) {
+                        ToastUtils.showToast(context, "您还没有录制呐喊目标，请录制！");
+                    } else {
                         mediaPlayer.start();
                     }
 
@@ -321,50 +358,41 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     View.OnTouchListener onTouchListener = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, final MotionEvent event) {
-            AndPermission.with(context)
-                    .permission(Permission.RECORD_AUDIO)
-                    .onGranted(new Action() {
-                        @Override
-                        public void onAction(List<String> permissions) {
-                            switch (event.getAction()) {
-                                //按下
-                                case MotionEvent.ACTION_DOWN:
-                                    bofang.setVisibility(View.GONE);
-                                    myProgress.setVisibility(View.VISIBLE);
-                                    mAudioRecoderUtils.startRecord();
+            if (Isquanxian) {
+            switch (event.getAction()) {
+                //按下
+                case MotionEvent.ACTION_DOWN:
 
-                                    break;
-                                //抬起
-                                case MotionEvent.ACTION_UP:
-                                    if (myProgress.getProgress() >= 10) {
+                    bofang.setVisibility(View.GONE);
+                    myProgress.setVisibility(View.VISIBLE);
+                    mAudioRecoderUtils.startRecord();
 
-                                    } else {
-                                        time.setText(TimeUtils.getTimedanqian() + "目标");
-                                        bofang.setVisibility(View.VISIBLE);
-                                        myProgress.setVisibility(View.GONE);
-                                        //结束录音（保存录音文件）
-                                        mAudioRecoderUtils.stopRecord();
-                                    }
 
-                                    if (StringUtils.isBlank(accessKeyId)){
-                                        gettokent();
-                                    }else {
-                                        if (!StringUtils.isBlank(armpath)){
-                                            setShangChuan(armpath);
-                                        }
-                                    }
+                    break;
+                //抬起
+                case MotionEvent.ACTION_UP:
+                    if (myProgress.getProgress() >= 10) {
 
-                                    break;
-                            }
+                    } else {
+                        time.setText(TimeUtils.getTimedanqian() + "目标");
+                        bofang.setVisibility(View.VISIBLE);
+                        myProgress.setVisibility(View.GONE);
+                        //结束录音（保存录音文件）
+                        mAudioRecoderUtils.stopRecord();
+                    }
 
+                    if (StringUtils.isBlank(accessKeyId)) {
+                        gettokent();
+                    } else {
+                        if (!StringUtils.isBlank(armpath)) {
+                            setShangChuan(armpath);
                         }
-                    }).onDenied(new Action() {
-                @Override
-                public void onAction(List<String> permissions) {
-                    ToastUtils.showToast(context,"请打开麦克风权限");
-                }
-            })
-                    .start();
+                    }
+
+                    break;
+            }}else {
+                ToastUtils.showToast(context, "请打开麦克风权限");
+            }
 
 
             return true;
@@ -387,11 +415,11 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         HttpFactory.create().get(Urls.GETOSSTOKEN, null, new MyCallBack<OssBean>() {
             @Override
             public void onSuccess(OssBean ossBean) {
-                if (ossBean.getCode()==2000){
-                    accessKeySecret=ossBean.getData().getAccessKeySecret();
-                    accessKeyId=ossBean.getData().getAccessKeyId();
-                    securityToken=ossBean.getData().getSecurityToken();
-                    if (!StringUtils.isBlank(armpath)){
+                if (ossBean.getCode() == 2000) {
+                    accessKeySecret = ossBean.getData().getAccessKeySecret();
+                    accessKeyId = ossBean.getData().getAccessKeyId();
+                    securityToken = ossBean.getData().getSecurityToken();
+                    if (!StringUtils.isBlank(armpath)) {
                         setShangChuan(armpath);
                     }
                 }
@@ -405,7 +433,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
     }
 
     public void setShangChuan(String shangChuan) {
-        if (StringUtils.isBlank(accessKeyId)){
+        if (StringUtils.isBlank(accessKeyId)) {
             return;
         }
         String endpoint = "oss-cn-beijing.aliyuncs.com";
@@ -433,7 +461,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
 //            fileName = fileName+random+originalFilename.substring(originalFilename.lastIndexOf("."));
 //        }
 
-        PutObjectRequest put = new PutObjectRequest("heixiong-club", "sound/"+MyApp.instance.getId()+".amr", shangChuan);
+        PutObjectRequest put = new PutObjectRequest("heixiong-club", "sound/" + MyApp.instance.getId() + ".amr", shangChuan);
         // 异步上传时可以设置进度回调
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
@@ -445,13 +473,13 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         OSSAsyncTask task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                Map<String ,String> map=new HashMap<>();
+                Map<String, String> map = new HashMap<>();
                 map.put("iphone", MyApp.instance.getIphone());
-                map.put("soundUrl", MyApp.instance.getId()+".amr");
+                map.put("soundUrl", MyApp.instance.getId() + ".amr");
                 HttpFactory.create().post(Urls.UPDATEUSER, map, new MyCallBack<LoginBean>() {
                     @Override
                     public void onSuccess(LoginBean loginBean) {
-                        MyApp.instance.saveLogin(loginBean.getData(),context);
+                        MyApp.instance.saveLogin(loginBean.getData(), context);
 
                     }
 
@@ -462,10 +490,11 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
                 });
 
             }
+
             @Override
             public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
                 // 请求异常
-                ToastUtils.showToast(context,"服务器异常");
+                ToastUtils.showToast(context, "服务器异常");
 
             }
         });
@@ -480,7 +509,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         @Override
         public void onDismiss() {
             backgroundAlpha(1f);
-            if (null!=onItemclickLinter){
+            if (null != onItemclickLinter) {
                 onItemclickLinter.onItemClicj();
             }
         }
@@ -498,7 +527,7 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         }
     }
 
-    public interface OnItemclickLinter{
+    public interface OnItemclickLinter {
         public void onItemClicj();
     }
 
@@ -508,4 +537,33 @@ public class HomePack extends LinearLayout implements View.OnClickListener {
         this.onItemclickLinter = onItemclickLinter;
     }
 
+
+    private void initlogin() {
+        View loginview = context.getLayoutInflater().inflate(R.layout.login_popup, null);
+        loginpopup = new PopupWindow(loginview);
+        loginpopup.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        loginpopup.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
+        loginpopup.setBackgroundDrawable(new BitmapDrawable());
+        loginpopup.setOutsideTouchable(true);
+        loginpopup.setFocusable(true);
+        loginpopup.showAtLocation(this.context.getWindow().getDecorView(), Gravity.CENTER, 0, 0);
+        //关闭事件
+        loginpopup.setOnDismissListener(new popupDismissListener());
+        ImageView guanbi = loginview.findViewById(R.id.guanbi);
+        guanbi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                loginpopup.dismiss();
+            }
+        });
+        backgroundAlpha(0.5f);
+        ImageView denglv = loginview.findViewById(R.id.denglv);
+
+        denglv.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(LandingActivity.getIntent(context));
+            }
+        });
+    }
 }

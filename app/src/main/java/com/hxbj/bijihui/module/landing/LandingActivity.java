@@ -14,10 +14,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.hxbj.bijihui.R;
+import com.hxbj.bijihui.constants.Urls;
 import com.hxbj.bijihui.global.MyApp;
 import com.hxbj.bijihui.model.bean.LoginBean;
 import com.hxbj.bijihui.module.HomeActivity;
+import com.hxbj.bijihui.module.web.WebViewCurrencyActivity;
+import com.hxbj.bijihui.network.HttpFactory;
 import com.hxbj.bijihui.utils.AppUtils;
 import com.hxbj.bijihui.utils.CountDownTextView;
 import com.hxbj.bijihui.utils.LogUtils;
@@ -26,6 +30,19 @@ import com.hxbj.bijihui.utils.StringStatic;
 import com.hxbj.bijihui.utils.StringUtils;
 import com.hxbj.bijihui.utils.ToastUtils;
 import com.jaeger.library.StatusBarUtil;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.FormBody;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
 
 /*
 * 登陆页面
@@ -43,6 +60,7 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
     private EditText landing_yanzheng;
     private CountDownTextView landing_yanzhengbutton;
     private TextView landing;
+    private TextView zhucexieyi;
     private LinearLayout shoujideng;
 
     public static Intent getIntent(Context context) {
@@ -90,7 +108,14 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
         landing_yanzhengbutton = (CountDownTextView) findViewById(R.id.landing_yanzhengbutton);
         landing = (TextView) findViewById(R.id.landing);
         shoujideng = (LinearLayout) findViewById(R.id.shoujideng);
+        zhucexieyi=findViewById(R.id.zhucexieyi);
 
+        zhucexieyi.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(WebViewCurrencyActivity.getIntent(LandingActivity.this,"","注册协议"));
+            }
+        });
 
         landing_shoujidenglu.setOnClickListener(this);
         landing_guanbi.setOnClickListener(this);
@@ -120,8 +145,12 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.landing:
                 String yanzheng=landing_yanzheng.getText().toString().trim();
                 if (AppUtils.isMobileNO(iphone)){
-                    MyApp.instance.setIphone(iphone);
-                    landingPresenter.start(iphone,yanzheng);
+                    if (!StringUtils.isBlank(landing_yanzhengbutton.getText().toString().trim())){
+                        MyApp.instance.setIphone(iphone);
+                        landingPresenter.start(iphone,yanzheng);
+                    }else {
+                        ToastUtils.showToast(this,"请输入验证码");
+                    }
                 }else {
                     ToastUtils.showToast(this,"请输入正确的手机号");
                 }
@@ -129,12 +158,33 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.landing_yanzhengbutton:
                 if (AppUtils.isMobileNO(iphone)){
                     landing_yanzhengbutton.start();
+                    getverifyCode(iphone);
 
                 }else {
                     ToastUtils.showToast(this,"请输入正确的手机号");
                 }
                 break;
         }
+    }
+
+    private void getverifyCode(String iphone) {
+        OkHttpClient mOkHttpClient = new OkHttpClient();
+
+        Request request = new Request.Builder().url(Urls.VERIFYCODE+"/"+iphone).get().build();
+        mOkHttpClient.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(Call call, final IOException e) {
+
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+
+
+            }
+        });
+
+
     }
 
     @Override
@@ -160,19 +210,21 @@ public class LandingActivity extends AppCompatActivity implements View.OnClickLi
 //            }
             MyApp.instance.saveLogin(loginBean.getData(),this);
             SPUtils.put(this,StringStatic.ISDENGLU,"login");
-            if (StringUtils.isBlank((String) SPUtils.get(this, StringStatic.DIYICI,""))){
+
                 if (loginBean.getData().getType().equals("游客")){
                     startActivity(HomeActivity.getIntent(this));
                     finish();
                 }else {
+                    if (loginBean.getData().getFlag()==0){
                     startActivity(GerenActivity.getIntent(this,"shouci"));
                     finish();
+                    }else {
+                        startActivity(HomeActivity.getIntent(this));
+                        finish();
+                    }
                 }
 
-            }else {
-                startActivity(HomeActivity.getIntent(this));
-                finish();
-            }
+
         }
     }
 

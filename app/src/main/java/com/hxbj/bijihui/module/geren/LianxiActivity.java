@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import com.hxbj.bijihui.R;
 import com.hxbj.bijihui.base.BaseActivity;
+import com.hxbj.bijihui.model.bean.LiuyanBean;
 import com.hxbj.bijihui.utils.AppUtils;
 
 /*
@@ -41,12 +42,12 @@ public class LianxiActivity extends BaseActivity implements LianxiContract.Lianx
 
     private void initData() {
         lianxiPresenter = new LianxiPresenter(this);
-        lianxiPresenter.start();
+
     }
 
     @Override
-    public void setResultData(String resultData) {
-
+    public void setResultData(LiuyanBean resultData) {
+        finish();
     }
 
     @Override
@@ -70,8 +71,7 @@ public class LianxiActivity extends BaseActivity implements LianxiContract.Lianx
                 finish();
                 break;
             case R.id.lianxi_fasong:
-
-
+                lianxiPresenter.start(lianxiwomen.getText().toString().trim());
                 break;
         }
     }

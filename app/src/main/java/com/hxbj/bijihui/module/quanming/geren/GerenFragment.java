@@ -1,6 +1,8 @@
 package com.hxbj.bijihui.module.quanming.geren;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +33,9 @@ import com.hxbj.bijihui.video.CustomRecordActivity;
 import com.hxbj.bijihui.video.LuVideoActivity;
 import com.hxbj.bijihui.video.VideoQuanpingActivity;
 import com.hxbj.bijihui.video.VideoView;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXVideoObject;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
@@ -38,6 +43,8 @@ import com.yanzhenjie.permission.Permission;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import okhttp3.internal.Util;
 
 
 public class GerenFragment extends BaseFragment implements GerenContract.GerenView, View.OnClickListener, VideoView.OnItemclickLinter {
@@ -64,6 +71,7 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
     private ImageView bofang2;
     private VideoView videoView;
     private String id;
+    private PopupWindow fenxiangpopo;
 
 
     @Nullable
@@ -220,7 +228,7 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
                 break;
             case R.id.fenxiang:
 
-
+                fenxiangpopo();
                 break;
             case R.id.zan:
                 zannum.setText("" + zannum1);
@@ -273,6 +281,59 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
                 this.jindu = videoView.getProgress();
                 break;
         }
+    }
+
+    private void fenxiangpopo() {
+        View fenxiangview = getLayoutInflater().inflate(R.layout.fenxiangpopo, null);
+        fenxiangpopo = new PopupWindow(fenxiangview);
+        fenxiangpopo.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
+        fenxiangpopo.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        fenxiangpopo.setBackgroundDrawable(new BitmapDrawable());
+        fenxiangpopo.setOutsideTouchable(true);
+        fenxiangpopo.setFocusable(true);
+        fenxiangpopo.showAtLocation(getActivity().getWindow().getDecorView(), Gravity.BOTTOM, 0, 0);
+        //关闭事件
+        fenxiangpopo.setOnDismissListener(new popupDismissListener());
+        backgroundAlpha(0.5f);
+
+        ImageView weixinhaoyou=fenxiangview.findViewById(R.id.weixinhaoyou);
+        ImageView pengyouquan=fenxiangview.findViewById(R.id.pengyouquan);
+        TextView quxiao=fenxiangview.findViewById(R.id.quxiao);
+
+        WXVideoObject videoObject=new WXVideoObject();
+        videoObject.videoUrl=url2;
+
+        WXMediaMessage mediaMessage=new WXMediaMessage(videoObject);
+        mediaMessage.title="黑熊搏击会";
+        mediaMessage.description="我的视频";
+//        Bitmap bitmap= BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher);
+
+        final SendMessageToWX.Req req=new SendMessageToWX.Req();
+        req.transaction="video";
+        req.message=mediaMessage;
+
+        weixinhaoyou.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                req.scene=SendMessageToWX.Req.WXSceneSession;
+                MyApp.iwxapi.sendReq(req);
+            }
+        });
+
+        pengyouquan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                req.scene=SendMessageToWX.Req.WXSceneTimeline;
+                MyApp.iwxapi.sendReq(req);
+            }
+        });
+
+        quxiao.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fenxiangpopo.dismiss();
+            }
+        });
     }
 
     private void dinazan(String id, String thumbType, final ImageView zan, final TextView zannum) {
@@ -362,6 +423,11 @@ public class GerenFragment extends BaseFragment implements GerenContract.GerenVi
             videoView.onDestroy();
             videoView = null;
         }
+        if (fenxiangpopo != null) {
+            fenxiangpopo.dismiss();
+            fenxiangpopo = null;
+        }
+
         super.onDestroy();
     }
 
